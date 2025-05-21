@@ -3,6 +3,7 @@ package com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewm
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
@@ -27,9 +28,12 @@ import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBala
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
+import com.malqaa.androidappp.newPhase.utils.SingleLiveEvent
 import com.malqaa.androidappp.newPhase.utils.getMonth
 import com.malqaa.androidappp.newPhase.utils.getYear
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -53,7 +57,9 @@ class AddProductViewModel : BaseViewModel() {
     var addBackAccountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var pointsBalance: MutableLiveData<GetPointsBalanceResponse> = MutableLiveData()
     var walletBalance: MutableLiveData<GetWalletBalanceResponse> = MutableLiveData()
-    var listBackAccountObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
+    var _listBackAccountObserver = SingleLiveEvent<AccountBankListResp>()
+    val listBackAccountObserver :LiveData<AccountBankListResp>
+        get() = _listBackAccountObserver
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
     var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
     var couponByCodeObserver: MutableLiveData<DiscountCouponResp> = MutableLiveData()
@@ -375,7 +381,7 @@ class AddProductViewModel : BaseViewModel() {
                 ) {
                     isLoadingBackAccountList.value = false
                     if (response.isSuccessful) {
-                        listBackAccountObserver.value = response.body()
+                        _listBackAccountObserver.postValue( response.body())
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.code(), response.errorBody())

@@ -1386,7 +1386,7 @@
     <string name="card_holders_name">Card Holder’s Name</string>
     <string name="card_number">Card Number</string>
     <string name="choose_another_card">choose another card</string>
-    <string name="please_enter_cvv">Please enter CVV</string>
+    <string name="please_enter_cvv">Please enter valid CVV</string>
     <string name="the_points_balance_equals">The Points balance equals %1$s</string>
     <string name="the_wallet_balance_equals">The wallet balance equals %1$s</string>
     <string name="please_activate_at_least_one_payment_method">Please activate at least one payment method</string>

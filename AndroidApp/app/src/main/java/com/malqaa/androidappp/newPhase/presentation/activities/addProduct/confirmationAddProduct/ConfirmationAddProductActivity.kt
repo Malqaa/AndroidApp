@@ -114,6 +114,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         addProductViewModel.listBackAccountObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.accountsList != null) {
+                    newAllCardsBottomSheetDialog(it.accountsList)
                     if (AddProductObjectData.paymentOptionList != null) {
                         AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
                             if (paymentOptionList.contains(AddProductObjectData.PAYMENT_OPTION_BANk) && AddProductObjectData.selectedAccountDetails != null) {
@@ -1192,7 +1193,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         // =========================================================================================
         binding.switchVisaCreditCard.setOnCheckedChangeListener { _, b ->
             if (b) {
-                allCardsBottomSheetDialog()
+                //allCardsBottomSheetDialog()
                 addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.VisaMasterCard.value)
                 selectedPaymentType = PaymentAccountType.VisaMasterCard
 
@@ -1210,7 +1211,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
                 binding.layoutMadaPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
                 binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
-                allCardsBottomSheetDialog()
+                //allCardsBottomSheetDialog()
                 addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.Mada.value)
                 selectedPaymentType = PaymentAccountType.Mada
 
@@ -1387,18 +1388,19 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         allCardsBottomSheetDialog = BottomSheetDialog(this)
         allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
 
-        allCardsLayoutBinding.recyclerViewAllCards.apply {
-            layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
-            adapter = adapterList
-        }
-
-        if (adapterList.itemCount>0){
+        if (adapterList.itemCount >0){
             allCardsLayoutBinding.recyclerViewAllCards.show()
             allCardsLayoutBinding.descText.hide()
+            allCardsLayoutBinding.recyclerViewAllCards.apply {
+                layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
+                adapter = adapterList
+            }
         }else{
             allCardsLayoutBinding.recyclerViewAllCards.hide()
             allCardsLayoutBinding.descText.show()
         }
+
+
         // Flag to check if Done was clicked
         var isDoneButtonClicked = false
 
@@ -1472,6 +1474,99 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         // Show the dialog
         allCardsBottomSheetDialog.show()
     }
+
+    private fun newAllCardsBottomSheetDialog(list: ArrayList<AccountDetails>?) {
+        allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
+        allCardsBottomSheetDialog = BottomSheetDialog(this)
+        allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
+
+        if (list?.size!! >0){
+            allCardsLayoutBinding.recyclerViewAllCards.show()
+            allCardsLayoutBinding.descText.hide()
+            allCardsLayoutBinding.recyclerViewAllCards.apply {
+                layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
+                adapter = adapterList
+            }
+        }else{
+            allCardsLayoutBinding.recyclerViewAllCards.hide()
+            allCardsLayoutBinding.descText.show()
+        }
+
+
+        // Flag to check if Done was clicked
+        var isDoneButtonClicked = false
+
+        allCardsLayoutBinding.apply {
+            buttonAddNew.setOnClickListener { addCardBottomSheetDialog() }
+
+            buttonDone.setOnClickListener {
+                val cvv = accountDetails?.cvv
+
+                if (accountDetails == null) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_choose_a_card),
+                        context = this@ConfirmationAddProductActivity
+                    )
+                    return@setOnClickListener
+                } else if (cvv.toString().length !in 3..4) {
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.please_enter_cvv),
+                        context = this@ConfirmationAddProductActivity
+                    )
+                    return@setOnClickListener
+                }
+
+                isDoneButtonClicked = true // Mark as completed
+                allCardsBottomSheetDialog.dismiss()
+
+                when (selectedPaymentType) {
+                    PaymentAccountType.VisaMasterCard -> {
+                        _binding.selectedVisaCreditCard.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedVisaCreditCard.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+
+                    PaymentAccountType.Mada -> {
+                        _binding.selectedMada.linearLayoutSelectedPaymentOptions.visibility =
+                            View.VISIBLE
+
+                        _binding.selectedMada.apply {
+                            textCardHoldersName.text = accountDetails?.bankHolderName
+                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
+                            textExpiryDate.text = accountDetails?.expiaryDate
+                        }
+                    }
+                }
+            }
+        }
+
+        addProductViewModel.isLoadingBackAccountList.observe(this) {
+            if (it) {
+                allCardsLayoutBinding.progressBarAllCards.show()
+            } else {
+                allCardsLayoutBinding.progressBarAllCards.hide()
+            }
+        }
+
+        // Set background to transparent
+        allCardsBottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // 🔥 Set a dismiss listener to run command if nothing was selected
+        allCardsBottomSheetDialog.setOnDismissListener {
+            if (!isDoneButtonClicked && (accountDetails?.cvv ?: 0) == 0) {
+                handleBottomSheetDismissedWithoutAction()
+            }
+        }
+
+        // Show the dialog
+        allCardsBottomSheetDialog.show()
+    }
+
 
     // Your custom logic here
     private fun handleBottomSheetDismissedWithoutAction() {
