@@ -28,6 +28,7 @@ import com.malqaa.androidappp.databinding.AddCardBinding
 import com.malqaa.androidappp.databinding.AllCardsLayoutBinding
 import com.malqaa.androidappp.databinding.ItemCardBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentMethod
 import com.malqaa.androidappp.newPhase.domain.models.ErrorAddOrder
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
@@ -276,7 +277,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         // VisaCredit
         binding.switchVisaCreditCard.setOnCheckedChangeListener { _, b ->
             if (b) {
-                allCardsBottomSheetDialog()
+                //allCardsBottomSheetDialog()
                 addProductViewModel.getBankAccountsList(paymentAccountType = PaymentMethod.CreditCard.paymentCardType)
                 selectedPaymentMethod = PaymentMethod.CreditCard
 
@@ -297,7 +298,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                 binding.layoutMadaPayment.background =
                     ContextCompat.getDrawable(this, R.drawable.field_selection_border_enable)
                 binding.tvMadaPayment.setTextColor(ContextCompat.getColor(this, R.color.bg))
-                madaCardsBottomSheetDialog()
+
                 addProductViewModel.getBankAccountsList(paymentAccountType = PaymentMethod.Mada.paymentCardType)
                 selectedPaymentMethod = PaymentMethod.Mada
 
@@ -1087,22 +1088,24 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         allCardsBottomSheetDialog.show()
     }
 
-    private fun madaCardsBottomSheetDialog() {
+    private fun newAllCardsBottomSheetDialog(list: ArrayList<AccountDetails>?) {
         allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
         allCardsBottomSheetDialog = BottomSheetDialog(this)
         allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
 
-        allCardsLayoutBinding.recyclerViewAllCards.apply {
-            layoutManager = LinearLayoutManager(this@AddressPaymentActivity)
-            adapter = adapterList
-        }
-        if (adapterList.itemCount>0){
+        if (list?.size!! >0){
             allCardsLayoutBinding.recyclerViewAllCards.show()
             allCardsLayoutBinding.descText.hide()
+            allCardsLayoutBinding.recyclerViewAllCards.apply {
+                layoutManager = LinearLayoutManager(this@AddressPaymentActivity)
+                adapter = adapterList
+            }
         }else{
             allCardsLayoutBinding.recyclerViewAllCards.hide()
             allCardsLayoutBinding.descText.show()
         }
+
+
         // Flag to check if Done was clicked
         var isDoneButtonClicked = false
 
@@ -1456,6 +1459,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         addProductViewModel.listBackAccountObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.accountsList != null) {
+                    newAllCardsBottomSheetDialog(it.accountsList)
                     if (AddProductObjectData.paymentOptionList != null) {
                         AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
                             if (paymentOptionList.contains(AddProductObjectData.PAYMENT_OPTION_BANk) && AddProductObjectData.selectedAccountDetails != null) {
