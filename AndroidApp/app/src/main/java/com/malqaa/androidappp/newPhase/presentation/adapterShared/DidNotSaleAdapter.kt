@@ -56,12 +56,21 @@ class DidNotSaleAdapter
         runnable = null
     }
 
+    fun Context.dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
+    }
+
     override fun getItemCount(): Int = productList.size
 
     @RequiresApi(Build.VERSION_CODES.O)
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
         val product = productList[position]
+
+
+        val layoutParams = holder.itemView.layoutParams
+        layoutParams.height = holder.itemView.context.dpToPx(300)
+        holder.itemView.layoutParams = layoutParams
 
         // Handle horizontal or vertical layout based on the flag
         if (isHorizontal) {

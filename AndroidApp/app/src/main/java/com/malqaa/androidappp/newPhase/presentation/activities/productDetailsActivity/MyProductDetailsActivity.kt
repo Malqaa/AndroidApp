@@ -154,18 +154,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         }
 
 
-        if (businessID != null && providerID == ConstantObjects.logged_userid)  {
-                myProductDetails2Binding.layInfo.hide()
-                myProductDetails2Binding.editProduct.hide()
-                myProductDetails2Binding.discountProduct.hide()
-                myProductDetails2Binding.manageProduct.show()
-            }
-        else{
-            myProductDetails2Binding.layInfo.show()
-            myProductDetails2Binding.editProduct.show()
-            myProductDetails2Binding.discountProduct.show()
-            myProductDetails2Binding.manageProduct.hide()
-        }
+
 
         myProductDetails2Binding.editProduct.setOnClickListener {
             ConstantObjects.isModify = true
@@ -480,6 +469,20 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                 setProductData(productDetails)
             } else {
                 showProductApiError(productResp.message)
+            }
+            if (productDetails?.businessAccountId != null && productDetails?.providerId == ConstantObjects.logged_userid)  {
+                myProductDetails2Binding.layInfo.hide()
+                myProductDetails2Binding.editProduct.hide()
+                myProductDetails2Binding.discountProduct.hide()
+                myProductDetails2Binding.containerDeleteProduct.hide()
+                myProductDetails2Binding.manageProduct.show()
+            }
+            else{
+                myProductDetails2Binding.layInfo.show()
+                myProductDetails2Binding.editProduct.show()
+                myProductDetails2Binding.discountProduct.show()
+                myProductDetails2Binding.containerDeleteProduct.show()
+                myProductDetails2Binding.manageProduct.hide()
             }
         }
 

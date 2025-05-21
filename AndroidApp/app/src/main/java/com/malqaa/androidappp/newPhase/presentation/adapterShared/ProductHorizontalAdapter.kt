@@ -40,6 +40,8 @@ class ProductHorizontalAdapter(
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private val INTERVAL: Long = 1000L // 1 second in milliseconds
+    private var isGridLayout = false
+
 
     class SellerProductViewHolder(var viewBinding: ProductItemBinding) :
         RecyclerView.ViewHolder(viewBinding.root)
@@ -50,6 +52,14 @@ class ProductHorizontalAdapter(
             ProductItemBinding
                 .inflate(LayoutInflater.from(parent.context), parent, false)
         )
+    }
+
+    fun setIsGridLayout(isGrid: Boolean) {
+        isGridLayout = isGrid
+    }
+
+    fun Context.dpToPx(dp: Int): Int {
+        return (dp * resources.displayMetrics.density).toInt()
     }
 
     fun onDestroyHandler() {
@@ -64,6 +74,16 @@ class ProductHorizontalAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: SellerProductViewHolder, position: Int) {
         val product = productList[position]
+
+        val layoutParams = holder.itemView.layoutParams
+
+        if (isGridLayout) {
+            layoutParams.height = holder.itemView.context.dpToPx(300)
+        } else {
+            layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+        }
+
+        holder.itemView.layoutParams = layoutParams
 
         // Handle horizontal or vertical layout based on the flag
         if (isHorizontal) {

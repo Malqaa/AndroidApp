@@ -132,8 +132,9 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         productList = ArrayList()
         myProductForSaleListAdapter = ProductHorizontalAdapter(productList, this, 0, false, true)
         binding.forSaleRecycler.apply {
-            adapter = myProductForSaleListAdapter
+            myProductForSaleListAdapter.setIsGridLayout(true)
             layoutManager = GridLayoutManager(requireActivity(), 2)
+            adapter = myProductForSaleListAdapter
         }
     }
 
