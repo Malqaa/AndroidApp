@@ -17,6 +17,7 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.Extension.decimalNumberFormat
+import com.malqaa.androidappp.newPhase.utils.Extension.shared
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
@@ -24,7 +25,6 @@ import com.malqaa.androidappp.newPhase.utils.show
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
-
 class ProductRowFullAdapter(
     private var mItemsList: List<Product>,
     var categoryId: Int = 0,
@@ -95,6 +95,18 @@ class ProductViewHolder(
                 "dd/MM/yyyy"
             )
         }"
+
+        itemBinding.imageViewShare.setOnClickListener {
+            itemView.context.shared(shareBody = "http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=${requestItem.id}")
+        }
+
+        itemBinding.ivFav.setImageResource(
+            if (requestItem.isFavourite) R.drawable.starcolor else R.drawable.star
+        )
+
+        itemBinding.ivFav.setOnClickListener {
+            setOnProductItemListeners.onAddProductToFav(position, requestItem.id, categoryId)
+        }
 
         itemBinding.ivSetting.setOnClickListener {
             setOnProductItemListeners.onProductSelect(
