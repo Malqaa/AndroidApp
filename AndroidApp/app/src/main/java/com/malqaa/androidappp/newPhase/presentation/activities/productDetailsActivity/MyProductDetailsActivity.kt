@@ -174,7 +174,8 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             openDiscountDialog(productId)
         }
         myProductDetails2Binding.manageProduct.setOnClickListener {
-            productDetialsViewModel.changeBusinessAccount(SharedPreferencesStaticClass.getAccountId())
+            productDetialsViewModel!!.changeBusinessAccount(productDetails?.businessAccountId!!)
+            SharedPreferencesStaticClass.saveAccountId(productDetails?.businessAccountId!!)
         }
     }
 
@@ -662,7 +663,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             }
         }
 
-        productDetialsViewModel.changeBusinessAccountObserver.observe(this) {
+        productDetialsViewModel!!.changeBusinessAccountObserver.observe(this) {
             if (it.status_code == 200 && it.businessAccount != null) {
                 if (it.businessAccount.chanegeAccountUrl != null && it.businessAccount.chanegeAccountUrl != "")
                     openExternalLInk(
@@ -671,10 +672,9 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                     )
             } else {
                 if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message, this)
+                    HelpFunctions.ShowLongToast(it.message,this@MyProductDetailsActivity)
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError), this)
-
+                    HelpFunctions.ShowLongToast(getString(R.string.serverError),this@MyProductDetailsActivity)
                 }
             }
         }
