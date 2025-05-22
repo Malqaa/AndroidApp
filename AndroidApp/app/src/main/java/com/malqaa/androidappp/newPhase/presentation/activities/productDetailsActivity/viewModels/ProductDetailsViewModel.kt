@@ -95,6 +95,9 @@ class ProductDetailsViewModel : BaseViewModel() {
 
     private var answerQuestinoCallback: Call<AddQuestionResp>? = null
     fun closeAllCall() {
+        if (callChangeBusinessAccount != null) {
+            callChangeBusinessAccount?.cancel()
+        }
         if (callSellerListProduct != null) {
             callSellerListProduct?.cancel()
         }
