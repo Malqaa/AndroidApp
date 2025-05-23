@@ -774,8 +774,8 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                     val discount = cart.adminCouponcodeDiscount
 
                     // Calculate fee only if required
-                    val cashPaymentFee = if (isCashPaymentFees) finalTotal * 0.10 else 0.0
-                    val totalWithCashFee = finalTotal + cashPaymentFee
+                    val cashPaymentFee = if (isCashPaymentFees) 10 else 0.0
+                    val totalWithCashFee = finalTotal + cashPaymentFee.toInt()
                     totalAmount = totalWithCashFee.toFloat()
 
                     // Update UI
@@ -786,7 +786,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                     binding.discountTv.text =
                         "${discount.formatAsPrice()} ${getString(R.string.rayal)}"
                     binding.textViewCashPaymentFees.text =
-                        "${cashPaymentFee.formatAsPrice()} ${getString(R.string.rayal)}"
+                        "${cashPaymentFee} ${getString(R.string.rayal)}"
                     binding.textViewCashPaymentFees.visibility =
                         if (isCashPaymentFees) View.VISIBLE else View.GONE
                 }
@@ -1420,6 +1420,11 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                         itemBinding.editTextCvv.setText(
                             if (cvv != 0) cvv.toString() else ""
                         )
+
+                        // Enable/disable based on selection
+                        itemBinding.editTextCvv.isEnabled = element.isSelected
+                        itemBinding.editTextCvv.isFocusable = element.isSelected
+                        itemBinding.editTextCvv.isFocusableInTouchMode = element.isSelected
                     }
 
                     itemBinding.editTextCvv.addTextChangedListener(object : TextWatcher {
