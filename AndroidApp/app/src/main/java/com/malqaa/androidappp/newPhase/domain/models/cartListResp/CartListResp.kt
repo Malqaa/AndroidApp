@@ -62,7 +62,7 @@ data class ProductCartItem(
     var msgError: String,
 )
 data class ShippingOptions(
-    var id: Int,
+    var shippingOptionName: String,
     var shippingOptionId: Int,
 )
 

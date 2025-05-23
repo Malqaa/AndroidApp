@@ -39,6 +39,7 @@ class ConstantObjects {
         const val ARABIC = "ar"
         const val CAMERA = 0
         const val FILES = 1
+        var shippingPosition = ""
         const val DELETEImage = 2
         var is_watch_iv: ImageView? = null
         val defaltCountry: Int = 31

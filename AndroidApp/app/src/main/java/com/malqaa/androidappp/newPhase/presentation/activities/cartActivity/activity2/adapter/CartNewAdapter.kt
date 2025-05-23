@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemCartDesignNewBinding
+import com.malqaa.androidappp.newPhase.domain.enums.ShippingType
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CartProductDetails
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.CouponAppliedBussinessAccountDto
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
@@ -152,8 +153,8 @@ class CartNewAdapter(
                     setProductCartListeners.onSelectPayment(productId, paymentSelection)
                 }
 
-                override fun onSelectDelivery(productId: Int, deliverySelection: String) {
-                    setProductCartListeners.onSelectDelivery(productId, deliverySelection)
+                override fun onSelectDelivery(productId: Int, shippingType: String,deliverySelection: String) {
+                    setProductCartListeners.onSelectDelivery(productId, shippingType,deliverySelection)
                 }
             })
 
@@ -169,7 +170,7 @@ class CartNewAdapter(
         fun onDecreaseQuantityProduct(position: Int, mainPosition: Int)
         fun onDeleteProduct(position: Int, mainPosition: Int)
         fun onSelectPayment(productId: Int, paymentSelection: Int)
-        fun onSelectDelivery(productId: Int, deliverySelection: String)
+        fun onSelectDelivery(productId: Int, shippingType: String,deliverySelection: String)
         fun onApplyBusinessCardCoupon(
             mainPosition: Int,
             businessAccountId: String?,

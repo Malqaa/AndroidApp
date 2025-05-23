@@ -3,15 +3,18 @@ package com.malqaa.androidappp.newPhase.presentation.activities.cartActivity.act
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ItemCartSellNewBinding
 import com.malqaa.androidappp.newPhase.domain.enums.ShippingType
 import com.malqaa.androidappp.newPhase.domain.models.cartListResp.ProductCartItem
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.Selection
+import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.helper.CommonBottomSheet
@@ -128,7 +131,7 @@ class DetailCartAdapter(
             if (listProduct[position].shippingOptions.isNotEmpty()) {
                 val shipList: ArrayList<Selection> =
                     listProduct[position].shippingOptions.map { ship ->
-                        Selection(id = ship.id, name = ship.shippingOptionId.toString())
+                        Selection(ship.shippingOptionName,ship.shippingOptionId)
                     }.toCollection(ArrayList())
 
                 shipList.forEachIndexed { index, element ->
@@ -163,7 +166,9 @@ class DetailCartAdapter(
                     holder.viewBinding.deliveryOption.text = it.name
                     setProductCartListeners.onSelectDelivery(
                         listProduct[position].id,
-                        it.id.toString()
+                        it.id.toString(),
+                        it.name
+
                     )
 
                 }
@@ -176,7 +181,7 @@ class DetailCartAdapter(
         fun onDecreaseQuantityProduct(position: Int)
         fun onDeleteProduct(position: Int)
         fun onSelectPayment(productId: Int, paymentSelection: Int)
-        fun onSelectDelivery(productId: Int, deliverySelection: String)
+        fun onSelectDelivery(productId: Int, shippingType: String,deliverySelection: String)
     }
 
 }

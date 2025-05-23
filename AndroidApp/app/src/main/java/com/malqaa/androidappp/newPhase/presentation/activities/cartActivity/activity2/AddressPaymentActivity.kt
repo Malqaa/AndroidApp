@@ -30,6 +30,7 @@ import com.malqaa.androidappp.databinding.ItemCardBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentMethod
+import com.malqaa.androidappp.newPhase.domain.enums.ShippingType
 import com.malqaa.androidappp.newPhase.domain.models.ErrorAddOrder
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.ProductOrderPaymentDetailsDto
@@ -91,6 +92,9 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     var flagTypeSale = true
     var fromNegotiation = false
     var orderId = 0
+    private var lastSelectedDeliveryOption: String? = null
+    private var currentPaymentOptions: List<PaymentOptions>? = null
+
 
     private var lastSelectedPosition = 0
 
@@ -635,6 +639,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                         cartListResp.cartDataObject.listCartProducts[0].businessAccountId
                     val paymentOptions =
                         cartListResp.cartDataObject.listCartProducts[0].listProduct?.get(0)?.paymentOptions
+                    currentPaymentOptions = paymentOptions
                     verifyPaymentOptionsDisplay(
                         comeFromCart = comeFromCart,
                         comeFromProductDetails = comeFromProductDetails,
@@ -642,6 +647,9 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
                         businessAccountId = businessAccountId,
                         paymentOptions = paymentOptions
                     )
+                    lastSelectedDeliveryOption?.let {
+                        applyCashVisibilityBasedOnDeliveryOption(it)
+                    }
                 }
             } else {
                 if (cartListResp.message != null) {
@@ -829,16 +837,34 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     }
 
     override fun onSelectPayment(productId: Int, paymentSelection: Int) {}
-
-    override fun onSelectDelivery(productId: Int, deliverySelection: String) {
-        deliveryOptionSelect = deliverySelection
+    override fun onSelectDelivery(productId: Int, shippingType: String, deliverySelection: String) {
+        lastSelectedDeliveryOption = deliverySelection
+        applyCashVisibilityBasedOnDeliveryOption(deliverySelection)
         paymentDetailsDtoList?.add(
             Triple(
                 productId,
                 paymentOptionSelect,
-                deliveryOptionSelect.toInt()
+                shippingType.toInt()
             )
         )
+    }
+    private fun applyCashVisibilityBasedOnDeliveryOption(deliverySelection: String) {
+        val shouldHideCash = deliverySelection == "Free shipping within Saudi Arabia" ||
+                deliverySelection == "Integrated shipping company options (e.g. Aramex or DHL)"
+
+        val cashOptionAvailable = currentPaymentOptions?.any { it.paymentOptionId == PaymentMethod.Cash.value } == true
+
+        // نخفيه لو لازم يتخفي
+        if (shouldHideCash) {
+            binding.layoutCashPayment.hide()
+        } else {
+            // نعرضه بس لو فعليًا موجود من API
+            if (cashOptionAvailable) {
+                binding.layoutCashPayment.show()
+            } else {
+                binding.layoutCashPayment.hide()
+            }
+        }
     }
 
     override fun onDeleteShipping(position: Int) {
