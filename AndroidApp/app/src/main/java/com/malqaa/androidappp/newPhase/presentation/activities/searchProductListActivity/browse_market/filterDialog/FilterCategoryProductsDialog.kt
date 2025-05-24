@@ -149,6 +149,7 @@ class FilterCategoryProductsDialog(
 
     fun initProduct(products: List<Product>) {
         Log.i("text #1", "products size: ${products.size}, products: $products")
+
         val minPrice = products.minOfOrNull { it.price } ?: 0f
         var maxPrice = products.maxOfOrNull { it.price } ?: 2000000f
 
@@ -157,10 +158,20 @@ class FilterCategoryProductsDialog(
             maxPrice += 1f
         }
 
-        // Set range price values before adding the listener
+        // Set range slider values
         binding.rangePrice.valueFrom = minPrice
         binding.rangePrice.valueTo = maxPrice
         binding.rangePrice.values = listOf(minPrice, maxPrice)
+
+        // Set EditText values
+        binding.etPriceFrom.setText(minPrice.toInt().toString())
+        binding.etPriceTo.setText(maxPrice.toInt().toString())
+
+        binding.rangePrice.addOnChangeListener { slider, _, _ ->
+            val values = slider.values
+            binding.etPriceFrom.setText(values[0].toInt().toString())
+            binding.etPriceTo.setText(values[1].toInt().toString())
+        }
     }
 
     private fun initCategoryExpandableListAdapter() {
