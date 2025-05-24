@@ -20,6 +20,7 @@
     <string name="noOrdersFound">No Orders Found</string>
     <string name="enterAllSpecification">Enter All Specification</string>
     <string name="noSubCategoryFound">No Sub Categories Found</string>
+    <string name="noCategoryFound">No Categories Found</string>
     <string name="loggedoutsuccessfully">Logged Out Successfully</string>
     <string name="City">City</string>
     <string name="Confirm">Confirm</string>

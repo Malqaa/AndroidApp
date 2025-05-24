@@ -116,7 +116,7 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
         setupViewModel()
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                binding.btnSubCatgeoryFilter.text = getText(R.string.sub_categories)
+                binding.btnSubCatgeoryFilter.text = getText(R.string.Category)
             }
 
             ConstantObjects.search_product -> {
@@ -413,12 +413,13 @@ class SearchCategoryActivity : BaseActivity<FragmentBrowseMarketBinding>(),
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.subCategoryType)
-
+            filterCategoryProductsDialog.initProduct(products = productList)
         }
         binding.btnRegion.setOnClickListener {
             filterCategoryProductsDialog.show()
             filterCategoryProductsDialog.setCategories(categoriesForProductList)
             filterCategoryProductsDialog.setSelectedTap(FilterCategoryProductsDialog.regionType)
+            filterCategoryProductsDialog.initProduct(products = productList)
 
         }
         binding.btnSpecification.setOnClickListener {
