@@ -35,9 +35,12 @@ class CategoryAdapter(
         holder.nameTextView.text = category.name
 
         // Apply selection color logic
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.lightOrange)
-        val deselectedColor = ContextCompat.getColor(holder.itemView.context, android.R.color.white)
-        holder.itemLayout.setBackgroundColor(if (position == selectedPosition) selectedColor else deselectedColor)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorPrimary)
+        val deselectedColor = ContextCompat.getColor(holder.itemView.context, R.color.gray)
+        holder.nameTextView.setTextColor(if (position == selectedPosition) selectedColor else deselectedColor)
+        val iconDrawable = holder.expandIcon.drawable?.mutate()
+        iconDrawable?.setTint(if (position == selectedPosition) selectedColor else deselectedColor)
+        holder.expandIcon.setImageDrawable(iconDrawable)
 
         // Expand/collapse logic
         if (category.list.isNotEmpty()) {
