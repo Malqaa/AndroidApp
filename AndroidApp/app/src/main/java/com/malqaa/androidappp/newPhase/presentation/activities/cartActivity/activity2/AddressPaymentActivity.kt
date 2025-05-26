@@ -839,6 +839,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
     override fun onSelectPayment(productId: Int, paymentSelection: Int) {}
     override fun onSelectDelivery(productId: Int, shippingType: String, deliverySelection: String) {
         lastSelectedDeliveryOption = deliverySelection
+        deliveryOptionSelect = shippingType
         applyCashVisibilityBasedOnDeliveryOption(deliverySelection)
         paymentDetailsDtoList?.add(
             Triple(
