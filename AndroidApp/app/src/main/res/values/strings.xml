@@ -1298,10 +1298,10 @@
     <string name="purchaseOrder">Purchase order times</string>
     <string name="QuentitiyClosed">Quantity Closed</string>
     <string name="numMonth">Number Of Monthes</string>
-    <string name="countImage">Count Of Image</string>
-    <string name="countVideo">Count Of Video</string>
-    <string name="productPosition">Product Position</string>
-    <string name="showSupTitle">Show SupTitle</string>
+    <string name="countImage">Number Of Additional Images</string>
+    <string name="countVideo">Number Of Additional Videos Links</string>
+    <string name="productPosition">Ad Display Priority</string>
+    <string name="showSupTitle">Arabic/English SupTitle</string>
     <string name="showHighLight">Show HighLight</string>
     <string name="expired">Expired</string>
     <string name="productPriceRequire">not found product price</string>
@@ -1418,4 +1418,8 @@
     <string name="convert_to_points">Convert credit</string>
     <string name="convert_wallet_into_points">Convert credit wallet into points</string>
     <string name="auction_closing_option_fees">Auction Closing Time Option Fees</string>
+
+  <string name="package_fixed">Fixed Sale Price Option</string>
+  <string name="package_negotiable">Negotiable Sale Price Option</string>
+  <string name="package_auction">Public Auction Option</string>
 </resources>

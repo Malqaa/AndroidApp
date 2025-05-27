@@ -697,7 +697,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         /**productPublishFeee**/
         //implement here productPublishFeee and productPublishPrice
         val text = productDetails.categoryDto?.productPublishPrice.toString()
-        if(showPublishPrice){
+        if (showPublishPrice) {
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.hide()
             selectedCategory?.productPublishPrice =
@@ -705,7 +705,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             productPublishPriceFee = productDetails.categoryDto?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
                 "$productPublishPriceFee ${getString(R.string.SAR)}"
-        }else{
+        } else {
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.show()
             productPublishPriceFee = 0f
@@ -728,6 +728,11 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         AddProductObjectData.priceFixed = productDetails.price.toString()
         /**fixedPrice fee*/
+        if (productDetails.selectedPacket!=null&&productDetails.selectedPacket?.enableFixedPrice==true){
+            binding.containerFixedPriceFee.hide()
+            fixedPriceFee = 0f
+        }
+        else{
         if (productDetails.isFixedPriceEnabled && productDetails.price != 0f) {
             binding.containerFixedPriceFee.show()
             selectedCategory?.enableFixedPriceSaleFee =
@@ -735,8 +740,14 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             fixedPriceFee = selectedCategory?.enableFixedPriceSaleFee ?: 0f
             binding.tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
         }
+        }
 
         /**AuctionFee fee*/
+        if (productDetails.selectedPacket!=null&&productDetails.selectedPacket?.enableAuction==true){
+            binding.containerAuctionFee.hide()
+            auctionEnableFee = 0f
+        }
+        else{
         if (productDetails.isAuctionEnabled && productDetails.auctionStartPrice != 0f) {
             selectedCategory?.enableAuctionFee =
                 productDetails.categoryDto?.enableAuctionFee ?: 0f
@@ -747,7 +758,13 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             binding.tvAuctionFee.text =
                 "${productDetails.auctionStartPrice} ${getString(R.string.SAR)}"
         }
+        }
         /**AuctionClosingFee*/
+        if (productDetails.selectedPacket!=null&&productDetails.selectedPacket?.auctionClosingTimeOption==true){
+            binding.containerClosingAuctionFee.hide()
+            closingAuctionEnableFee = 0f
+        }
+        else {
         if (closed) {
             selectedCategory?.auctionClosingTimeFee =
                 productDetails.categoryDto?.auctionClosingTimeFee ?: 0f
@@ -756,23 +773,35 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             closingAuctionEnableFee = selectedCategory?.auctionClosingTimeFee ?: 0f
             binding.tvClosingAuctionFee.text = "$closeText ${getString(R.string.SAR)}"
         }
-        /**negotiation fee*/
-        if (productDetails.isNegotiationEnabled && productDetails.auctionNegotiatePrice != 0f) {
-            AddProductObjectData.isNegotiablePrice = productDetails.isNegotiationEnabled
-            selectedCategory?.enableNegotiationFee =
-                productDetails.categoryDto?.enableNegotiationFee ?: 0f
-            binding.containerNegotiationFee.show()
-            negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
-            binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
         }
-
+        /**negotiation fee*/
+        if (productDetails.selectedPacket!=null&&productDetails.selectedPacket?.enableNegotiable==true){
+            binding.containerNegotiationFee.hide()
+            negotiationFee = 0f
+        }
+        else {
+            if ((productDetails.isNegotiationEnabled && productDetails.auctionNegotiatePrice != 0f) || productDetails.selectedPacket?.enableNegotiable == true) {
+                AddProductObjectData.isNegotiablePrice = productDetails.isNegotiationEnabled
+                selectedCategory?.enableNegotiationFee =
+                    productDetails.categoryDto?.enableNegotiationFee ?: 0f
+                binding.containerNegotiationFee.show()
+                negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
+                binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
+            }
+        }
         /**subTitle fee*/
+        if (productDetails.selectedPacket!=null&&productDetails.selectedPacket?.showSupTitle==true){
+            binding.containerSubTitleFee.hide()
+            subTitleFee = 0f
+        }
+        else {
         if (productDetails.subTitle != "" && productDetails.categoryDto?.subTitleFee != 0f) {
             selectedCategory?.subTitleFee =
                 productDetails.categoryDto?.subTitleFee ?: 0f
             binding.containerSubTitleFee.show()
             subTitleFee = selectedCategory?.subTitleFee ?: 0f
             binding.tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
+        }
         }
 
         if (!productDetails.listMedia.isNullOrEmpty()) productDetails.listMedia.let {
@@ -817,7 +846,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
         // Step 1: Calculate Subtotal
         val subtotal = pakagePrice + fixedPriceFee + auctionEnableFee + negotiationFee +
-                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee +closingAuctionEnableFee
+                subTitleFee + extraImageFee + extraVideoFee + productPublishPriceFee + closingAuctionEnableFee
 
         // Step 2: Calculate Tax (15%)
         val taxAmount = subtotal * 0.15
@@ -962,14 +991,14 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
 
 
         val text = selectedCategory?.productPublishPrice.toString()
-        if(showPublishPrice){
+        if (showPublishPrice) {
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.hide()
             productPublishPriceFee =
                 selectedCategory?.productPublishPrice ?: 0f
             binding.tvProductPublishPriceFee.text =
                 "$productPublishPriceFee ${getString(R.string.SAR)}"
-        }else{
+        } else {
             binding.containerProductPublishPriceFee.show()
             binding.publishLine.show()
             productPublishPriceFee = 0f
@@ -988,70 +1017,95 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             binding.ContainerPackge.hide()
             binding.layPackage.hide()
         }
-
-        if (AddProductObjectData.priceFixedOption && selectedCategory?.enableFixedPriceSaleFee != 0f) {
-            binding.containerFixedPriceFee.show()
-            fixedPriceFee = selectedCategory?.enableFixedPriceSaleFee ?: 0f
-            binding.tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
+        if (AddProductObjectData.selectedPakat != null && AddProductObjectData.selectedPakat?.enableFixedPrice == true) {
+            binding.containerFixedPriceFee.hide()
+            fixedPriceFee = 0f
+        } else {
+            if (AddProductObjectData.priceFixedOption && selectedCategory?.enableFixedPriceSaleFee != 0f) {
+                binding.containerFixedPriceFee.show()
+                fixedPriceFee = selectedCategory?.enableFixedPriceSaleFee ?: 0f
+                binding.tvFixedPriceFee.text = "$fixedPriceFee ${getString(R.string.SAR)}"
+            }
         }
         /**AuctionFee fee*/
-        if (AddProductObjectData.auctionOption && selectedCategory?.enableAuctionFee != 0f) {
-            binding.containerAuctionFee.show()
-            auctionEnableFee=selectedCategory?.enableAuctionFee ?: 0f
-            binding.tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
+        if (AddProductObjectData.selectedPakat != null && AddProductObjectData.selectedPakat?.enableAuction == true) {
+            binding.containerAuctionFee.hide()
+            auctionEnableFee = 0f
+        } else {
+            if (AddProductObjectData.auctionOption && selectedCategory?.enableAuctionFee != 0f) {
+                binding.containerAuctionFee.show()
+                auctionEnableFee = selectedCategory?.enableAuctionFee ?: 0f
+                binding.tvAuctionFee.text = "$auctionEnableFee ${getString(R.string.SAR)}"
+            }
         }
         /**AuctionClosingFee*/
-        if (closed) {
-            binding.containerClosingAuctionFee.show()
-            var closeText = selectedCategory?.auctionClosingTimeFee
-            closingAuctionEnableFee = selectedCategory?.auctionClosingTimeFee ?: 0f
-            binding.tvClosingAuctionFee.text = "$closeText ${getString(R.string.SAR)}"
+        if (AddProductObjectData.selectedPakat != null && AddProductObjectData.selectedPakat?.auctionClosingTimeOption == true) {
+            binding.containerClosingAuctionFee.hide()
+            closingAuctionEnableFee = 0f
+        } else {
+            if (closed) {
+                binding.containerClosingAuctionFee.show()
+                var closeText = selectedCategory?.auctionClosingTimeFee
+                closingAuctionEnableFee = selectedCategory?.auctionClosingTimeFee ?: 0f
+                binding.tvClosingAuctionFee.text = "$closeText ${getString(R.string.SAR)}"
+            }
         }
         /**negotiation fee*/
-        if (AddProductObjectData.isNegotiablePrice && selectedCategory?.enableNegotiationFee != 0f) {
-            binding.containerNegotiationFee.show()
-            negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
-            binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
+        if (AddProductObjectData.selectedPakat != null && AddProductObjectData.selectedPakat?.enableNegotiable == true) {
+            binding.containerNegotiationFee.hide()
+            negotiationFee = 0f
+        } else {
+            if (AddProductObjectData.isNegotiablePrice && selectedCategory?.enableNegotiationFee != 0f) {
+                binding.containerNegotiationFee.show()
+                negotiationFee = selectedCategory?.enableNegotiationFee ?: 0f
+                binding.tvNegotiationFee.text = "$negotiationFee ${getString(R.string.SAR)}"
+            }
         }
+
         /**subTitle fee*/
-        if ((AddProductObjectData.subtitleAr != "" || AddProductObjectData.subtitleEn != "") && selectedCategory?.subTitleFee != 0f) {
-            binding.containerSubTitleFee.show()
-            subTitleFee = selectedCategory?.subTitleFee ?: 0f
-            binding.tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
+        if (AddProductObjectData.selectedPakat != null && AddProductObjectData.selectedPakat?.showSupTitle == true) {
+            binding.containerSubTitleFee.hide()
+            subTitleFee = 0f
+        } else {
+            if ((AddProductObjectData.subtitleAr != "" || AddProductObjectData.subtitleEn != "") && selectedCategory?.subTitleFee != 0f) {
+                binding.containerSubTitleFee.show()
+                subTitleFee = selectedCategory?.subTitleFee ?: 0f
+                binding.tvSubTitleFee.text = "$subTitleFee ${getString(R.string.SAR)}"
 
-            if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
-                binding.tvTitleData.text = if (AddProductObjectData.itemTitleAr != "")
-                    AddProductObjectData.itemTitleAr
-                else
-                    AddProductObjectData.itemTitleEn
+                if (ConstantObjects.currentLanguage == ConstantObjects.ARABIC) {
+                    binding.tvTitleData.text = if (AddProductObjectData.itemTitleAr != "")
+                        AddProductObjectData.itemTitleAr
+                    else
+                        AddProductObjectData.itemTitleEn
 
-                binding.tvSubTitleData.text = if (AddProductObjectData.subtitleAr != "")
-                    AddProductObjectData.subtitleAr
-                else
-                    AddProductObjectData.subtitleEn
+                    binding.tvSubTitleData.text = if (AddProductObjectData.subtitleAr != "")
+                        AddProductObjectData.subtitleAr
+                    else
+                        AddProductObjectData.subtitleEn
 
-                binding.tvProductDetail.text = if (AddProductObjectData.itemDescriptionAr != "")
-                    AddProductObjectData.itemDescriptionAr
-                else
-                    AddProductObjectData.itemDescriptionEn
+                    binding.tvProductDetail.text = if (AddProductObjectData.itemDescriptionAr != "")
+                        AddProductObjectData.itemDescriptionAr
+                    else
+                        AddProductObjectData.itemDescriptionEn
 
 
-            } else {
-                binding.tvTitleData.text = if (AddProductObjectData.itemTitleEn != "")
-                    AddProductObjectData.itemTitleEn
-                else
-                    AddProductObjectData.itemTitleAr
+                } else {
+                    binding.tvTitleData.text = if (AddProductObjectData.itemTitleEn != "")
+                        AddProductObjectData.itemTitleEn
+                    else
+                        AddProductObjectData.itemTitleAr
 
-                binding.tvSubTitleData.text = if (AddProductObjectData.subtitleEn != "")
-                    AddProductObjectData.subtitleEn
-                else
-                    AddProductObjectData.subtitleAr
+                    binding.tvSubTitleData.text = if (AddProductObjectData.subtitleEn != "")
+                        AddProductObjectData.subtitleEn
+                    else
+                        AddProductObjectData.subtitleAr
 
-                binding.tvProductDetail.text = if (AddProductObjectData.itemDescriptionEn != "")
-                    AddProductObjectData.itemDescriptionEn
-                else
-                    AddProductObjectData.itemDescriptionAr
+                    binding.tvProductDetail.text = if (AddProductObjectData.itemDescriptionEn != "")
+                        AddProductObjectData.itemDescriptionEn
+                    else
+                        AddProductObjectData.itemDescriptionAr
 
+                }
             }
         }
 
@@ -1388,14 +1442,14 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         allCardsBottomSheetDialog = BottomSheetDialog(this)
         allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
 
-        if (adapterList.itemCount >0){
+        if (adapterList.itemCount > 0) {
             allCardsLayoutBinding.recyclerViewAllCards.show()
             allCardsLayoutBinding.descText.hide()
             allCardsLayoutBinding.recyclerViewAllCards.apply {
                 layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
                 adapter = adapterList
             }
-        }else{
+        } else {
             allCardsLayoutBinding.recyclerViewAllCards.hide()
             allCardsLayoutBinding.descText.show()
         }
@@ -1480,14 +1534,14 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
         allCardsBottomSheetDialog = BottomSheetDialog(this)
         allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
 
-        if (list?.size!! >0){
+        if (list?.size!! > 0) {
             allCardsLayoutBinding.recyclerViewAllCards.show()
             allCardsLayoutBinding.descText.hide()
             allCardsLayoutBinding.recyclerViewAllCards.apply {
                 layoutManager = LinearLayoutManager(this@ConfirmationAddProductActivity)
                 adapter = adapterList
             }
-        }else{
+        } else {
             allCardsLayoutBinding.recyclerViewAllCards.hide()
             allCardsLayoutBinding.descText.show()
         }
@@ -1704,7 +1758,7 @@ class ConfirmationAddProductActivity : BaseActivity<ActivityConfirmationAddProdu
             }
         }
 
-        if (cvv.isEmpty()||cvv.length<3) {
+        if (cvv.isEmpty() || cvv.length < 3) {
             readyToAdd = false
             binding.cvvTv.error = getString(R.string.please_enter_cvv)
         }

@@ -1092,11 +1092,11 @@
     <string name="purchaseOrder">عدد مرات الشراء</string>
     <string name="QuentitiyClosed">الكميه المتاحة نفذت</string>
     <string name="numMonth">عدد الأشهر</string>
-    <string name="countImage">عدد الصور</string>
-    <string name="countVideo">عدد مقاطع الفيديو</string>
-    <string name="productPosition">موضع المنتج</string>
-    <string name="showSupTitle">إظهار عنوان فرعي</string>
-    <string name="showHighLight">إظهار التمييز</string>
+    <string name="countImage">عدد الصور الإضافية</string>
+    <string name="countVideo">عدد روابط الفيديو الإضافية</string>
+    <string name="productPosition">اولوية عرض الإعلان</string>
+    <string name="showSupTitle">عنوان فرعي عربي/إنجليزي</string>
+    <string name="showHighLight">إعلان مميز</string>
     <string name="expired">منتهي الصلاحية</string>
     <string name="productPriceRequire">لم يتم العثور على سعر المنتج</string>
     <string name="regexPassword">يجب أن تحتوي كلمة المرور على 6 أحروف على الأقل ويجب أن تحتوي على ارقام وحروف</string>
@@ -1197,6 +1197,19 @@
     <string name="complete_payment_instruction">
     يرجى إكمال عملية الدفع عن طريق تحميل إيصال التحويل المصرفي عن طريق النقر على زر "تتبع الطلبات الخاصة بي".
 </string>
+    <string name="the_wallet_balance_equals">The wallet balance equals %1$s</string>
+    <string name="please_activate_at_least_one_payment_options">فعل وسيلة دفع واحدة على الاقل من فضلك </string>
     <string name="closing_soon">سيغلق قريبا</string>
     <string name="manage">إدارة الإعلان</string>
+
+    <string name="there_are_no_cards_saved">لا يوجد كروت محفوظة/n من فضاك قم بإضافة كرت جديد او اختار وسيلة دفع اخرى </string>
+    <string name="choose_card">اختار كارد</string>
+    <string name="convert_to_points">تحويل الرصيد</string>
+    <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
+    <string name="auction_closing_option_fees">رسوم وقت اغلاق المزاد</string>
+
+    <string name="package_fixed">خيار سعر البيع الثابت</string>
+    <string name="package_negotiable">خيار السعر قابل للتفاوض</string>
+    <string name="package_auction">خيار المزاد العلني</string>
+
 </resources>

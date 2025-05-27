@@ -154,25 +154,25 @@ class PackagesAdapter(
 
         if (pakatList[position].showHighLight) {
             itemPackets.add(
-                ItemPacket(title = context.getString(R.string.showHighLight), value = "✔")
+                ItemPacket(title = context.getString(R.string.featured), value = "✔")
             )
         }
 
         if (pakatList[position].enableFixedPrice) {
             itemPackets.add(
-                ItemPacket(title = context.getString(R.string.fixed_price), value = "✔")
+                ItemPacket(title = context.getString(R.string.package_fixed), value = "✔")
             )
         }
 
         if (pakatList[position].enableNegotiable) {
             itemPackets.add(
-                ItemPacket(title = context.getString(R.string.negotiable), value = "✔")
+                ItemPacket(title = context.getString(R.string.package_negotiable), value = "✔")
             )
         }
 
         if (pakatList[position].enableAuction) {
             itemPackets.add(
-                ItemPacket(title = context.getString(R.string.auction), value = "✔")
+                ItemPacket(title = context.getString(R.string.package_auction), value = "✔")
             )
         }
 
