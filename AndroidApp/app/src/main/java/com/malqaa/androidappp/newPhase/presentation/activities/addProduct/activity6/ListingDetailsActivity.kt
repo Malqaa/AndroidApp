@@ -297,7 +297,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             showError(getString(R.string.Please_select, getString(R.string.district)))
         } else if (binding.tvDescriptionAr.text.toString().isEmpty()) {
             showError(getString(R.string.Please_enter, getString(R.string.item_details)))
-        } else if (binding.switchInfoEn.isChecked) {
+        } /*else if (binding.switchInfoEn.isChecked) {
             if (binding.tvTitleEn.getText().isEmpty()) {
                 showError(getString(R.string.Please_enter, getString(R.string.item_title)))
             } else if (binding.tvDescriptionEn.getText().isEmpty()) {
@@ -305,7 +305,7 @@ class ListingDetailsActivity : BaseActivity<ActivityListDetailsAddProductBinding
             } else {
                 checkAllRight()
             }
-        } else {
+        }*/ else {
             checkAllRight()
         }
     }

@@ -139,8 +139,8 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
         onRefresh()
 //        if (HelpFunctions.isUserLoggedIn()) {
-            userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
-            productDetialsViewModel.addLastViewedProduct(productId)
+        userData = Paper.book().read<LoginUser>(SharedPreferencesStaticClass.user_object)
+        productDetialsViewModel.addLastViewedProduct(productId)
 //        }
 
         if (isMyProductForSale) {
@@ -471,20 +471,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             } else {
                 showProductApiError(productResp.message)
             }
-            if (productDetails?.businessAccountId != null && productDetails?.providerId == ConstantObjects.logged_userid)  {
-                myProductDetails2Binding.layInfo.hide()
-                myProductDetails2Binding.editProduct.hide()
-                myProductDetails2Binding.discountProduct.hide()
-                myProductDetails2Binding.containerDeleteProduct.hide()
-                myProductDetails2Binding.manageProduct.show()
-            }
-            else{
-                myProductDetails2Binding.layInfo.show()
-                myProductDetails2Binding.editProduct.show()
-                myProductDetails2Binding.discountProduct.show()
-                myProductDetails2Binding.containerDeleteProduct.show()
-                myProductDetails2Binding.manageProduct.hide()
-            }
+
         }
 
 
@@ -612,28 +599,13 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         productDetialsViewModel.shippingOptionObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.shippingOptionObject != null && it.shippingOptionObject.isNotEmpty()) {
-                    when (it.shippingOptionObject[0].shippingOptionId) {
-                        ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
-                            myProductDetails2Binding.tvShippingOptions.show()
-                            myProductDetails2Binding.tvShippingOptions.text =
-                                getString(R.string.integratedShippingCompanies)
-                        }
 
-                        ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
-                            myProductDetails2Binding.tvShippingOptions.show()
-                            myProductDetails2Binding.tvShippingOptions.text =
-                                getString(R.string.free_shipping_within_Saudi_Arabia)
-                        }
-
-                        ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
-                            myProductDetails2Binding.tvShippingOptions.show()
-                            myProductDetails2Binding.tvShippingOptions.text =
-                                getString(R.string.arrangementWillBeMadeWithTheBuyer)
-                        }
-                    }
-                } else {
                     myProductDetails2Binding.tvShippingOptions.show()
-                    myProductDetails2Binding.tvShippingOptions.text = getString(R.string.mustPickUp)
+                    myProductDetails2Binding.tvShippingOptions.text =
+                        it.shippingOptionObject[0].shippingOptionName.toString()
+                }
+                else{
+                    myProductDetails2Binding.tvShippingOptions.hide()
                 }
             }
         }
@@ -672,9 +644,12 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                     )
             } else {
                 if (it.message != null) {
-                    HelpFunctions.ShowLongToast(it.message,this@MyProductDetailsActivity)
+                    HelpFunctions.ShowLongToast(it.message, this@MyProductDetailsActivity)
                 } else {
-                    HelpFunctions.ShowLongToast(getString(R.string.serverError),this@MyProductDetailsActivity)
+                    HelpFunctions.ShowLongToast(
+                        getString(R.string.serverError),
+                        this@MyProductDetailsActivity
+                    )
                 }
             }
         }
@@ -750,7 +725,8 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
     private fun setupProductImagesAdapter() {
         productImagesList = ArrayList()
-        productImagesAdapter = ProductImagesAdapter(productImagesList,
+        productImagesAdapter = ProductImagesAdapter(
+            productImagesList,
             object : ProductImagesAdapter.SetOnSelectedImage {
                 override fun onSelectImage(position: Int) {
                     urlImg = productImagesList[position].url
@@ -991,6 +967,20 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                 myProductDetails2Binding.layAuction.hide()
             }
 
+            if (productDetails.businessAccountId != null && productDetails.providerId == ConstantObjects.logged_userid) {
+                myProductDetails2Binding.layInfo.hide()
+                myProductDetails2Binding.editProduct.hide()
+                myProductDetails2Binding.discountProduct.hide()
+                myProductDetails2Binding.containerDeleteProduct.hide()
+                myProductDetails2Binding.manageProduct.show()
+            } else {
+                myProductDetails2Binding.layInfo.show()
+                myProductDetails2Binding.editProduct.show()
+                myProductDetails2Binding.discountProduct.show()
+                myProductDetails2Binding.containerDeleteProduct.show()
+                myProductDetails2Binding.manageProduct.hide()
+            }
+
             val fixedPriceEnabled = productDetails.isFixedPriceEnabled
             if (fixedPriceEnabled)
                 myProductDetails2Binding.discountProduct.show()
@@ -1032,7 +1022,14 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     }
 
 
-    override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String){
+    override fun onProductSelect(
+        position: Int,
+        productID: Int,
+        categoryID: Int,
+        userId: String,
+        providerId: String,
+        businessAccountId: String
+    ) {
         goToProductDetails(productID)
     }
 
@@ -1119,6 +1116,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     override fun onClickImage(url: String) {
 
     }
+
     private fun openExternalLInk(
         chanegeAccountUrl: String,
         token: String
