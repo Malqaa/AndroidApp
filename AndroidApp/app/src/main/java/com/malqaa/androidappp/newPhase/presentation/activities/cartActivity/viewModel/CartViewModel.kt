@@ -426,7 +426,8 @@ class CartViewModel : BaseViewModel() {
         }
 
         // Correctly formatted complex part
-        val productOrderJson = Gson().toJson(productOrderPaymentList.first()) // Assuming only one item
+        val productOrderJson = Gson().toJson(productOrderPaymentList)// Assuming only one item
+        val productOrderRequestBody = productOrderJson.toRequestBody("application/json".toMediaTypeOrNull())
         val productOrderPart = MultipartBody.Part.createFormData(
             "ProductOrderPaymentDetailsDto",
             null,
@@ -435,7 +436,7 @@ class CartViewModel : BaseViewModel() {
 
         // Call API
         isLoading.value = true
-        callAddOrder = getRetrofitBuilder().addOrder(map, listOf(productOrderPart))
+        callAddOrder = getRetrofitBuilder().addOrder(map, productOrderRequestBody)
 
         callApi(callAddOrder!!,
             onSuccess = {

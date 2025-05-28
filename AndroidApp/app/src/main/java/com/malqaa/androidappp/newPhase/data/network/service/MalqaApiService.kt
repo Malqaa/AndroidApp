@@ -647,7 +647,7 @@ interface MalqaApiService {
     @POST("AddOrder")
     fun addOrder(
         @PartMap partMap: Map<String, @JvmSuppressWildcards RequestBody>,
-        @Part productOrderPaymentDetailsDto: List<MultipartBody.Part>?
+        @Part("productOrderPaymentDetailsDto") productOrderPaymentDetailsDto: RequestBody
 
     ): Call<AddOrderResp>
 
