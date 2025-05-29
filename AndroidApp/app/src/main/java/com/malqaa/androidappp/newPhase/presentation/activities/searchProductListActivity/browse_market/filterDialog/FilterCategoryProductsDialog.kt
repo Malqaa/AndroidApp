@@ -132,7 +132,7 @@ class FilterCategoryProductsDialog(
         }
         when (comeFrom) {
             ConstantObjects.search_categoriesDetails -> {
-                binding.btnSubCategory.text = context.getText(R.string.sub_categories)
+                binding.btnSubCategory.text = context.getText(R.string.Category)
             }
 
             ConstantObjects.search_product -> {
@@ -149,6 +149,7 @@ class FilterCategoryProductsDialog(
 
     fun initProduct(products: List<Product>) {
         Log.i("text #1", "products size: ${products.size}, products: $products")
+
         val minPrice = products.minOfOrNull { it.price } ?: 0f
         var maxPrice = products.maxOfOrNull { it.price } ?: 2000000f
 
@@ -157,10 +158,20 @@ class FilterCategoryProductsDialog(
             maxPrice += 1f
         }
 
-        // Set range price values before adding the listener
+        // Set range slider values
         binding.rangePrice.valueFrom = minPrice
         binding.rangePrice.valueTo = maxPrice
         binding.rangePrice.values = listOf(minPrice, maxPrice)
+
+        // Set EditText values
+        binding.etPriceFrom.setText(minPrice.toInt().toString())
+        binding.etPriceTo.setText(maxPrice.toInt().toString())
+
+        binding.rangePrice.addOnChangeListener { slider, _, _ ->
+            val values = slider.values
+            binding.etPriceFrom.setText(values[0].toInt().toString())
+            binding.etPriceTo.setText(values[1].toInt().toString())
+        }
     }
 
     private fun initCategoryExpandableListAdapter() {
@@ -350,7 +361,7 @@ class FilterCategoryProductsDialog(
         subCategoriesCall?.enqueue(object : Callback<CategoriesResp> {
             override fun onFailure(call: Call<CategoriesResp>, t: Throwable) {
                 binding.tvError.show()
-                binding.tvError.text = context.getString(R.string.noSubCategoryFound)
+                binding.tvError.text = context.getString(R.string.noCategoryFound)
             }
 
             override fun onResponse(
@@ -368,7 +379,7 @@ class FilterCategoryProductsDialog(
                                 if (subCategoryFromCategoryList.isEmpty()) {
                                     binding.tvError.show()
                                     binding.tvError.text =
-                                        context.getString(R.string.noSubCategoryFound)
+                                        context.getString(R.string.noCategoryFound)
                                 } else {
                                     updateCategoryWithSubCategoriesAdapter()
                                     updateSubCategoryAdapter()
@@ -379,7 +390,7 @@ class FilterCategoryProductsDialog(
                     }
                 } catch (e: Exception) {
                     binding.tvError.show()
-                    binding.tvError.text = context.getString(R.string.noSubCategoryFound)
+                    binding.tvError.text = context.getString(R.string.noCategoryFound)
                 }
             }
 
@@ -407,7 +418,7 @@ class FilterCategoryProductsDialog(
             binding.tvError.hide()
             if (categoryList.isEmpty()) {
                 binding.tvError.show()
-                binding.tvError.text = context.getString(R.string.noSubCategoryFound)
+                binding.tvError.text = context.getString(R.string.noCategoryFound)
             }
         }
         binding.btnSpecification.setOnClickListener {

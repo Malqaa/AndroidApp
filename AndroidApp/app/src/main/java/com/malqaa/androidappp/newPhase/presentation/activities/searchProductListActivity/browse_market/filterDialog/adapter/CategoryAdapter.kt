@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.malqaa.androidappp.R
@@ -19,6 +20,7 @@ class CategoryAdapter(
     private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     inner class CategoryViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
+        val cardItemCategory: CardView = itemView.findViewById(R.id.card_item_category)
         val itemLayout: LinearLayout = itemView.findViewById(R.id.item_layout)
         val nameTextView: TextView = view.findViewById(R.id.categoryName)
         val expandIcon: ImageView = view.findViewById(R.id.expandIcon)
@@ -35,9 +37,12 @@ class CategoryAdapter(
         holder.nameTextView.text = category.name
 
         // Apply selection color logic
-        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.lightOrange)
-        val deselectedColor = ContextCompat.getColor(holder.itemView.context, android.R.color.white)
-        holder.itemLayout.setBackgroundColor(if (position == selectedPosition) selectedColor else deselectedColor)
+        val selectedColor = ContextCompat.getColor(holder.itemView.context, R.color.colorPrimary)
+        val deselectedColor = ContextCompat.getColor(holder.itemView.context, R.color.gray)
+        holder.nameTextView.setTextColor(if (position == selectedPosition) selectedColor else deselectedColor)
+        val iconDrawable = holder.expandIcon.drawable?.mutate()
+        iconDrawable?.setTint(if (position == selectedPosition) selectedColor else deselectedColor)
+        holder.expandIcon.setImageDrawable(iconDrawable)
 
         // Expand/collapse logic
         if (category.list.isNotEmpty()) {
@@ -47,6 +52,11 @@ class CategoryAdapter(
         } else {
             holder.expandIcon.visibility = View.GONE
         }
+
+        val level = getNestingLevel(position)
+        val layoutParams = holder.cardItemCategory.layoutParams as ViewGroup.MarginLayoutParams
+        layoutParams.marginStart = 40 * level  // adjust as needed
+        holder.cardItemCategory.layoutParams = layoutParams
 
         // Click listener
         holder.itemView.setOnClickListener {
@@ -132,6 +142,23 @@ class CategoryAdapter(
             notifyItemChanged(index)
         }
     }
+
+    private fun getNestingLevel(position: Int): Int {
+        var level = 0
+        var current = categories[position]
+        outer@ while (true) {
+            for (i in 0 until position) {
+                if (isNestedSubcategory(current, categories[i])) {
+                    level++
+                    current = categories[i]
+                    continue@outer
+                }
+            }
+            break
+        }
+        return level
+    }
+
 }
 
 interface OnCategorySelectedListener {

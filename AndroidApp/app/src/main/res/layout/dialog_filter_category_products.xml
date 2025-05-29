@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:layout_marginStart="20dp"
     android:layout_marginEnd="20dp"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:orientation="vertical">
 
 
     <LinearLayout
@@ -24,42 +23,39 @@
 
             <TextView
                 android:id="@+id/btnApplyFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/applyFilter"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:textColor="@color/bg"
+                android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_12sdp"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:gravity="start"
-                />
+                android:text="@string/applyFilter"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_12sdp" />
 
             <TextView
                 android:id="@+id/btnFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Filter"
-                android:gravity="center"
-                android:textColor="@color/black"
+                android:layout_weight="1"
                 android:fontFamily="@font/madani_arabic_medium"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:gravity="center"
+                android:text="@string/Filter"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12sdp" />
 
 
             <TextView
                 android:id="@+id/btnResetFilter"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/madani_arabic_light"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:gravity="end"
                 android:text="@string/reset"
                 android:textColor="@color/bg"
-                android:gravity="end"
-                android:foreground="?android:attr/selectableItemBackground"
-                android:fontFamily="@font/madani_arabic_light"
-                android:textSize="@dimen/_12sdp"
-                />
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
         <RelativeLayout
@@ -67,18 +63,19 @@
             android:layout_height="400dp">
 
             <ProgressBar
+                android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
                 android:layout_centerHorizontal="true"
-                android:visibility="gone"
-                android:id="@+id/progressBar"/>
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_sub_category"
                 android:layout_width="match_parent"
                 android:layout_height="400dp"
-                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -100,33 +97,36 @@
                 android:layout_marginEnd="@dimen/_10sdp"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
             <TextView
                 android:id="@+id/tvError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
                 android:fontFamily="@font/madani_arabic_medium"
                 android:text=""
                 android:textAlignment="viewStart"
                 android:textColor="@color/gray"
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
+
             <LinearLayout
+                android:id="@+id/containerCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/containerCategory"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginEnd="@dimen/_10sdp"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:paddingStart="12dp"
                     android:layout_marginTop="20dp"
-                    android:background="@drawable/edittext_bg">
+                    android:layout_marginEnd="@dimen/_10sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:paddingStart="12dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp">
 
                     <Spinner
                         android:id="@+id/spinnerDegree"
@@ -134,12 +134,13 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/orange" />
                 </LinearLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_sub_category_2"
                     android:layout_width="match_parent"
                     android:layout_height="300dp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginStart="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginEnd="@dimen/_10sdp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
@@ -148,93 +149,129 @@
 
         </RelativeLayout>
 
-      <FrameLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical"
-          android:id="@+id/containerPriceSpecification">
+        <FrameLayout
+            android:id="@+id/containerPriceSpecification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-          <TextView
-              android:id="@+id/tvPrice"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginStart="@dimen/_10sdp"
-              android:layout_marginBottom="@dimen/_10sdp"
-              android:text="@string/Price"
-              android:layout_marginTop="20dp"
-              android:textSize="@dimen/_10sdp"
-              android:textColor="@color/gray"
-              />
-          <com.google.android.material.slider.RangeSlider
-              android:layout_width="wrap_content"
-              android:layout_height="10dp"
-              android:valueFrom="0"
-              android:valueTo="2000000"
-              android:id="@+id/rangePrice"
-              app:labelBehavior="withinBounds"
-              app:values="@array/initial_slider_values"
-              />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="16dp">
 
-      </FrameLayout>
+                <TextView
+                    android:id="@+id/tvPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/Price"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_10sdp" />
+
+                <com.google.android.material.slider.RangeSlider
+                    android:id="@+id/rangePrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:valueFrom="0"
+                    android:valueTo="2000000"
+                    app:labelBehavior="withinBounds"
+                    app:values="@array/initial_slider_values" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:weightSum="2">
+
+                    <EditText
+                        android:id="@+id/etPriceFrom"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="From"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:background="@drawable/edit_text_background" />
+
+                    <Space
+                        android:layout_width="16dp"
+                        android:layout_height="wrap_content" />
+
+                    <EditText
+                        android:id="@+id/etPriceTo"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="To"
+                        android:inputType="number"
+                        android:padding="8dp"
+                        android:background="@drawable/edit_text_background" />
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
         android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/edittext_bg">
+        android:background="@drawable/edittext_bg"
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/btnSubCategory"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sub_categories"
-            android:gravity="center"
-            android:textSize="@dimen/_10sdp"
             android:layout_margin="@dimen/_12sdp"
+            android:layout_weight="1"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:textColor="#000000"/>
+            android:gravity="center"
+            android:text="@string/Category"
+            android:textColor="#000000"
+            android:textSize="@dimen/_10sdp" />
 
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"
-            android:background="@color/light_gray"/>
-
+            android:background="@color/light_gray" />
 
 
         <TextView
             android:id="@+id/btnRegion"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/region"
+            android:layout_margin="@dimen/_12sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/madani_arabic_semi_bold"
             android:foreground="?android:attr/selectableItemBackground"
             android:gravity="center"
-            android:layout_margin="@dimen/_12sdp"
-            android:textSize="@dimen/_10sdp"
-            android:fontFamily="@font/madani_arabic_semi_bold"
-            android:textColor="#000000"/>
+            android:text="@string/region"
+            android:textColor="#000000"
+            android:textSize="@dimen/_10sdp" />
 
         <View
             android:layout_width="@dimen/_1sdp"
             android:layout_height="match_parent"
-            android:background="@color/light_gray"/>
+            android:background="@color/light_gray" />
 
 
         <TextView
             android:id="@+id/btnSpecification"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/specifications"
-            android:gravity="center"
             android:layout_margin="@dimen/_12sdp"
-            android:textSize="@dimen/_10sdp"
+            android:layout_weight="1"
             android:fontFamily="@font/madani_arabic_semi_bold"
-            android:textColor="#000000"/>
+            android:gravity="center"
+            android:text="@string/specifications"
+            android:textColor="#000000"
+            android:textSize="@dimen/_10sdp" />
 
     </LinearLayout>
 </LinearLayout>
