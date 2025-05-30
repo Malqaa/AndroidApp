@@ -11,7 +11,7 @@ enum class PaymentAccountType(
     Points(paymentType = "Points", value = 6);
 
     companion object {
-        fun fromValue(value: Int): PaymentAccountType? = values().find { it.value == value }
+        fun fromValue(paymentType: String): PaymentAccountType? = values().find { it.paymentType == paymentType }
     }
 }
 

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.PaymentCardFragment">
-
+    tools:context=".newPhase.presentation.fragments.accountFragment.paymentMethod.PaymentMethodFragment">
 
     <include
         android:id="@+id/toolbar_main"
@@ -17,37 +16,46 @@
         android:layout_below="@+id/toolbar_main">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/cardDetails_rcv"
+                android:id="@+id/recycler_payment_method"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/payment_card_design" />
+                tools:listitem="@layout/item_payment_method" />
 
-
-            <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+            <LinearLayout
                 android:id="@+id/add_new_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_margin="10dp"
+                android:background="@drawable/product_attribute_bg4"
+                android:clickable="true"
+                android:focusable="true"
                 android:gravity="center"
-                android:text="@string/AddaNewCard"
-                app:viewType="text" />
+                android:orientation="horizontal"
+                android:padding="12dp">
 
-
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/add" />
+            </LinearLayout>
         </LinearLayout>
-
-
-
-
     </ScrollView>
 
-
-
+    <!-- 🔄 ProgressBar overlay -->
+    <ProgressBar
+        android:id="@+id/progressBarBankAccount"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyleLarge" />
 </RelativeLayout>

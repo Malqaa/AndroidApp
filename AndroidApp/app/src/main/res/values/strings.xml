@@ -745,7 +745,7 @@
     <string name="commercial_registration_no">Commercial Registration No</string>
     <string name="type_of_employment">Type of employment</string>
     <string name="country_code" translatable="false">Country Code</string>
-    <string name="expiry_date">Expiry date</string>
+    <string name="expiry_date">Expiry date <font color="#FFA500">*</font></string>
     <string name="youtube">Youtube</string>
     <string name="enter_your_personal_information" translatable="false">Enter your personal information</string>
     <string name="sign_up" translatable="false">Sign Up</string>
@@ -870,9 +870,9 @@
     <string name="dismiss">Dismiss</string>
     <string name="enter">Enter</string>
     <string name="account_holder_s_name">Account Holder\'s Name</string>
-    <string name="bank_name">Bank name</string>
+    <string name="bank_name">Bank name <font color="#FFA500">*</font></string>
     <string name="account_number">Account number</string>
-    <string name="iban">Iban</string>
+    <string name="iban">IBAN <font color="#FFA500">*</font></string>
     <string name="save_later">Save for later use</string>
     <string name="add_account">Add account</string>
     <string name="Please_choose_catgeory">Please choose category</string>
@@ -991,8 +991,8 @@
     <string name="merchant_page">Merchant page</string>
     <string name="membership_number">Membership Number</string>
     <string name="seller_information">Seller information</string>
-    <string name="card_holder_s_name">Card holder\'s name</string>
-    <string name="cvv">CVV</string>
+    <string name="card_holder_s_name">Card holder\'s name <font color="#EE6C4D">*</font></string>
+    <string name="cvv">CVV <font color="#FFA500">*</font></string>
     <string name="pay_by_card">Pay by card</string>
     <string name="order_completed_successfully">Order completed successfully</string>
     <string name="track_your_order">Follow up my order</string>
@@ -1381,10 +1381,11 @@
     <string name="unavailable">N/A</string>
     <string name="payment_method">Payment method</string>
     <string name="visa_card">Visa Card</string>
+    <string name="visa">Visa</string>
     <string name="visa_credit_card">Visa /Credit Card</string>
     <string name="add_new">Add New</string>
     <string name="card_holders_name">Card Holder’s Name</string>
-    <string name="card_number">Card Number</string>
+    <string name="card_number">Card Number <font color="#FFA500">*</font></string>
     <string name="choose_another_card">choose another card</string>
     <string name="please_enter_cvv">Please enter valid CVV</string>
     <string name="the_points_balance_equals">The Points balance equals %1$s</string>
@@ -1402,14 +1403,14 @@
     <string name="featured">Featured</string>
     <string name="please_choose_a_card">Please choose a card</string>
     <string name="tax_15">Tax (15%)</string>
-  <string name="closing_soon">Closing Soon</string>
-  <string name="manage">Manage Ad</string>
+    <string name="closing_soon">Closing Soon</string>
+    <string name="manage">Manage Ad</string>
 
     <string name="a_fee_of_riyals_will_be_added_for_the_cash_payment_service">A fee of %1$s riyals will be added for the cash payment service.</string>
     <string name="cash_payment_fees">Cash Payment Fees</string>
     <string name="cash">Cash</string>
-  <string name="done">Done</string>
-  <string name="complete_payment_instruction">
+    <string name="done">Done</string>
+    <string name="complete_payment_instruction">
     Please complete the payment process by uploading the bank transfer receipt by clicking on the "Track My Orders" button.
 </string>
 
@@ -1418,4 +1419,15 @@
     <string name="convert_to_points">Convert credit</string>
     <string name="convert_wallet_into_points">Convert credit wallet into points</string>
     <string name="auction_closing_option_fees">Auction Closing Time Option Fees</string>
+    <string name="bank_holder_s_name">Bank Holder’s Name <font color="#FFA500">*</font></string>
+    <string name="application_setting">Application Setting</string>
+    <string name="are_you_sure_to_delete_the_payment_option">are you sure to delete the payment option.</string>
+  <string name="bank_account_number">Bank Account Number <font color="#FFA500">*</font></string>
+  <string name="iban_certificate">IBAN Certificate <font color="#FFA500">*</font></string>
+  <string name="add_payment_method">Add Payment Method</string>
+  <string name="edit_visa_master_card">Edit Visa Master Card</string>
+  <string name="edit_mada_card">Edit Mada Card</string>
+  <string name="edit_bank_account">Edit Bank Account</string>
+  <string name="upload">Upload</string>
+  <string name="invalid_file_path">Invalid file path</string>
 </resources>
