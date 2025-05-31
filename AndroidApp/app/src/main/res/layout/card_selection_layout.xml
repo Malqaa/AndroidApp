@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_4sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:src="@drawable/line1" />
+
+
+        <TextView
+            android:id="@+id/person_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:text="@string/pay_by_card"
+            android:textColor="#262626"
+            android:textSize="@dimen/_14sdp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_light"
+                android:gravity="center"
+                android:text="@string/total_order"
+                android:textColor="#262626"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
+                android:id="@+id/order_amount_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:gravity="center"
+                android:text="@string/SAR"
+                android:textColor="@color/bg"
+                android:textSize="@dimen/_10sdp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/card_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="1"
+          />
+
+
+        <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+            android:id="@+id/btnAddNewAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="@string/AddaNewCard"
+            app:viewType="text" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/select_card_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:text="@string/the_next"
+            android:textAllCaps="false"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_14sdp" />
+
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

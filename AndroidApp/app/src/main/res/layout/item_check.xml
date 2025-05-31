@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dynamicContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="15dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvTitleAr"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:includeFontPadding="false"
+            android:text="description"
+            android:textAlignment="viewStart"
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/txtRequired"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="34dp"
+            android:gravity="center"
+            android:text="*"
+            android:textColor="@color/bg"
+            android:textSize="25sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/type1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ivSelect"
+            android:fontFamily="@font/madani_arabic_light"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp" />
+
+        <ImageView
+            android:id="@+id/ivSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_radio_button_unchecked" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/type2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/ivSelect2"
+            android:fontFamily="@font/madani_arabic_light"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp" />
+
+        <ImageView
+            android:id="@+id/ivSelect2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_radio_button_unchecked" />
+    </RelativeLayout>
+</LinearLayout>

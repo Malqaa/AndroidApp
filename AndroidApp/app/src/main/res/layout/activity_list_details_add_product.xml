@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/item_title_ar"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="*"
+                        android:textColor="@color/Red"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/tvTitleAr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:hint="@string/type_the_item_s_title"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/_10sdp"
+                    app:viewType="edittext2" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/sub_title_ar"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <TextView
+                    android:id="@+id/testSubTitleFee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:visibility="gone"
+                    tools:text="Please Note That Adding An Arabic Subtitle To Your Product Ad Will Cost You 5 SAR." />
+
+                <EditText
+                    android:id="@+id/tvSubtitleAr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:hint="@string/type_the_item_s_subtitle"
+                    android:inputType="textPersonName"
+                    android:padding="@dimen/_10sdp"
+                    android:textAlignment="viewStart"
+                    android:textSize="@dimen/_10sdp"
+                    app:viewType="edittext2" />
+
+                <LinearLayout
+                    android:id="@+id/descriptn"
+                    android:layout_width="match_parent"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/item_detailsAR"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="*"
+                        android:textColor="@color/Red"
+                        android:textSize="@dimen/_14sdp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edittext_bg">
+
+                    <EditText
+                        android:id="@+id/tvDescriptionAr"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:background="@null"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:gravity="start|top"
+                        android:hint="@string/item_details"
+                        android:imeOptions="actionDone"
+                        android:inputType="text|textMultiLine|textCapSentences"
+                        android:padding="@dimen/_7sdp"
+                        android:scrollbars="vertical"
+                        android:textAlignment="viewStart"
+                        android:textColor="#6D6C74"
+                        android:textSize="@dimen/_13sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:id="@+id/boxEnglishInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="45dp"
+                        android:background="@drawable/field_selection_border_enable"
+                        android:orientation="horizontal"
+                        android:paddingStart="@dimen/_10sdp"
+                        android:paddingEnd="@dimen/_10sdp">
+
+                        <androidx.appcompat.widget.SwitchCompat
+                            android:id="@+id/switchInfoEn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/box_value"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:buttonTint="@color/white"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/add_english_info"
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <TextView
+                        android:id="@+id/txtEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/edittext_bg"
+                        android:backgroundTint="@color/textColor"
+                        android:gravity="center"
+                        android:paddingStart="20sp"
+                        android:paddingEnd="20dp"
+                        android:text="@string/Edit"
+                        android:textColor="@color/white"
+                        android:textSize="15sp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/viewEnglishInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/item_title_en"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                        android:id="@+id/tvTitleEn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="start"
+                        android:hint="@string/type_the_item_s_title"
+                        android:inputType="textPersonName"
+                        android:textAlignment="viewStart"
+                        app:viewType="edittext2" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/sub_title_en"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <EditText
+                        android:id="@+id/tvSubtitleEn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/edittext_bg"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:gravity="start"
+                        android:hint="@string/type_the_item_s_subtitle"
+                        android:inputType="textPersonName"
+                        android:padding="@dimen/_10sdp"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10sdp"
+                        app:viewType="edittext2" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/descriptn2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/item_detailsEN"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_100sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/edittext_bg">
+
+                        <EditText
+                            android:id="@+id/tvDescriptionEn"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_100sdp"
+                            android:background="@null"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:gravity="top|start"
+                            android:imeOptions="actionDone"
+                            android:inputType="text|textMultiLine|textCapSentences"
+                            android:padding="@dimen/_7sdp"
+                            android:scrollbars="vertical"
+                            android:textAlignment="viewStart"
+                            android:textColor="#6D6C74"
+                            android:textSize="@dimen/_13sdp" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="@string/item_condition"
+                        android:textColor="#293241"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:fontFamily="@font/madani_arabic_medium"
+                        android:text="*"
+                        android:textColor="@color/Red"
+                        android:textSize="@dimen/_14sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_New"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/field_selection_bg"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_30sdp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:text="@string/New"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
+
+
+                    <TextView
+                        android:id="@+id/tv_used"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:background="@drawable/field_selection_bg"
+                        android:gravity="center"
+                        android:paddingStart="@dimen/_30sdp"
+                        android:paddingEnd="@dimen/_30sdp"
+                        android:text="@string/used"
+                        android:textColor="@drawable/field_selection_color"
+                        android:textSize="@dimen/_10sdp" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerQuantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/QuantityAvailable"
+                            android:textColor="#293241"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_2sdp"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="*"
+                            android:textColor="@color/Red"
+                            android:textSize="@dimen/_14sdp" />
+                    </LinearLayout>
+
+
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.ElegantNumberButton
+                        android:id="@+id/quantityavail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/address_details"
+                    android:textColor="#293241"
+                    android:textSize="@dimen/_14sdp" />
+
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                    android:id="@+id/countryContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/Country"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_region"
+                    app:viewType="spinner" />
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                    android:id="@+id/regionContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/Region"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_region"
+                    app:viewType="spinner" />
+
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.TextFieldComponent
+                    android:id="@+id/neighborhoodContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:hint="@string/district"
+                    app:endIcon="@drawable/ic_arrow_down"
+                    app:startIcon="@drawable/ic_city"
+                    app:viewType="spinner" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:id="@+id/itemLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edittext_bg"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/iv_start_icon"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/ic_phone" />
+
+                        <View
+                            android:id="@+id/line"
+                            android:layout_width="@dimen/_1sdp"
+                            android:layout_height="match_parent"
+                            android:background="@color/line" />
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <FrameLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:id="@+id/tvl_field_phone"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="@string/PhoneNumber"
+                                    app:boxBackgroundMode="none"
+                                    app:hintTextColor="@color/hint_color">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/etPhoneNumber"
+                                        style="@style/addressCompoEditFieldTextStyle"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:importantForAutofill="no"
+                                        android:inputType="phone"
+                                        android:maxLines="1"
+                                        android:paddingTop="@dimen/_5sdp"
+                                        android:textAlignment="viewStart"
+                                        android:textSize="@dimen/_12sdp" />
+                                </com.google.android.material.textfield.TextInputLayout>
+                            </FrameLayout>
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_phone_error"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:text=""
+                        android:textColor="@color/Red"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnotherr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/the_next"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_14sdp" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>

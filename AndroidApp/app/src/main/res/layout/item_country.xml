@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="2dp"
+    android:paddingEnd="2dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/btnCity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="gggg"
+        android:includeFontPadding="false"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray_light" />
+
+</LinearLayout>

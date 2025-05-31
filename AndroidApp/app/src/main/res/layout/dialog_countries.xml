@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    android:layout_margin="50dp"
+    android:background="@drawable/corner_background"
+    android:paddingBottom="2dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/corner_background_orange_dark">
+        <TextView
+            android:id="@+id/tvTitleAr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:fontFamily="@font/madani_arabic_semi_bold"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:text="@string/selectCountry"
+            tools:ignore="MissingPrefix" />
+        <ImageView
+            android:id="@+id/ivClose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_close_white"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:contentDescription="@null"/>
+    </RelativeLayout>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:id="@+id/etSearch"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:hint="@string/searchHere"
+        android:textAlignment="viewStart"
+        android:imeOptions="actionDone"
+        android:maxLines="1"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textSize="15sp" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvNoCountries"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:includeFontPadding="false"
+            android:text="@string/noResultFound"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textColor="@color/text_color"
+            android:textSize="15sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone"
+            app:indicatorColor="@color/colorPrimary"
+            />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

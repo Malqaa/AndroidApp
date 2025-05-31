@@ -1,119 +1,171 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-kapt'
-apply plugin: "androidx.navigation.safeargs.kotlin"
-
-
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'org.jetbrains.kotlin.android'
+    id 'androidx.navigation.safeargs'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.appdistribution'
+}
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion '30.0.3'
+    compileSdkVersion 34
 
     defaultConfig {
-        applicationId "com.malka.androidappp"
-        minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 2
-        versionName '2.1'
-
+        applicationId "com.malqaa.androidappp"
+        minSdkVersion 22
+        targetSdkVersion 34
+        versionCode 1
+        versionName '1.0.0'
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        testFunctionalTest = true
-        testHandleProfiling = true
-        testApplicationId = kotlin_version
+    }
+
+    signingConfigs {
+        release {
+            storeFile file("/Users/abdelazizdaoud/Documents/keystore/onruf_keystore")
+            storePassword "malqaa&12345"
+            keyAlias "onruf"
+            keyPassword "malqaa&12345"
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.getByName("release")
+
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            // Firebase App Distribution configuration
+            firebaseAppDistribution {
+                releaseNotesFile = "release_notes/releasenotes.txt"
+                testers = "abdelaz9z@icloud.com"
+                groups = "android-dev, external-testers, internal-testers"
+            }
+        }
+
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                def project = "Onruf"
+                def SEP = "_"
+                def buildType = variant.buildType.name
+                def version = "V" + variant.versionName
+                def date = new Date()
+                def formattedDate = date.format('dd-MMM-yy')
+
+                def newApkName = project + SEP + buildType + SEP + version + SEP + formattedDate + ".apk"
+                outputFileName = new File(newApkName)
+            }
         }
     }
-
-    buildFeatures {
-        viewBinding true
-    }
-
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
 
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    sourceSets {
-        main {
-            java {
-                srcDirs 'src/main/java', 'src/main/java/navi'
-            }
-        }
-    }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    dependenciesInfo {
-        includeInApk true
-        includeInBundle true
+    buildFeatures {
+        viewBinding true
+        dataBinding true
     }
-    ndkVersion '22.0.6917172 rc1'
+    viewBinding {
+        enabled = true
+    }
+}
 
+// Task to find and upload the release APK dynamically
+tasks.register("uploadReleaseToFirebase") {
+    group = "distribution"
+    description = "Builds the release APK and uploads it to Firebase App Distribution."
+
+    dependsOn("assembleRelease")
+
+    doLast {
+        // Absolute path to gradlew
+        def gradlewPath = "${project.rootDir}/gradlew"
+        def releaseDir = layout.buildDirectory.dir("outputs/apk/release").get().asFile
+        def apkFiles = releaseDir.listFiles()?.findAll { it.name.endsWith(".apk") }
+
+        if (apkFiles == null || apkFiles.isEmpty()) {
+            throw new GradleException("No APK file found in $releaseDir")
+        }
+
+        def releaseApkPath = apkFiles.first().absolutePath
+        println "Found release APK: $releaseApkPath"
+
+        println "Uploading release APK to Firebase App Distribution..."
+        exec {
+            commandLine gradlewPath,
+                    "appDistributionUploadRelease",
+                    "-PfirebaseAppDistributionFile=${releaseApkPath}"
+        }
+        println "Release successfully uploaded to Firebase App Distribution!"
+    }
 }
 
 dependencies {
-    implementation 'com.google.android.gms:play-services-maps:17.0.0'
-    def room_version = '2.2.6'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'com.google.android.libraries.places:places:2.6.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
-    //implementation 'androidx.core:core-ktx:1.5.0-alpha04'
-    //implementation "android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha11"
-//implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    //implementation 'androidx.navigation:navigation-ui:2.0.0'
+    implementation "com.github.YarikSOffice:lingver:1.3.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.4'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.3.4'
-
-
-    //noinspection GradleCompatible
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:support-v4:28.0.0'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:palette-v7:28.0.0'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:cardview-v7:28.0.0'
-    //noinspection GradleCompatible
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-
-    testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'com.google.android.material:material:1.6.0'
     implementation 'com.github.arimorty:floatingsearchview:2.1.1'
     implementation 'com.github.chahine:pageindicator:0.2.8'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-    implementation 'com.miguelcatalan:materialsearchview:1.4.0'
+    implementation 'com.github.MiguelCatalan:MaterialSearchView:v1.2.0'
     implementation 'net.danlew:android.joda:2.10.9.1'
     implementation 'com.github.GoodieBag:Pinview:v1.4'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:4.1.2'
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation 'com.github.aakira:expandable-layout:1.6.0@aar'
-    kapt "androidx.room:room-compiler:$room_version"
-    // optional - Kotlin Extensions and Coroutines support for Room
-    implementation "androidx.room:room-ktx:$room_version"
-    implementation 'com.hbb20:ccp:2.4.5'
+    implementation 'com.tbuonomo:dotsindicator:4.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
-    implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.1'
+    implementation 'com.github.mukeshsolanki:android-otpview-pinview:2.1.2'
+    implementation 'io.github.pilgr:paperdb:2.7.2'
+    implementation 'androidx.work:work-runtime-ktx:2.7.1'
+    implementation 'com.github.zfdang:android-multiple-images-selector:v1.1.1'
+    implementation 'com.jsibbold:zoomage:1.3.1'
+    implementation 'com.github.hbb20:CountryCodePickerProject:v2.4.7'
+    implementation('com.github.bumptech.glide:okhttp3-integration:4.15.1') {
+        exclude group: 'glide-parent'
+    }
+    implementation 'com.github.HamidrezaAmz:MagicalExoPlayer:2.0.7'
 
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-hls:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.1'
+    implementation 'com.google.android.exoplayer:exoplayer-ui:2.19.1'
+
+    implementation 'com.joooonho:selectableroundedimageview:1.0.1'
+    implementation("org.greenrobot:eventbus:3.3.1")
+    implementation 'io.github.sangcomz:fishbun:1.1.1'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.caverock:androidsvg:1.4'
+    implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.23'
+
+    // Add the dependencies for the Crashlytics and Analytics libraries
+    implementation 'com.google.firebase:firebase-crashlytics:18.6.0'
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.4.0'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
+    implementation 'io.michaelrocks:libphonenumber-android:8.13.47'
+
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.1'
 }

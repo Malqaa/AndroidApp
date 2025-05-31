@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_dynamic_text"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bottom_bg"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/_15sdp">
+
+            <View
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/line" />
+
+            <TextView
+                android:id="@+id/title_bottom_sheet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@string/AddaNewCard"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/product_attribute_bg4"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <EditText
+                    android:id="@+id/card_holder_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/cairo_regular"
+                    android:hint="@string/card_holder_s_name"
+                    android:inputType="textCapWords"
+                    android:paddingStart="16dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="3dp" />
+
+                <EditText
+                    android:id="@+id/Cardno_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/cairo_regular"
+                    android:hint="@string/Cardno"
+                    android:inputType="number"
+                    android:maxLength="16"
+                    android:paddingStart="16dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="3dp" />
+
+                <EditText
+                    android:id="@+id/card_expiry_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/cairo_regular"
+                    android:hint="@string/mm_yyyy"
+                    android:inputType="number"
+                    android:maxLength="7"
+                    android:paddingStart="16dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="3dp" />
+
+                <!-- todo 02: -->
+                <EditText
+                    android:id="@+id/cvv_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_weight="1"
+                    android:background="@drawable/edittext_bg"
+                    android:fontFamily="@font/cairo_regular"
+                    android:hint="@string/cvv"
+                    android:inputType="number"
+                    android:maxLength="4"
+                    android:paddingStart="16dp"
+                    android:paddingTop="3dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="3dp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switch_save_later"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/save_later" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/round_btn"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/Add"
+                android:textAllCaps="false"
+                android:textColor="#ffffff"
+                android:textSize="@dimen/_14sdp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/buttonCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:background="@drawable/round_btn_white"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/Cancel"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_14sdp" />
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
+

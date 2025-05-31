@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.selling_option.blacklist_member.BlacklistMenbers">
+    tools:context=".fragments.selling_option.blacklist_member.BlacklistMenbers">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_blacklist"

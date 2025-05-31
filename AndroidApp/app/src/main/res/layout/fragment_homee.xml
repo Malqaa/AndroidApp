@@ -1,319 +1,462 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="52dp"
-    android:background="@color/greenApp"
-    tools:context=".botmnav_fragments.home.view.HomeFragment">
+    tools:context=".newPhase.presentation.fragments.homeScreen.HomeFragment">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/homeee"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="70dp"
-
-
-        >
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/homelayout"
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/homeee"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="#F6F7FB">
+            android:layout_height="match_parent">
 
-            <HorizontalScrollView
-                android:id="@+id/hori"
+            <LinearLayout
+                android:id="@+id/homelayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:background="@color/white"
-                app:layout_constraintBottom_toTopOf="@+id/constraintLayout3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints">
+                android:layout_height="wrap_content"
+                android:backgroundTint="#F6F7FB"
+                android:orientation="vertical"
+                android:padding="@dimen/_10sdp">
 
                 <RelativeLayout
-                    android:id="@+id/constraintLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:background="@color/white"
-                    android:orientation="horizontal"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/imgLogo"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/main_logo" />
+
+
+                    <FrameLayout
+                        android:id="@+id/layCart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:id="@+id/ivCart"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/ic_cart" />
+
+                        <TextView
+                            android:id="@+id/txtCount"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:background="@drawable/circle_bg"
+                            android:backgroundTint="@color/orange"
+                            android:textAlignment="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </FrameLayout>
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/want_to_search_for_a_commodity_or_an_auction"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
+                        android:id="@+id/language_toggle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:background="@drawable/tab_bg"
+                        android:textSize="@dimen/_12sdp"
+                        android:visibility="gone"
+                        app:activeBgColor="@color/bg"
+                        app:activeTextColor="@android:color/white"
+                        app:cornerRadius="@dimen/_15sdp"
+                        app:inactiveBgColor="@color/tab_bg"
+                        app:inactiveTextColor="@android:color/black"
+                        app:separatorColor="@color/gray_very_light"
+                        app:textToggleLeft="EN"
+                        app:textToggleRight="AR"
+                        app:toggleWidth="@dimen/_50sdp" />
+
+                </LinearLayout>
+
+                <com.malqaa.androidappp.newPhase.utils.helper.widgets.edittext.SearchBarComponent
+                    android:id="@+id/textInputLayout11"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone"
+                    app:hint="@string/search_by_name_auction_number_or_item" />
+
+                <LinearLayout
+                    android:id="@+id/itemLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/edittext_bg"
+                    android:backgroundTint="#F9F9F9"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <EditText
+                            android:id="@+id/etSearch"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_toStartOf="@+id/ivSearchIcon"
+                            android:background="@null"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:hint="@string/enter_the_name_of_the_product_you_want_to_sell"
+                            android:imeOptions="actionSearch"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:padding="@dimen/_10sdp"
+                            android:textAlignment="viewStart"
+                            android:textSize="@dimen/_10sdp" />
+
+
+                        <ImageView
+                            android:id="@+id/ivSearchIcon"
+                            android:layout_width="@dimen/_14sdp"
+                            android:layout_height="@dimen/_14sdp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerInParent="true"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:src="@drawable/search_icon" />
+
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/sliderLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp">
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_slide"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_140sdp"
+                        android:layout_margin="10dp"
+                        app:cardCornerRadius="12dp">
+
+                        <com.malqaa.androidappp.newPhase.utils.helper.widgets.viewpager2.AutoScrollViewPager
+                            android:id="@+id/slider_home"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_140sdp"
+                            android:layout_above="@+id/SliderDots"
+                            app:cycle="true"
+                            app:slideDirection="right"
+                            app:slideInterval="5000"
+                            app:stopWhenTouch="true" />
+                    </androidx.cardview.widget.CardView>
+
+                    <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                        android:id="@+id/dots_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/card_slide"
+                        android:layout_centerHorizontal="true"
+                        app:dotsColor="@color/lightOrange"
+                        app:dotsCornerRadius="5dp"
+                        app:dotsSize="10dp"
+                        app:dotsSpacing="4dp"
+                        app:dotsWidthFactor="2.5"
+                        app:progressMode="false"
+                        app:selectedDotColor="@color/orange" />
+
+                    <LinearLayout
+                        android:id="@+id/SliderDots"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:orientation="horizontal"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:text="@string/Browse_our_departments"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:fontFamily="@font/madani_arabic_extra_light"
+                        android:text="@string/lot_of_things"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/textViewAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="@string/view_all"
+                        android:textColor="@color/colorPrimary"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/all_categories_recycler"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="5dp"
+                        android:layout_marginTop="@dimen/_10sdp"
                         android:orientation="horizontal"
-                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/item_categories_card_in_home" />
+
 
                 </RelativeLayout>
-            </HorizontalScrollView>
 
-
-            <View
-                android:id="@+id/view6"
-                android:layout_width="match_parent"
-                android:layout_height="10dp"
-                android:background="#F6F7FB"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/hori" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/constraintLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
-
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:visibility="gone">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_130sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        app:cardBackgroundColor="@color/bg"
+                        app:cardCornerRadius="@dimen/_10sdp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_130sdp"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:id="@+id/ivNewImage"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/market_place" />
+
+                            <androidx.appcompat.widget.AppCompatButton
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/_30sdp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_alignParentBottom="true"
+                                android:layout_margin="@dimen/_20sdp"
+                                android:background="@drawable/round_btn"
+                                android:backgroundTint="@color/white"
+                                android:fontFamily="@font/madani_arabic_semi_bold"
+                                android:text="@string/shopping"
+                                android:textAllCaps="false"
+                                android:textColor="@color/bg"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginStart="@dimen/_13sdp"
+                                android:layout_marginTop="@dimen/_20sdp"
+                                android:layout_marginEnd="@dimen/_13sdp"
+                                android:layout_marginBottom="@dimen/_20sdp"
+                                android:fontFamily="@font/madani_arabic_light"
+                                android:text="@string/market_place"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/_12sdp" />
+
+
+                        </RelativeLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentTop="true"
+                        android:background="@drawable/round_market_place"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/new_"
+                        android:textAlignment="center"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12sdp" />
+
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/containerLastView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="@string/FeaturedinGeneral"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/switchtofeatrcat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="@string/SEEALL"
-                    android:textColor="@color/GreenApp"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/category_bg"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sdp">
 
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:background="@drawable/product_attribute_bg2"
+                            android:padding="@dimen/_5sdp"
+                            android:src="@drawable/ic_vechile" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/recentlyView"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
+
+                        <TextView
+                            android:id="@+id/viewAllRecentlyView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/Viewall"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvLastViewedProducts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reyclerviewgeneralads"
+                    android:id="@+id/dynamic_product_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
                     android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/switchtofeatrcat" />
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
-
-                <View
-                    android:id="@+id/view4"
+                <!-- closing soon -->
+                <LinearLayout
+                    android:id="@+id/linearLayoutClosingSoon"
                     android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#F6F7FB"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/reyclerviewgeneralads" />
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
-                    android:text="@string/FeaturedinMotors"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/button13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="@string/SEEALL"
-                    android:textColor="@color/GreenApp"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view4" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/category_bg"
+                        android:gravity="center_vertical"
+                        android:padding="@dimen/_5sdp">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reyclerviewcarfeature"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button13" />
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:background="@drawable/product_attribute_bg2"
+                            android:padding="@dimen/_5sdp"
+                            android:src="@drawable/recentview" />
 
-                <View
-                    android:id="@+id/view3"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#F6F7FB"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/reyclerviewcarfeature" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/_10sdp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/closing_soon"
+                            android:textAlignment="viewStart"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp" />
 
-                <TextView
-                    android:id="@+id/textView3334"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/FeaturedinProperties"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+                        <TextView
+                            android:id="@+id/textViewViewAllClosingSoon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_10sdp"
+                            android:fontFamily="@font/madani_arabic_light"
+                            android:text="@string/Viewall"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_12sdp"
+                            android:visibility="gone" />
+                    </LinearLayout>
 
-                <TextView
-                    android:id="@+id/button133"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="@string/SEEALL"
-                    android:textColor="@color/GreenApp"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view3" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recyclerViewClosingSoon"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reyclerviewfeatureprop"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button133" />
-
-                <View
-                    android:id="@+id/view5"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#F6F7FB"
-                    app:layout_constraintTop_toBottomOf="@+id/reyclerviewfeatureprop"
-                    tools:layout_editor_absoluteX="0dp" />
-
-                <TextView
-                    android:id="@+id/textView334"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/FeaturedinRecent"
-                    android:textColor="@color/black"
-                    android:textSize="15sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-                <TextView
-                    android:id="@+id/button1333"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="12dp"
-                    android:text="@string/SEEALL"
-                    android:textColor="@color/GreenApp"
-                    android:textSize="10sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view5" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/reyclerviewrecentads"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="15dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/button1333" />
-
-                <View
-                    android:id="@+id/view45"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#F6F7FB"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/reyclerviewrecentads" />
-
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/viewpagerpiechart"
-                    android:layout_width="match_parent"
-                    android:layout_height="300dp"
-                    android:layout_marginTop="5dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view45" />
-
-                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-                    android:id="@+id/piechart_dots_indicator"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="15dp"
-                    app:dotsColor="@color/greenApp"
-                    app:dotsCornerRadius="8dp"
-                    app:dotsSize="12dp"
-                    app:dotsSpacing="4dp"
-                    app:dotsStrokeColor="@color/greenApp"
-                    app:dotsStrokeWidth="2dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/viewpagerpiechart"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
-
-                <View
-                    android:id="@+id/view46"
-                    android:layout_width="match_parent"
-                    android:layout_height="10dp"
-                    android:layout_marginTop="12dp"
-                    android:background="#F6F7FB"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/viewpagerpiechart" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
-
-    <com.arlib.floatingsearchview.FloatingSearchView
-        android:id="@+id/floating_search_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="2dp"
-        app:floatingSearch_close_search_on_keyboard_dismiss="true"
-        app:floatingSearch_dimBackground="true"
-        app:floatingSearch_leftActionMode="showSearch"
-        app:floatingSearch_menu="@menu/menu_main"
-        app:floatingSearch_searchBarMarginLeft="8dp"
-        app:floatingSearch_searchBarMarginRight="8dp"
-        app:floatingSearch_searchBarMarginTop="8dp"
-        app:floatingSearch_searchHint="@string/Search"
-        app:floatingSearch_showSearchKey="true"
-        app:floatingSearch_showVoiceInput="true"
-        app:floatingSearch_suggestionsListAnimDuration="250" />
-</RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progressBarAllCAtegory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_25sdp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 

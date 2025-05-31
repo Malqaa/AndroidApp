@@ -1,11 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.malka.androidappp">
+    package="com.malqaa.androidappp">
 
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <supports-screens
         android:anyDensity="true"
@@ -15,80 +23,297 @@
         android:xlargeScreens="true" />
 
     <application
-        android:allowBackup="true"
-        android:icon="@mipmap/malqa_iconn"
-        android:label="Malqaa"
-        android:roundIcon="@mipmap/malqa_iconn_round"
+        android:name=".newPhase.core.App"
+        android:allowBackup="false"
+        android:hardwareAccelerated="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="AllowBackup">
-
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ImageViewLargeActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ShowBranchesMapActivity"
+            android:exported="false"
+            android:label="@string/title_activity_show_branches_map"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.myBids.MyBidsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferSale.NegotiationOffersSaleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.negotiationOffersPurchase.negotiationOfferPurchase.NegotiationOffersPurchaseActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.SuccessAddProductPriceNegotiationActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeNumberActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ConfirmChangeEmailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.ChangePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.mapActivity.MapActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.addressUser.addressListActivity.ListAddressesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.editProfileActivity.EditProfileActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.myOrderDetails.MyOrderDetailsRequestedFromMeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.addTechencalSupport.AddTechnicalSupportMessageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.shipmentRateActivity.ShipmentRateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.myOrderDetails.MyOrderDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.productsSellerInfoActivity.SellerRateActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.addSellerReviewActivity.SellerRateListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.addSellerReviewActivity.AddRateSellerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.myOrderDetails.AddRateBuyerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".newPhase.presentation.activities.searchActivity.SearchActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity> <!-- tools:ignore="AllowBackup" -->
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.AttachInvoice"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppDialogTheme" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.ShipmentRating"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.OrderDetail_1"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.OrderDetail"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.activity3.SuccessOrderActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.activity2.AddressPaymentActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.productQuestionActivity.QuestionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.utils.activitiesMain.placePicker.LocationPickerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.fragments.accountFragment.businessAccount.businessAccountsList.SwitchAccountActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.utils.activitiesMain.FullImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.utils.activitiesMain.PlayActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.cartActivity.activity1.CartActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProductReviewActivity.ProductReviewsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" /> <!--  -->
+        <activity
+            android:name=".newPhase.presentation.activities.productDetailsActivity.MyProductDetailsActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.splash" /> <!--  -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
+            android:screenOrientation="portrait"
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg3"
-            android:theme="@style/NoActionBar" />
+            android:name=".newPhase.presentation.fragments.accountFragment.businessAccount.addBusinessAccount.BusinessAccountCreateActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg2"
-            android:theme="@style/NoActionBar" />
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.ForgotChangepassActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.activities_main.business_signup.BusinessSignupPg1"
-            android:theme="@style/NoActionBar" />
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.activity2.ActivityForgotPassOtpcode"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.onboarding_intro_slider.OnBoardingIntroSlider"
-            android:theme="@style/NoActionBar"/>
+            android:name=".newPhase.presentation.activities.signup.activity3.SignupCreateNewUser"
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.forgot_changepass_reset_activity.ForgotChangepassActivity"
-            android:theme="@style/NoActionBar"/>
+            android:name=".newPhase.presentation.MainActivity"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".botmnav_fragments.forgotpass_otpactivity.ActivityForgotPassOtpcode"
-            android:theme="@style/NoActionBar" />
+            android:name=".newPhase.presentation.activities.loginScreen.SignInActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
         <activity
-            android:name=".activities_main.SplashActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/NoActionBar">
+            android:name=".newPhase.presentation.activities.signup.activity1.SignupConfirmNewUserActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.signup.activity2.SignupOTPVerificationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.forgotPasswordActivity.activtiy1.ForgotPasswordActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity1.ProductsTagsForAddProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity2.ChooseCategoryActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity3.SubCategoriesActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".fragments.follow_Up.FavoriteSubCategory"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity4.AddPhotoActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity5.DynamicTemplateActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity6.ListingDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity7.ListingDurationActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity8.PromotionalActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.SuccessProductActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name="com.zfdang.multiple_images_selector.ImagesSelectorActivity"
+            android:configChanges="orientation|screenSize"
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addressUser.addAddressActivity.AddAddressActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.addProduct.activity6.PricingActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".newPhase.presentation.activities.splashActivity.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="advdev-001-site1.dtempurl.com"
+                    android:scheme="http" />
+                <!-- =========== -->
+                <!-- <data -->
+                <!-- android:host="jobplus.page.link" -->
+                <!-- android:scheme="https" /> -->
+                <!-- android:pathPrefix="/job" -->
+                <!-- <data -->
+                <!-- android:host="www.advdev-001-site1.dtempurl.com" -->
+                <!-- android:pathPrefix="/Home/" -->
+                <!-- android:scheme="http" /> -->
+                <!-- <data -->
+                <!-- android:host="advdev-001-site1.dtempurl.com" -->
+                <!-- android:pathPrefix="/Home/" -->
+                <!-- android:scheme="http" /> -->
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".activities_main.Bottmmm"
-            android:label="Bottom Nav"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".activities_main.FeaturedCategory"
-            android:label="Featured Category" />
-        <activity
-            android:name=".activities_main.login.SignInActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.login.SignupOptionsActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities_main.signup_account.signup_pg1.SignupPg1"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".activities_main.signup_account.signup_pg2.SignupPg2"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.signup_account.SignupPg3"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.signup_account.signup_pg4.SignupPg4"
-            android:theme="@style/NoActionBar"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".botmnav_fragments.forgot_password.ForgotPasswordActivty"
-            android:theme="@style/NoActionBar" />
-        <activity
-            android:name=".activities_main.SignInPart2"
-            android:theme="@style/NoActionBar" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.malqaa.androidappp"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <service
+            android:name=".newPhase.utils.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

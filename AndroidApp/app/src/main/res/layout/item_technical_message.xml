@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="@dimen/_5sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="1dp"
+        android:padding="@dimen/_5sdp"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tvProblemTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="viewStart"
+                android:layout_centerVertical="true"
+                android:layout_toStartOf="@+id/ivEdit"
+                android:fontFamily="@font/madani_arabic_bold"
+                android:text="@string/problem_title"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_10sdp" />
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:paddingStart="5dp"
+                android:paddingEnd="6dp"
+                android:src="@drawable/baseline_edit_24"/>
+        </RelativeLayout>
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="10/10/2010"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_8sdp" />
+        <TextView
+            android:id="@+id/tvMessageDetails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:textAlignment="viewStart"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/problem_title"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_10sdp" />
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".newPhase.presentation.fragments.accountFragment.technicalSupportActivity.listtechincalSupportMessage.TechnicalSupportListActivity">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar_main"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvMessages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                app:spanCount="2"
+                tools:listitem="@layout/item_technical_message" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBarMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/noProductsFound"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAddTechnicalSupport"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/circle_bg"
+        android:backgroundTint="@color/bg"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_baseline_add_24"
+        app:borderWidth="@dimen/_0sdp"
+        app:elevation="0dp"
+        app:fabCustomSize="40dp"
+        app:maxImageSize="27dp"
+        android:layout_margin="10dp"
+        app:tint="@color/white"
+        />
+</RelativeLayout>

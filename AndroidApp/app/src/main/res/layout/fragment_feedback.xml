@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".botmnav_fragments.feedback_frag.FeedbackFragment">
+    tools:context=".fragments.feedback_frag.FeedbackFragment">
 
 
     <androidx.appcompat.widget.Toolbar

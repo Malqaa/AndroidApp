@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/product_attribute_bg4">
+
+    <TextView
+        android:id="@+id/address_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Albany St 6054, Youngtown, Sierra Leone, 451918" />
+
+    <TextView
+        android:id="@+id/country_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="country name"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/address_name"
+        app:layout_constraintTop_toBottomOf="@+id/address_name" />
+
+    <TextView
+        android:id="@+id/address_tv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="address "
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/country_name"
+        app:layout_constraintTop_toBottomOf="@+id/country_name" />
+
+    <TextView
+        android:id="@+id/phonenum"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/madani_arabic_light"
+        android:text="phone number"
+        android:textAlignment="viewStart"
+        android:textColor="#000000"
+        android:textSize="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/address_tv"
+        app:layout_constraintTop_toBottomOf="@+id/address_tv" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="@+id/address_name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/address_name">
+
+        <ImageView
+            android:id="@+id/ivSelectedAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="@dimen/_5sdp"
+            android:src="@drawable/ic_radio_button_unchecked" />
+
+        <ImageView
+            android:id="@+id/edit_address_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="8dp"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="2dp"
+            android:src="@drawable/edit_button" />
+
+        <ImageView
+            android:id="@+id/btnDeleteAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:padding="2dp"
+            android:src="@drawable/baseline_delete_forever_24" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

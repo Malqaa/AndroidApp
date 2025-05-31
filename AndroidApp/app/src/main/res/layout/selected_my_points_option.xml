@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutSelectedPaymentOptions"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:background="@drawable/product_attribute_bg_linebg"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="16dp"
+    android:visibility="gone">
+
+    <!-- my points balance title -->
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:srcCompat="@drawable/money" />
+
+    <!-- my points balance -->
+    <TextView
+        android:id="@+id/textMyPointsBalance"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:fontFamily="@font/madani_arabic_medium"
+        android:textAlignment="center"
+        android:textColor="#293241"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="The Points balance equals 1800 S.R" />
+</LinearLayout>

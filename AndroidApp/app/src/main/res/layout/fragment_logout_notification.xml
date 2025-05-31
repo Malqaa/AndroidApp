@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".botmnav_fragments.nofication_fragments.LogoutNotification">
+    tools:context="com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments.LogoutNotification">
 
 
     <androidx.appcompat.widget.Toolbar
@@ -74,9 +74,8 @@
         android:layout_marginStart="30dp"
         android:layout_marginTop="180dp"
         android:layout_marginEnd="30dp"
+          android:layout_margin="@dimen/_15sdp"
         android:background="@drawable/round_btn"
-        android:backgroundTint="@color/GoldenApp"
-        android:padding="12dp"
         android:text="LOGIN"
         android:textAllCaps="true"
         android:textColor="#ffffff"

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/containerRegion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@drawable/edittext_bg"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp">
+
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="-3dp"
+            android:layout_marginStart="10dp"
+            android:layout_toStartOf="@+id/iVExpandIcon"
+            android:fontFamily="@font/madani_arabic_bold"
+            android:text="@string/Country"
+            android:layout_centerVertical="true"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12sdp" />
+
+        <ImageView
+            android:id="@+id/iVExpandIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/right_arrow" />
+        <!--        android:layout_height="@dimen/_20sdp"-->
+    </RelativeLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSubCategories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
+        tools:itemCount="1"
+        tools:listitem="@layout/item_sub_category_search_filter"
+        />
+
+
+</LinearLayout>

@@ -1,24 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginBottom="?actionBarSize"
-    tools:context=".botmnav_fragments.sold_business.SoldBusiness">
+    android:orientation="vertical"
+    tools:context=".newPhase.presentation.fragments.accountFragment.myProducts.MyProductsFragment">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_sold_business"
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_main" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#339933"
-        android:layout_alignParentTop="true"
-        app:popupTheme="@style/PopupOverlay"
-        />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/sold_business_recycler"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/for_sale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/round_btn"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/for_sale"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/sold_out"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_bg"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/sold_out"
+            android:textColor="#45495E"
+            android:textSize="@dimen/_10sdp" />
+
+        <TextView
+            android:id="@+id/did_not_Sell"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/edittext_bg"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/did_not_sell"
+            android:textColor="#45495E"
+            android:textSize="@dimen/_10sdp" />
+
+    </LinearLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_sold_business"
-        />
-</RelativeLayout>
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_5sdp">
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/for_sale_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/product_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/did_not_sale_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/product_item" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sold_out_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_user_order" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBarMore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tvError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/madani_arabic_medium"
+                android:text="@string/noProductsFound"
+                android:textAlignment="viewStart"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+</LinearLayout>

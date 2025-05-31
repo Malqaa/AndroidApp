@@ -1,60 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        app:labelVisibilityMode="labeled"
-        app:itemIconTint="@drawable/bottomnav_colorselector"
-        app:itemTextColor="@drawable/bottomnav_colorselector"
-        app:itemIconSize="22dp"
-        android:background="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:menu="@menu/bottom_nav_menu"
-        >
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/nav_view"
+            android:layout_alignParentTop="true"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/mobile_navigation" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButtonBottm"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            app:fabCustomSize="40dp"
-            android:layout_gravity="center"
-            android:background="@drawable/fab"
-            android:backgroundTint="@color/white"
-            android:clickable="true"
-            app:borderWidth="0dp"
-            android:layout_marginBottom="2dp"
-            android:scaleType="center"
-            app:srcCompat="@drawable/ic_baseline_add_24"
-            app:maxImageSize="27dp"
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            app:itemIconSize="22dp"
+            app:itemIconTint="@drawable/bottomnav_colorselector"
+            app:itemTextColor="@drawable/bottomnav_colorselector"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu">
 
-            />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButtonBottm"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="2dp"
+                android:background="@drawable/circle_bg"
+                android:backgroundTint="@color/bg"
+                android:clickable="true"
+                android:scaleType="center"
+                android:src="@drawable/ic_baseline_add_24"
+                app:borderWidth="@dimen/_0sdp"
+                app:elevation="0dp"
+                app:fabCustomSize="40dp"
+                app:maxImageSize="27dp"
+                app:tint="@color/white"
 
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
+                />
 
-
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        app:layout_constraintBottom_toTopOf="@id/nav_view"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+  >
+
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar_main"
+        android:orientation="vertical"
+        android:padding="@dimen/_10sdp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/ic_baseline_notifications_none_24"
+                app:tint="@color/black"
+                android:paddingEnd="@dimen/_14sdp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/receive_notification"
+                android:textColor="#1D223B"
+                android:textSize="@dimen/_12sdp" />
+
+            <Switch
+                android:id="@+id/swNotify"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginStart="@dimen/_25sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginEnd="@dimen/_25sdp"
+            android:background="@color/light_gray" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="horizontal">
+
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center"
+                android:src="@drawable/language_ic"
+                app:tint="@color/black" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:fontFamily="@font/madani_arabic_semi_bold"
+                android:text="@string/the_language"
+                android:textColor="#1D223B"
+                android:textSize="@dimen/_12sdp" />
+
+            <com.malqaa.androidappp.newPhase.utils.helper.widgets.language_switch.ToggleSwitch
+                android:id="@+id/language_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/tab_bg"
+                android:textSize="@dimen/_12sdp"
+                app:activeBgColor="@color/bg"
+                app:activeTextColor="@android:color/white"
+                app:cornerRadius="@dimen/_15sdp"
+                app:inactiveBgColor="@color/tab_bg"
+                app:inactiveTextColor="@android:color/black"
+                app:separatorColor="@color/gray_very_light"
+                app:textToggleLeft="EN"
+                app:textToggleRight="AR"
+                app:toggleWidth="@dimen/_50sdp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnSaveEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="@drawable/round_btn"
+        android:fontFamily="@font/madani_arabic_semi_bold"
+        android:text="@string/save_edits"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/_14sdp" />
+
+</RelativeLayout>
