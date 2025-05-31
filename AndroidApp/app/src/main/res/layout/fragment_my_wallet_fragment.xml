@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +37,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_20sdp"
+                        android:layout_marginTop="16dp"
                         android:layout_marginBottom="@dimen/_20sdp"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -57,23 +58,82 @@
                         </LinearLayout>
 
 
-                        <TextView
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:fontFamily="@font/madani_arabic_light"
-                            android:text="@string/my_balance"
-                            android:textColor="#8B959E"
-                            android:textSize="@dimen/_16sdp" />
+                            android:orientation="horizontal"
+                            android:weightSum="2"
+                            android:layout_marginTop="32dp">
 
-                        <TextView
-                            android:id="@+id/tvTotalBalance"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="@font/madani_arabic_bold"
-                            android:text="@string/rial"
-                            android:textColor="#45495E"
-                            android:textSize="@dimen/_16sdp" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:orientation="vertical"
+                                android:layout_weight="1"
+                                android:background="@drawable/button_curve_stroke_border_orange"
+                                android:layout_marginHorizontal="8dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvTotalBalance"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_bold"
+                                    android:text="@string/rial"
+                                    android:textColor="@color/grey"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    app:drawableStartCompat="@drawable/healthicons_money_bag"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="6dp" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_light"
+                                    android:text="@string/my_balance"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"
+                                    />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/pendingLayout"
+                                android:layout_width="0dp"
+                                android:layout_height="55dp"
+                                android:layout_weight="1"
+                                android:orientation="vertical"
+                                android:background="@drawable/button_curve_peg"
+                                android:layout_marginHorizontal="8dp"
+                                android:gravity="center">
+
+                                <TextView
+                                    android:id="@+id/tvPendingBalance"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_bold"
+                                    android:text="@string/rial"
+                                    android:textColor="@color/grey"
+                                    android:textSize="12sp"
+                                    android:gravity="center"
+                                    app:drawableStartCompat="@drawable/iconamoon_lock_fill"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="6dp"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="@font/madani_arabic_light"
+                                    android:text="@string/pending_balance"
+                                    android:textColor="@color/colorPrimary"
+                                    android:textSize="12sp"/>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
 
                     </LinearLayout>
 

@@ -1,8 +1,12 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myWalletFragment
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -14,6 +18,7 @@ import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.FragmentMyWalletFragmentBinding
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetails
+import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletPendingOrders
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletTransactionsDetails
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
@@ -39,13 +44,14 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         _binding = FragmentMyWalletFragmentBinding.bind(view)
         initView()
         setRecentOperationAdapter()
-        setViewsClickListeners()
         setUpViewModel()
+        setViewsClickListeners()
         accountViewModel.getWalletDetailsInWallet()
     }
 
     private fun setData(walletDetails: WalletDetails) {
         binding.tvTotalBalance.text = walletDetails.walletBalance.toString()
+        binding.tvPendingBalance.text = walletDetails.pendingBalance.toString()
         walletDetails.walletTransactionslist?.let {
             walletTransactionsList.clear()
             walletTransactionsList.addAll(it)
@@ -76,6 +82,14 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         accountViewModel.walletDetailsObserver.observe(viewLifecycleOwner) { walletDetailsResp ->
             if (walletDetailsResp.status_code == 200) {
                 AccountObject.walletDetails = walletDetailsResp.walletDetails
+                binding.pendingLayout.setOnClickListener {
+
+                    if (walletDetailsResp.walletDetails?.walletPendingOrders!!.isEmpty()) {
+                        HelpFunctions.ShowLongToast( "لا يوجد بيانات",requireContext())
+                    } else {
+                        showOrdersPopup(it, walletDetailsResp.walletDetails.walletPendingOrders, requireContext())
+                    }
+                }
                 walletDetailsResp.walletDetails?.let { setData(it) }
             }
         }
@@ -195,6 +209,25 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                 accountViewModel.getTransferWalletToPoints(binding.walletBalance.text.toString().toInt())
             }
         }
+    }
+
+    fun showOrdersPopup(anchorView: View, orders: List<WalletPendingOrders>, context: Context) {
+        val popupView = LayoutInflater.from(context).inflate(R.layout.popup_purchase_orders, null)
+        val recyclerView = popupView.findViewById<RecyclerView>(R.id.ordersRecyclerView)
+
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = PurchaseOrderAdapter(orders)
+
+        val popupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+            true
+        )
+
+        popupWindow.isOutsideTouchable = true
+        popupWindow.elevation = 10f
+        popupWindow.showAsDropDown(anchorView, 0, 10)
     }
 
     override fun onRefresh() {

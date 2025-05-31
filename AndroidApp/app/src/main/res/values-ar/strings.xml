@@ -1211,5 +1211,6 @@
     <string name="package_fixed">خيار سعر البيع الثابت</string>
     <string name="package_negotiable">خيار السعر قابل للتفاوض</string>
     <string name="package_auction">خيار المزاد العلني</string>
+    <string name="pending_balance">Pending Balance</string>
 
 </resources>
