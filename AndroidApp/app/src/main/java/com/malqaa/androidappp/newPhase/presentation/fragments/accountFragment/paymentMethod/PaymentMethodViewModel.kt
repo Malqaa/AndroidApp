@@ -29,10 +29,10 @@ class PaymentMethodViewModel : BaseViewModel() {
 
     fun addBankAccountData(
         accountNumber: String,
-        bankName: String,
+        bankName: String? = null,
         bankHolderName: String,
-        ibanNumber: String,
-        swiftCode: String,
+        ibanNumber: String? = null,
+        swiftCode: String? = null,
         expiryDate: String,
         ibanCertificate: String? = null,
         ibanCertificateFile: File? = null,
@@ -59,10 +59,10 @@ class PaymentMethodViewModel : BaseViewModel() {
         // Enqueue network call
         getRetrofitBuilder().addBankAccount(
             accountNumber = accountNumber.toPlainRequestBody(),
-            bankName = bankName.toPlainRequestBody(),
+            bankName = (bankName ?: "").toPlainRequestBody(), // handle null
             bankHolderName = bankHolderName.toPlainRequestBody(),
-            ibanNumber = ibanNumber.toPlainRequestBody(),
-            swiftCode = swiftCode.toPlainRequestBody(),
+            ibanNumber = (ibanNumber ?: "").toPlainRequestBody(), // handle null
+            swiftCode = (swiftCode ?: "").toPlainRequestBody(), // handle null
             expiryDate = expiryDate.toPlainRequestBody(),
             ibanCertificate = (ibanCertificate ?: "").toPlainRequestBody(),
             file = filePart,
@@ -139,12 +139,16 @@ class PaymentMethodViewModel : BaseViewModel() {
                 isLoading.value = false
             }
 
-            override fun onResponse(call: Call<GeneralResponse>, response: Response<GeneralResponse>) {
+            override fun onResponse(
+                call: Call<GeneralResponse>,
+                response: Response<GeneralResponse>
+            ) {
                 isLoading.value = false
                 if (response.isSuccessful) {
                     editBankAccountObserver.value = response.body()
                 } else {
-                    errorResponseObserver.value = getErrorResponse(response.code(), response.errorBody())
+                    errorResponseObserver.value =
+                        getErrorResponse(response.code(), response.errorBody())
                 }
             }
         })

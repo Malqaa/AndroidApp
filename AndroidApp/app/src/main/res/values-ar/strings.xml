@@ -811,7 +811,7 @@
     <string name="my_wallet">محفظتى</string>
     <string name="my_balance">رصيدى</string>
     <string name="choose_the_account">أختر الحساب</string>
-    <string name="recharge_the_balance">شحن رصيد</string>
+    <string name="recharge_balance">شحن رصيد</string>
     <string name="recent_operations">أخر العمليات</string>
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">تم إضافة مبلغ تأمينى للمزاد الضائع</string>
     <string name="share_the_invite_code">شارك كود الدعوة</string>
@@ -883,7 +883,7 @@
     <string name="Loser">الضائع</string>
     <string name="add_a_new_category">إضافة فئة جديدة</string>
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">أختر الفئة التي تفضلها ليصلك عنها كل جديد</string>
-    <string name="balance_withdrawal">سحب رصيد</string>
+    <string name="withdraw_a_balance">سحب رصيد</string>
     <string name="favorite_subcategories">الفئات الفرعية المفضلة</string>
     <string name="filter_application">تطبيق الفلتر</string>
     <string name="reviews_type">نوع التقييم</string>
@@ -1224,4 +1224,5 @@
     <string name="edit_bank_account">تعديل الحساب المصرفي</string>
     <string name="upload">رفع</string>
     <string name="invalid_file_path">مسار ملف غير صالح</string>
+    <string name="visa_master_card">فيزا / ماستركارد</string>
 </resources>
