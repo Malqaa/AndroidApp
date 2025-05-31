@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        >
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imgcard"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="13dp"
+            app:cardCornerRadius="7dp"
+            >
+            <ImageView
+                android:id="@+id/myproduct_imgg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cam"
+                />
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/myproduct_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="15dp"
+            android:text="Product Name"
+            android:textSize="13sp"
+            android:layout_toEndOf="@+id/imgcard"
+            />
+
+        <TextView
+            android:id="@+id/codeistext"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_title"
+            android:text="Code:"
+            android:textSize="9sp"
+            android:layout_marginStart="16dp"
+            android:layout_toEndOf="@+id/imgcard"
+            />
+
+        <TextView
+            android:id="@+id/code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_title"
+            android:text="1101"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:textSize="9sp"
+            android:layout_toEndOf="@+id/codeistext"
+            />
+
+        <TextView
+            android:id="@+id/codedash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_title"
+            android:text="-"
+            android:textSize="10dp"
+            android:textStyle="bold"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="6dp"
+            android:layout_toEndOf="@+id/code"
+            />
+
+        <TextView
+            android:id="@+id/skuistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_title"
+            android:text="SKU:"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="5dp"
+            android:textSize="9sp"
+            android:layout_toEndOf="@+id/codedash"
+            />
+
+
+        <TextView
+            android:id="@+id/sku"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_title"
+            android:text="fwef"
+            android:layout_marginStart="2dp"
+            android:layout_marginTop="5dp"
+            android:textSize="9sp"
+            android:layout_toEndOf="@+id/skuistext"
+            />
+
+        <View
+            android:id="@+id/myproduct_view1"
+            android:layout_width="match_parent"
+            android:layout_height="1.3dp"
+            android:background="@color/Silvr"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/codeistext"
+            android:layout_toEndOf="@+id/imgcard"/>
+
+
+
+
+
+        <TextView
+            android:id="@+id/statusistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_view1"
+            android:text="ID"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:layout_toEndOf="@+id/imgcard"
+            android:textSize="9sp"
+            />
+
+        <TextView
+            android:id="@+id/status"
+            android:text="0000"
+            android:layout_toEndOf="@+id/imgcard"
+            android:textSize="9sp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginStart="15dp"
+            android:textColor="@color/greenApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/statusistext"
+            />
+
+        <TextView
+            android:id="@+id/stockistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_view1"
+            android:layout_marginStart="65dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/status"
+            android:text="Stock"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/stock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/stockistext"
+            android:text="5"
+            android:layout_marginTop="-2dp"
+            android:textColor="@color/greenApp"
+            android:layout_marginStart="65dp"
+            android:layout_toEndOf="@+id/status"
+            android:textSize="9sp"
+            />
+
+        <TextView
+            android:id="@+id/reserveistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reserve"
+            android:textSize="9sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/myproduct_view1"
+            />
+
+        <TextView
+            android:id="@+id/reserve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-2dp"
+            android:layout_marginEnd="12dp"
+            android:text="$11.00"
+            android:textSize="9sp"
+            android:textColor="@color/greenApp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/reserveistext"/>
+
+        <TextView
+            android:id="@+id/startistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/myproduct_view1"
+            android:layout_marginStart="65dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/stockistext"
+            android:text="Start"
+            android:textSize="9sp" />
+
+
+        <TextView
+            android:id="@+id/start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/startistext"
+            android:layout_marginStart="65dp"
+            android:textColor="@color/greenApp"
+            android:layout_marginTop="-2dp"
+            android:layout_toEndOf="@+id/stockistext"
+            android:text="$1.00"
+            android:textSize="9sp" />
+
+
+        <View
+            android:id="@+id/myproduct_view2"
+            android:layout_width="match_parent"
+            android:layout_height="1.3dp"
+            android:background="@color/Silvr"
+            android:layout_marginStart="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@+id/status"
+            android:layout_toEndOf="@+id/imgcard"/>
+
+        <ImageButton
+            android:id="@+id/editicon"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/edit"
+            android:background="@color/white"
+            android:layout_marginEnd="11dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"/>
+
+
+
+        <TextView
+            android:id="@+id/durationistext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@id/imgcard"
+            android:text="Duration"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/greenApp"
+            android:text="10 days"
+            android:layout_toEndOf="@id/durationistext"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+
+        <TextView
+            android:id="@+id/buynowww"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/myproduct_buynowprice"
+            android:text="Buy Now"
+            android:textSize="9sp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"/>
+
+
+        <TextView
+            android:id="@+id/myproduct_buynowprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$800"
+            android:textColor="@color/greenApp"
+            android:textSize="13sp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="@color/SilverBackground"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

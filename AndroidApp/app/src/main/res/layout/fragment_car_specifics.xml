@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:layout_marginBottom="?actionBarSize">
 
     <ScrollView
         android:id="@+id/scroll_detail_page"
@@ -16,7 +16,7 @@
             android:id="@+id/carspeci"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".fragments.cardetail_page.CarSpecificsFragment">
+            tools:context=".botmnav_fragments.cardetail_page.CarSpecificsFragment">
 
 
             <androidx.viewpager.widget.ViewPager

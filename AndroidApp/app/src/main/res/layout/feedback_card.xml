@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="10dp"
+
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+
+        <ImageView
+            android:id="@+id/image_feedbackcard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/smile_feedbackcard"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:id="@+id/text1st"
+            android:textColor="@color/greenApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginStart="8dp"
+            android:text="User"
+            android:textSize="14sp"
+            android:layout_toEndOf="@+id/image_feedbackcard"
+            />
+
+        <TextView
+            android:id="@+id/textv2nd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="13dp"
+            android:text="This is positive comment. "
+            android:textSize="14sp"
+            android:textColor="#212121"
+            android:layout_marginEnd="12dp"
+            android:layout_below="@+id/text1st"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            />
+
+        <View
+            android:id="@+id/cardviewline"
+            android:layout_width="match_parent"
+            android:background="@color/SilverBackground"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/textv2nd"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/text3rd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:layout_marginStart="10dp"
+            android:text="Username"
+            android:textSize="12sp"
+            android:layout_below="@+id/cardviewline"
+            android:layout_toEndOf="@+id/image_feedbackcard"
+            />
+
+        <TextView
+            android:id="@+id/amount2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="Respond to this feedback"
+            android:layout_marginTop="8dp"
+            android:textColor="@color/greenApp"
+            android:textSize="13sp"
+            android:layout_marginBottom="20dp"
+            android:layout_below="@+id/text3rd"
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:id="@+id/feedback_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11/10/2020"
+            android:textSize="12sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            />
+
+
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

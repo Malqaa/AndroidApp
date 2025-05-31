@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/SilverBackground"
-
-    tools:context=".fragments.shoppingcart6_paymentmethod.CartPaymentMethod">
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_cart_payment"
@@ -20,16 +20,13 @@
     <Button
         android:id="@+id/placeorder_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:backgroundTint="@color/GoldenApp"
+        android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginBottom="23dp"
-        android:background="@drawable/round_btn"
         android:text="PLACE ORDER"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -51,11 +48,11 @@
                 android:textAllCaps="true"
                 />
 
-            <androidx.recyclerview.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_paymentcard"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tx_cartpaymentmethod" />
+                android:layout_below="@+id/tx_cartpaymentmethod"
+                android:layout_height="wrap_content" />
 
                 <RelativeLayout
                     android:id="@+id/addcard_btn_relative"
@@ -67,20 +64,21 @@
 
                     <Button
                         android:id="@+id/btn_add_new_card"
-                        style="?android:attr/borderlessButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
-                        android:layout_alignParentEnd="true"
                         android:text="Add a new card"
                         android:textAllCaps="false"
-                        android:textColor="@color/greenApp" />
+                        android:textColor="@color/greenApp"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_alignParentEnd="true"
+                        />
                 </RelativeLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/payment_productlist_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/addcard_btn_relative" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/payment_productlist_recycler"
+                    android:layout_below="@+id/addcard_btn_relative"/>
 
                 <TextView
                 android:id="@+id/tx_payment_order"
@@ -115,21 +113,21 @@
                         android:id="@+id/payment_shiped_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/payment_shp_tx"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="10dp"
                         android:text="Mohammed Saleh"
-                        android:textSize="12sp" />
+                        android:layout_below="@+id/payment_shp_tx"
+                        android:textSize="12sp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="10dp"/>
 
                     <TextView
                         android:id="@+id/payment_shiped_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/payment_shiped_name"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="2dp"
                         android:text="3367 an, nuzhah, Makkah 24225 7792, Saudi Arabia"
-                        android:textSize="12sp" />
+                        android:layout_below="@+id/payment_shiped_name"
+                        android:textSize="12sp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="2dp"/>
 
                     <TextView
                         android:id="@+id/payment_shiped_number"
@@ -166,12 +164,12 @@
                     <TextView
                         android:id="@+id/payment_cash_subtotal"
                         android:layout_width="wrap_content"
+                        android:textSize="12sp"
+                        android:layout_marginTop="2dp"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/subtotal_payment"
                         android:layout_marginStart="15dp"
-                        android:layout_marginTop="2dp"
-                        android:text="Cash subtotal"
-                        android:textSize="12sp" />
+                        android:text="Cash subtotal"/>
 
                     <TextView
                         android:id="@+id/shippingpayment_label"

@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
+    android:layout_marginBottom="?actionBarSize"
     android:background="@color/SilverBackground"
-    tools:context=".fragments.shoppingcart7_placeholder.CartPlaceholder">
+    tools:context=".botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_cart_placeholder"
@@ -20,8 +20,7 @@
     <Button
         android:id="@+id/placeorder_btn2"
         android:layout_width="match_parent"
-          android:layout_margin="@dimen/_15sdp"
-        android:background="@drawable/round_btn"
+        android:backgroundTint="@color/GoldenApp"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
         android:text="PLACE ORDER"
@@ -232,7 +231,7 @@
             android:id="@+id/placeholder_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/placeholder_relative" />
+            android:layout_below="@+id/placeholder_relative"/>
         </RelativeLayout>
     </ScrollView>
 </RelativeLayout>

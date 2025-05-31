@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:id="@+id/relativelayoutbid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12dp"
+        android:layout_below="@+id/currentbidtext">
+
+        <TextView
+        android:id="@+id/currency"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SAR"
+        android:textSize="18sp"
+        />
+
+
+    <TextView
+        android:id="@+id/bidprice"
+        android:layout_marginStart="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textColor="@color/greenApp"
+        android:textSize="18sp"
+        android:layout_toEndOf="@+id/currency"
+        />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/reserverbidtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="(Reserve not met)"
+        android:layout_below="@+id/relativelayoutbid"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:id="@+id/currentbidtext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Current Bid"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bidinputtext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reserverbidtext"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Add New Bid Price"
+            android:inputType="number"
+            android:id="@+id/bidpriceinput"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+<Button
+    android:id="@+id/buttoncancel"
+    android:layout_marginTop="30dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Cancel"
+    android:layout_marginStart="80dp"
+    android:layout_marginBottom="20dp"
+    android:layout_below="@+id/bidinputtext"
+    android:layout_alignParentStart="true"/>
+
+    <Button
+        android:id="@+id/placebidd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bidinputtext"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/GoldenApp"
+        android:text="Place Bid"
+        android:layout_marginStart="40dp"
+        android:layout_toEndOf="@+id/buttoncancel"/>
+
+
+</RelativeLayout>

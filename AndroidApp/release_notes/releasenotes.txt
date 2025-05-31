@@ -1,7 +1,0 @@
-Release Notes for Version 1.0.0
-
-- New Features:
-    - [TASK-354] - edit payment options page
-
-Important Notes:
-- Fix the last updates.

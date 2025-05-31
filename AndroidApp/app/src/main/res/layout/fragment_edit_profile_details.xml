@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-
-    tools:context=".fragments.edit_profile.EditProfileDetailsFragment">
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.edit_profile.EditProfileDetailsFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbareditprof"
@@ -128,6 +128,24 @@
             </com.google.android.material.textfield.TextInputLayout>
 
 
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/country_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="12dp"
+                android:background="@drawable/buttonradius"
+                android:drawablePadding="8dp"
+                android:padding="7dp"
+                android:paddingEnd="16dp"
+                app:ccp_showFullName="true"
+                app:ccp_customMasterCountries="BH,KW,OM,SA,AE"
+                app:ccpDialog_allowSearch="false"
+                app:ccp_defaultNameCode="AE"
+                app:ccp_showPhoneCode="false"
+                app:ccp_showNameCode="false"/>
+
 
             <RelativeLayout
                 android:id="@+id/editPorfileRegion"
@@ -212,7 +230,7 @@
                     android:hint="@string/Address"
                     android:text=""
                     android:inputType="text"
-
+                    android:layout_marginBottom="?actionBarSize"
                     />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -233,7 +251,7 @@
                 android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                 >
+                android:layout_marginBottom="?actionBarSize" >
 
                 <RadioButton
                     android:id="@+id/radioButton11"

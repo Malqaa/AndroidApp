@@ -1,0 +1,30 @@
+package com.malka.androidappp.botmnav_fragments.cardetail_page
+
+data class ModelGetAdById(
+    val city: Any,
+    val country: String,
+    val duration: Any,
+    val enddate: String,
+    val endtime: Any,
+    val expiredate: Any,
+    val id: String,
+    val image: String,
+    val isWatching: Boolean,
+    val isuserfavorite: Boolean,
+    val listingtitle: String? = null,
+    val listingtype: String,
+    val name: String,
+    val phone: Any,
+    val price: String,
+    val producttitle: Any? = null,
+    val publishdate: Any,
+    val publishtype: Any,
+    val quanitty: Any,
+    val referenceId: String,
+    val reserveprice: String,
+    val slug: String,
+    val startingprice: String,
+    val state: Any,
+    val template: String,
+    val user: String
+)

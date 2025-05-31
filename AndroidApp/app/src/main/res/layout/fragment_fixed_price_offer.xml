@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.fixed_price_offer.FixedPriceOffer">
+    tools:context=".botmnav_fragments.fixed_price_offer.FixedPriceOffer">
 
 
     <androidx.appcompat.widget.Toolbar

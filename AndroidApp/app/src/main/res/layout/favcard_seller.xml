@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="12dp"
+    app:cardCornerRadius="8dp">
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/circle_image"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:src="@drawable/car"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"/>
+
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:text="Maheer"
+            android:textColor="@color/GreenApp"
+            android:textSize="22dp"
+            android:layout_marginStart="20dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/circle_image"
+            tools:layout_editor_absoluteX="20dp" />
+
+        <TextView
+            android:id="@+id/textView13"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:text="Catogies can be locae "
+            android:textColor="@color/GreenApp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/circle_image"
+            app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+        <RelativeLayout
+            android:id="@+id/spinner_favsearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:background="@drawable/buttonradius"
+            app:layout_constraintTop_toBottomOf="@+id/circle_image"
+            >
+            <Spinner
+                android:id="@+id/spinner_search"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/favsearch"/>
+
+        </RelativeLayout>
+
+        <Button
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_marginBottom="27dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/buttonradius"
+            android:backgroundTint="@color/GreenApp"
+            android:text="View"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_favsearch"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/btn_remove_fav_seller"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="27dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="27dp"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/buttonradius"
+            android:backgroundTint="@color/SilverBackground"
+            android:text="Remove"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="17sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_favsearch" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
