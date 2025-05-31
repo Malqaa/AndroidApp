@@ -76,6 +76,12 @@
         tools:layout="@layout/activity_my_bids_fragment" />
 
     <fragment
+        android:id="@+id/paymentMethod"
+        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.paymentMethod.PaymentMethodFragment"
+        android:label="@string/payment_method"
+        tools:layout="@layout/fragment_payment_method" />
+
+    <fragment
         android:id="@+id/applicationSetting"
         android:name="com.malqaa.androidappp.newPhase.presentation.fragments.appSettingFragment.ApplicationSettingFragment"
         android:label="Application Setting"

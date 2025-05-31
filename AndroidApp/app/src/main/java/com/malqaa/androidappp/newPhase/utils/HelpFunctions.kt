@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AlertPopupDeleteBinding
 import com.malqaa.androidappp.databinding.AlertpopupBinding
 import com.malqaa.androidappp.databinding.ProgressBarBinding
 import com.malqaa.androidappp.databinding.SucessPopupBinding
@@ -183,12 +184,48 @@ class HelpFunctions {
             }
         }
 
+        fun ShowDeleteAlert(
+            context: Context?,
+            @DrawableRes icon: Int?,
+            subtitle: String,
+            onConfirm: () -> Unit,
+        ) {
+            if (context != null) {
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = AlertPopupDeleteBinding.inflate(inflater)
+                icon?.let {
+                    binding.imageView.setImageResource(it)
+                    binding.imageView.visibility = View.VISIBLE
+                }
+
+                // Set sub-title
+                binding.textSubtitle.text = subtitle
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
+
+                binding.buttonYes.setOnClickListener {
+                    onConfirm()
+                    alertDialog.dismiss()
+                }
+
+                binding.textCancel.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+
         fun ShowDoneAlert(
             context: Context?,
             alertTitle: String,
             @DrawableRes icon: Int?,
             alertMessage: String,
-            button:String
+            button: String
         ) {
             if (context != null) {
                 val dialogBuilder = AlertDialog.Builder(context)
@@ -208,7 +245,7 @@ class HelpFunctions {
                     binding.LblALertTitle.visibility = View.GONE
                 }
                 binding.LblAlertMessage.text = alertMessage
-                binding.btnAlertclose.text=button
+                binding.btnAlertclose.text = button
 
                 dialogBuilder.setView(binding.root)
                 val alertDialog = dialogBuilder.create()
@@ -233,7 +270,8 @@ class HelpFunctions {
 
                 // Use View Binding
                 val binding = SucessPopupBinding.inflate(inflater)
-                binding.imageFailedMessage.visibility = if (showFailedMessage) View.VISIBLE else View.GONE
+                binding.imageFailedMessage.visibility =
+                    if (showFailedMessage) View.VISIBLE else View.GONE
 
                 // Set title and message
                 if (alertTitle.isNotEmpty()) {

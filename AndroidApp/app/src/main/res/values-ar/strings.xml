@@ -1214,4 +1214,15 @@
     <string name="pending_balance">Pending Balance</string>
     <string name="archived">Archived</string>
 
+    <string name="bank_holder_s_name">اسم حامل البنك</string>
+    <string name="application_setting">إعدادات التطبيق</string>
+    <string name="are_you_sure_to_delete_the_payment_option">هل أنت متأكد من حذف خيار الدفع.</string>
+    <string name="bank_account_number">رقم الحساب المصرفي</string>
+    <string name="iban_certificate">شهادة رقم الآيبان</string>
+    <string name="add_payment_method">أضف طريقة الدفع</string>
+    <string name="edit_visa_master_card">تعديل بطاقة فيزا أو ماستركارد</string>
+    <string name="edit_mada_card">تعديل بطاقة مدى</string>
+    <string name="edit_bank_account">تعديل الحساب المصرفي</string>
+    <string name="upload">رفع</string>
+    <string name="invalid_file_path">مسار ملف غير صالح</string>
 </resources>
