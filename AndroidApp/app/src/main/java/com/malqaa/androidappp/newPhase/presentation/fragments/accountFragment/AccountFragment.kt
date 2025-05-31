@@ -106,7 +106,7 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                 AccountItem(
                     getString(R.string.Settings), arrayListOf(
                         AccountSubItem(getString(R.string.edit_profile), R.drawable.setting),
-                        AccountSubItem(getString(R.string.payment_cards), R.drawable.paymentcard),
+                        AccountSubItem(getString(R.string.payment_method), R.drawable.paymentcard),
                         AccountSubItem(getString(R.string.save_addresses), R.drawable.maps),
                         AccountSubItem(
                             getString(R.string.application_settings),
@@ -430,6 +430,10 @@ class AccountFragment : Fragment(R.layout.fragment_account),
                                                                     EditProfileActivity::class.java
                                                                 )
                                                             )
+                                                        }
+
+                                                        getString(R.string.payment_method) -> {
+                                                            findNavController().navigate(R.id.paymentMethod)
                                                         }
 
                                                         getString(R.string.save_addresses) -> {

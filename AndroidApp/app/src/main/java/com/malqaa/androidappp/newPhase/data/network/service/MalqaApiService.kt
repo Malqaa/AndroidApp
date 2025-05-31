@@ -9,6 +9,7 @@ import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
 import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankAccountRequest
+import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankTransfersListResponse
 import com.malqaa.androidappp.newPhase.domain.models.accountProfile.AccountInfo
 import com.malqaa.androidappp.newPhase.domain.models.addBidResp.AddBidResp
 import com.malqaa.androidappp.newPhase.domain.models.addOrderResp.AddOrderResp
@@ -839,22 +840,62 @@ interface MalqaApiService {
     @POST("UpdateAccountProfile")
     fun updateAccountProfile(@Body data: HashMap<String, Any>): Call<EditProfileResp>
 
-
-    @POST("AddBankTransfer")
-    fun addBankAccount(@Body bankAccountRequest: BankAccountRequest): Call<GeneralResponse>
-
-    @POST("GetPointsBalance")
-    fun getPointsBalance(): Call<GetPointsBalanceResponse>
-
-    @GET("GetWalletBalance")
-    fun getWalletBalance(): Call<GetWalletBalanceResponse>
-
     @GET("BankTransfersList")
     fun getAllBanksAccount(
         @Query("pageIndex") pageIndex: Int = 1,
         @Query("PageRowsCount") pageRowsCount: Int = 100,
         @Query("PaymentAccountType") paymentAccountType: Int? = null
     ): Call<AccountBankListResp>
+
+    @GET("BankTransfersList")
+    fun bankTransfersList(
+        @Query("pageIndex") pageIndex: Int = 1,
+        @Query("PageRowsCount") pageRowsCount: Int = 100,
+        @Query("PaymentAccountType") paymentAccountType: Int? = null
+    ): Call<BankTransfersListResponse>
+
+    @POST("AddBankTransfer")
+    fun addBankAccount(@Body bankAccountRequest: BankAccountRequest): Call<GeneralResponse>
+
+    @Multipart
+    @POST("AddBankTransfer")
+    fun addBankAccount(
+        @Part("AccountNumber") accountNumber: RequestBody,
+        @Part("BankName") bankName: RequestBody,
+        @Part("BankHolderName") bankHolderName: RequestBody,
+        @Part("IbanNumber") ibanNumber: RequestBody,
+        @Part("SwiftCode") swiftCode: RequestBody,
+        @Part("ExpiaryDate") expiryDate: RequestBody,
+        @Part("IbanCertificate") ibanCertificate: RequestBody,
+        @Part file: MultipartBody.Part? = null, // for IbanCertificateFile
+        @Part("SaveForLaterUse") saveForLaterUse: RequestBody,
+        @Part("PaymentAccountType") paymentAccountType: RequestBody
+    ): Call<GeneralResponse>
+
+    @Multipart
+    @PUT("EditBankTransfer")
+    fun editBankTransfer(
+        @Part("Id") id: RequestBody,
+        @Part("AccountNumber") accountNumber: RequestBody,
+        @Part("BankName") bankName: RequestBody,
+        @Part("BankHolderName") bankHolderName: RequestBody,
+        @Part("IbanNumber") ibanNumber: RequestBody,
+        @Part("SwiftCode") swiftCode: RequestBody,
+        @Part("ExpiaryDate") expiryDate: RequestBody,
+        @Part("IbanCertificate") ibanCertificate: RequestBody,
+        @Part file: MultipartBody.Part? = null,
+        @Part("SaveForLaterUse") saveForLaterUse: RequestBody,
+        @Part("PaymentAccountType") paymentAccountType: RequestBody
+    ): Call<GeneralResponse>
+
+    @DELETE("RemoveBankTransfer")
+    fun removeBankTransfer(@Query("id") id: Int): Call<GeneralResponse>
+
+    @POST("GetPointsBalance")
+    fun getPointsBalance(): Call<GetPointsBalanceResponse>
+
+    @GET("GetWalletBalance")
+    fun getWalletBalance(): Call<GetWalletBalanceResponse>
 
     @POST("AddProductClientOffer")
     fun addProductClientOffer(
