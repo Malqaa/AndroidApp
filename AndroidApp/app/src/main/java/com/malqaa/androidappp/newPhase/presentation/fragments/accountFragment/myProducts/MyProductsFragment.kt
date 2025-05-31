@@ -44,8 +44,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     private lateinit var myProductsViewModel: MyProductViewModel
     private lateinit var myProductForSaleListAdapter: ProductHorizontalAdapter
     private lateinit var myProductForNotSaleListAdapter: DidNotSaleAdapter
+    private lateinit var archivedListAdapter: DidNotSaleAdapter
     private lateinit var productList: ArrayList<Product>
     private lateinit var notForSaleList: ArrayList<Product>
+    private lateinit var archivedList: ArrayList<Product>
 
     private var lastUpdateIndex = -1
     private lateinit var expireHoursList: ArrayList<Float>
@@ -79,9 +81,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         setAdapterForSaleAdapter()
         setUpSoldOutAdapter()
         setAdapterForNotSaleAdapter()
-
+        setAdapterForArchivedAdapter()
         binding.soldOutRcv.hide()
         binding.didNotSaleRcv.hide()
+        binding.archivedRcv.hide()
         binding.forSaleRecycler.show()
     }
 
@@ -149,6 +152,17 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         }
     }
 
+    private fun setAdapterForArchivedAdapter() {
+        archivedList = ArrayList()
+        archivedListAdapter = DidNotSaleAdapter(archivedList, this, 0, false,
+            isMyProduct = true
+        )
+        binding.archivedRcv.apply {
+            adapter = archivedListAdapter
+            layoutManager = GridLayoutManager(requireActivity(), 2)
+        }
+    }
+
 
     private fun setViewClickListeners() {
         binding.toolbar.backBtn.setOnClickListener {
@@ -159,12 +173,15 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.soldOutRcv.hide()
             binding.didNotSaleRcv.hide()
             binding.forSaleRecycler.show()
+            binding.archivedRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.round_btn)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
             binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
             binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.didNotSell.setBackgroundResource(R.drawable.edittext_bg)
             binding.didNotSell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.archived.setBackgroundResource(R.drawable.edittext_bg)
+            binding.archived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             onRefresh()
         }
         binding.soldOut.setOnClickListener {
@@ -172,12 +189,15 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.soldOutRcv.show()
             binding.forSaleRecycler.hide()
             binding.didNotSaleRcv.hide()
+            binding.archivedRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.round_btn)
             binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
             binding.didNotSell.setBackgroundResource(R.drawable.edittext_bg)
             binding.didNotSell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.archived.setBackgroundResource(R.drawable.edittext_bg)
+            binding.archived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             onRefresh()
         }
         binding.didNotSell.setOnClickListener {
@@ -185,12 +205,36 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.soldOutRcv.hide()
             binding.didNotSaleRcv.show()
             binding.forSaleRecycler.hide()
+            binding.archivedRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
             binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.archived.setBackgroundResource(R.drawable.edittext_bg)
+            binding.archived.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.didNotSell.setBackgroundResource(R.drawable.round_btn)
             binding.didNotSell.setTextColor(
+                ContextCompat.getColor(
+                    requireActivity(),
+                    R.color.white
+                )
+            )
+            onRefresh()
+        }
+        binding.archived.setOnClickListener {
+            tapId = 4
+            binding.soldOutRcv.hide()
+            binding.didNotSaleRcv.hide()
+            binding.forSaleRecycler.hide()
+            binding.archivedRcv.show()
+            binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
+            binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
+            binding.soldOut.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.didNotSell.setBackgroundResource(R.drawable.edittext_bg)
+            binding.didNotSell.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
+            binding.archived.setBackgroundResource(R.drawable.round_btn)
+            binding.archived.setTextColor(
                 ContextCompat.getColor(
                     requireActivity(),
                     R.color.white
@@ -259,6 +303,18 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                     notForSaleList.clear()
                     notForSaleList.addAll(productListResp.productList)
                     myProductForNotSaleListAdapter.notifyDataSetChanged()
+
+                } else {
+                    showProductApiError(getString(R.string.noProductsAdded))
+                }
+            }
+        }
+        myProductsViewModel.archivedProductRespObserver.observe(this) { productListResp ->
+            if (productListResp.status_code == 200) {
+                if (!productListResp.productList.isNullOrEmpty()) {
+                    archivedList.clear()
+                    archivedList.addAll(productListResp.productList)
+                    archivedListAdapter.notifyDataSetChanged()
 
                 } else {
                     showProductApiError(getString(R.string.noProductsAdded))
@@ -389,6 +445,11 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 notForSaleList.clear()
                 myProductForNotSaleListAdapter.notifyDataSetChanged()
                 myProductsViewModel.getForDidNotSaleProducts()
+            }
+            4 -> {
+                archivedList.clear()
+                archivedListAdapter.notifyDataSetChanged()
+                myProductsViewModel.getForArchivedProducts()
             }
         }
 

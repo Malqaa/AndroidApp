@@ -17,6 +17,7 @@ class MyProductViewModel : BaseViewModel() {
 
     var forSaleProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var notForSaleProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var archivedProductRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
     var soldOutOrdersRespObserver: MutableLiveData<OrderListResp> = MutableLiveData()
     var addDiscountObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var removeProductObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
@@ -27,6 +28,7 @@ class MyProductViewModel : BaseViewModel() {
     private var callForSaleProduct: Call<ProductListResp>? = null
     private var callSoldOutOrders: Call<OrderListResp>? = null
     private var callForDidNotSaleProducts: Call<ProductListResp>? = null
+    private var callForArchivedProducts: Call<ProductListResp>? = null
     private var callRemoveProduct: Call<GeneralResponse>? = null
     private var callRepostProduct: Call<GeneralResponse>? = null
     private var callAddDiscount: Call<GeneralResponse>? = null
@@ -42,6 +44,9 @@ class MyProductViewModel : BaseViewModel() {
         }
         if (callForDidNotSaleProducts != null) {
             callForDidNotSaleProducts?.cancel()
+        }
+        if (callForArchivedProducts != null) {
+            callForArchivedProducts?.cancel()
         }
         if (callRemoveProduct != null) {
             callRemoveProduct?.cancel()
@@ -87,6 +92,31 @@ class MyProductViewModel : BaseViewModel() {
             onSuccess = {
                 isLoading.value = false
                 notForSaleProductRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+
+    }
+
+    fun getForArchivedProducts() {
+        isLoading.value = true
+
+        callForArchivedProducts = getRetrofitBuilder().getListArchivedProducts()
+        callApi(callForArchivedProducts!!,
+            onSuccess = {
+                isLoading.value = false
+                archivedProductRespObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->
                 isLoading.value = false

@@ -470,6 +470,11 @@ interface MalqaApiService {
         @Query("lang") language: String = ConstantObjects.currentLanguage
     ): Call<ProductListResp>
 
+    @GET("ListArchivedProducts")
+    fun getListArchivedProducts(
+        @Query("lang") language: String = ConstantObjects.currentLanguage
+    ): Call<ProductListResp>
+
     @GET
     fun searchForProductInCategory(
         @Url url: String
