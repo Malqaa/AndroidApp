@@ -1422,4 +1422,5 @@
   <string name="package_fixed">Fixed Sale Price Option</string>
   <string name="package_negotiable">Negotiable Sale Price Option</string>
   <string name="package_auction">Public Auction Option</string>
+    <string name="pending_balance">Pending Balance</string>
 </resources>
