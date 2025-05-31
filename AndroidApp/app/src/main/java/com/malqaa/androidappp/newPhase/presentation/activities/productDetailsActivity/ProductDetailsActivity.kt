@@ -250,6 +250,7 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         productDetailsItem2Binding.contaienrSimilerProduts.hide()
         binding.containerBidOnPrice.hide()
         productDetailsItem2Binding.tvShippingOptions.hide()
+        productDetailsItem2Binding.tvShippingOptionsTwo.hide()
         productDetailsItem2Binding.contianerBankAccount.hide()
         productDetailsItem2Binding.containerMada.hide()
         productDetailsItem2Binding.containerMaster.hide()
@@ -890,30 +891,25 @@ class ProductDetailsActivity : BaseActivity<ActivityProductDetails2Binding>(),
         }
         productDetialsViewModel.shippingOptionObserver.observe(this) {
             if (it.status_code == 200) {
-                if (!it.shippingOptionObject.isNullOrEmpty()) {
-                    when (it.shippingOptionObject[0].shippingOptionId) {
-                        ConstantObjects.shippingOption_integratedShippingCompanyOptions -> {
-                            productDetailsItem2Binding.tvShippingOptions.show()
-                            productDetailsItem2Binding.tvShippingOptions.text =
-                                getString(R.string.integratedShippingCompanies)
-                        }
-
-                        ConstantObjects.shippingOption_freeShippingWithinSaudiArabia -> {
-                            productDetailsItem2Binding.tvShippingOptions.show()
-                            productDetailsItem2Binding.tvShippingOptions.text =
-                                getString(R.string.free_shipping_within_Saudi_Arabia)
-                        }
-
-                        ConstantObjects.shippingOption_arrangementWillBeMadeWithTheBuyer -> {
-                            productDetailsItem2Binding.tvShippingOptions.show()
-                            productDetailsItem2Binding.tvShippingOptions.text =
-                                getString(R.string.arrangementWillBeMadeWithTheBuyer)
-                        }
+                if (it.shippingOptionObject != null && it.shippingOptionObject.isNotEmpty()) {
+                    if (it.shippingOptionObject.size===1){
+                        productDetailsItem2Binding.tvShippingOptions.show()
+                        productDetailsItem2Binding.tvShippingOptions.text =
+                            it.shippingOptionObject[0].shippingOptionName.toString()
                     }
-                } else {
-                    productDetailsItem2Binding.tvShippingOptions.show()
-                    productDetailsItem2Binding.tvShippingOptions.text =
-                        getString(R.string.mustPickUp)
+                    else if (it.shippingOptionObject.size===2){
+                        productDetailsItem2Binding.tvShippingOptions.show()
+                        productDetailsItem2Binding.tvShippingOptions.text =
+                            it.shippingOptionObject[0].shippingOptionName.toString()
+                        productDetailsItem2Binding.tvShippingOptionsTwo.show()
+                        productDetailsItem2Binding.tvShippingOptionsTwo.text =
+                            it.shippingOptionObject[1].shippingOptionName.toString()
+                    }
+
+                }
+                else{
+                    productDetailsItem2Binding.tvShippingOptions.hide()
+                    productDetailsItem2Binding.tvShippingOptionsTwo.hide()
                 }
             }
         }

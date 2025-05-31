@@ -22,6 +22,9 @@ import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.getDifference
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import org.joda.time.DateTime
+import org.joda.time.Duration
+import org.joda.time.format.DateTimeFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
@@ -166,7 +169,7 @@ class ProductViewHolder(
             val dateTime = LocalDateTime.parse(requestItem.auctionClosingTime, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
 
-            val day = dateTime.dayOfMonth.toString().padStart(2, '0')
+            /*val day = dateTime.dayOfMonth.toString().padStart(2, '0')
             val hour = dateTime.hour.toString().padStart(2, '0')
             val minute = dateTime.minute.toString().padStart(2, '0')
             val second = dateTime.second.toString().padStart(2, '0')
@@ -174,7 +177,63 @@ class ProductViewHolder(
             itemBinding.daysTv.text = day
             itemBinding.hoursTv.text = hour
             itemBinding.minutesTv.text = minute
-            itemBinding.secondsTv.text = second
+            itemBinding.secondsTv.text = second*/
+
+            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val targetDateTime = formatter.parseDateTime(requestItem.auctionClosingTime.toString())
+
+            // Get the current date and time
+            val currentDateTime = DateTime()
+
+            // Calculate the duration between the current time and the target time
+            val duration = Duration(currentDateTime, targetDateTime)
+
+            // Get the difference in days, hours, and minutes as Long values
+            val daysDifference = duration.standardDays
+            val hoursDifference = duration.standardHours % 24
+            val minutesDifference = duration.standardMinutes % 60
+            val secondsDifference = duration.standardSeconds % 60
+
+            // Display the difference
+            val differenceMessage = String.format(
+                "Difference: %d days, %d hours, %d minutes",
+                daysDifference, hoursDifference, minutesDifference
+            )
+
+            if (daysDifference>0){
+                itemBinding.daysTv.text = daysDifference.toString()
+            }
+            else{
+                itemBinding.daysTv.visibility = View.GONE
+                itemBinding.titleDay.visibility = View.GONE
+            }
+
+            if (hoursDifference>0){
+                itemBinding.hoursTv.text = hoursDifference.toString()
+            }
+            else{
+                itemBinding.hoursTv.visibility = View.GONE
+                itemBinding.titleHour.visibility = View.GONE
+            }
+
+            if (minutesDifference>0){
+                itemBinding.minutesTv.text = minutesDifference.toString()
+            }
+            else{
+                itemBinding.minutesTv.visibility = View.GONE
+                itemBinding.titleMinutes.visibility = View.GONE
+            }
+
+            if (secondsDifference>0){
+                itemBinding.secondsTv.text = secondsDifference.toString()            }
+            else{
+                itemBinding.secondsTv.visibility = View.GONE
+                itemBinding.titleSeconds.visibility = View.GONE
+            }
+
+            startCountdown( requestItem.auctionClosingTime.toString())
+
+
         } else {
             itemBinding.containerTimeBar.hide()
             onDestroyHandler() // Stop handler if the countdown is not needed

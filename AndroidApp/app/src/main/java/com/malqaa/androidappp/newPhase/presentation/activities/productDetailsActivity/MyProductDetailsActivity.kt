@@ -263,6 +263,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         myProductDetails2Binding.btnMoreSpecification.hide()
         myProductDetails2Binding.btnMoreItemDetails.hide()
         myProductDetails2Binding.tvShippingOptions.hide()
+        myProductDetails2Binding.tvShippingOptionsTwo.hide()
         myProductDetails2Binding.contianerBankAccount.hide()
         myProductDetails2Binding.containerMada.hide()
         myProductDetails2Binding.containerMaster.hide()
@@ -599,13 +600,24 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         productDetialsViewModel.shippingOptionObserver.observe(this) {
             if (it.status_code == 200) {
                 if (it.shippingOptionObject != null && it.shippingOptionObject.isNotEmpty()) {
+                    if (it.shippingOptionObject.size===1){
+                        myProductDetails2Binding.tvShippingOptions.show()
+                        myProductDetails2Binding.tvShippingOptions.text =
+                            it.shippingOptionObject[0].shippingOptionName.toString()
+                    }
+                    else if (it.shippingOptionObject.size===2){
+                        myProductDetails2Binding.tvShippingOptions.show()
+                        myProductDetails2Binding.tvShippingOptions.text =
+                            it.shippingOptionObject[0].shippingOptionName.toString()
+                        myProductDetails2Binding.tvShippingOptionsTwo.show()
+                        myProductDetails2Binding.tvShippingOptionsTwo.text =
+                            it.shippingOptionObject[1].shippingOptionName.toString()
+                    }
 
-                    myProductDetails2Binding.tvShippingOptions.show()
-                    myProductDetails2Binding.tvShippingOptions.text =
-                        it.shippingOptionObject[0].shippingOptionName.toString()
                 }
                 else{
                     myProductDetails2Binding.tvShippingOptions.hide()
+                    myProductDetails2Binding.tvShippingOptionsTwo.hide()
                 }
             }
         }

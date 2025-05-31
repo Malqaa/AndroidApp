@@ -486,19 +486,48 @@
                         android:textColor="#000000"
                         android:textSize="@dimen/_13sdp" />
 
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/tvShippingOptions"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_35sdp"
-                        android:layout_gravity="start"
-                        android:layout_marginTop="12dp"
-                        android:background="@drawable/round_btn_grey"
-                        android:fontFamily="@font/madani_arabic_medium"
-                        android:padding="@dimen/_10sdp"
-                        android:text="@string/free_delivery_inside_the_kingdom"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_10sdp" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2"
+                        android:layout_marginTop="12dp">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/tvShippingOptions"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/round_btn_grey"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/free_delivery_inside_the_kingdom"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginEnd="2dp"
+                            android:padding="6dp"
+                            android:textSize="@dimen/_10sdp" />
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/tvShippingOptionsTwo"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/round_btn_grey"
+                            android:fontFamily="@font/madani_arabic_medium"
+                            android:text="@string/free_delivery_inside_the_kingdom"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:layout_gravity="center"
+                            android:gravity="center"
+                            android:layout_marginStart="2dp"
+                            android:padding="6dp"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
