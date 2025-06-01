@@ -1,5 +1,6 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
@@ -52,7 +53,8 @@ class AccountViewModel : BaseViewModel() {
         MutableLiveData()
     var logoutObserver: MutableLiveData<LogoutResp> = MutableLiveData()
 
-    var transferWalletToPointsObserver: MutableLiveData<TransactionPointsAmountRes> = MutableLiveData()
+    var transferWalletToPointsObserver: MutableLiveData<TransactionPointsAmountRes> =
+        MutableLiveData()
 
 
     private var callEditProfile: Call<GeneralResponse>? = null
@@ -135,7 +137,8 @@ class AccountViewModel : BaseViewModel() {
     fun logoutUser(deviceId: String) {
         isLoading.value = true
         callLogout = getRetrofitBuilder().logout(deviceId)
-        callApi(callLogout!!, onSuccess = {
+        callApi(
+            callLogout!!, onSuccess = {
             isLoading.value = false
             logoutObserver.value = it
 
@@ -154,7 +157,8 @@ class AccountViewModel : BaseViewModel() {
     fun editProfileImage(multipartBody: MultipartBody.Part?) {
         isLoading.value = true
         callEditProfile = getRetrofitBuilder().editProfileImage(multipartBody)
-        callApi(callEditProfile!!,
+        callApi(
+            callEditProfile!!,
             onSuccess = {
                 isLoading.value = false
                 editProfileImageObserver.value = it
@@ -177,7 +181,8 @@ class AccountViewModel : BaseViewModel() {
     fun getAccountInfo() {
         callAccountInfo = getRetrofitBuilder().getMyAccountInfo()
 
-        callApi(callAccountInfo!!,
+        callApi(
+            callAccountInfo!!,
             onSuccess = {
                 isLoading.value = false
                 accountInfoObserver.value = it
@@ -202,7 +207,8 @@ class AccountViewModel : BaseViewModel() {
         callWalletDetails = getRetrofitBuilder()
             .getWalletDetails()
 
-        callApi(callWalletDetails!!,
+        callApi(
+            callWalletDetails!!,
             onSuccess = {
                 isLoading.value = false
                 walletDetailsObserver.value = it
@@ -223,11 +229,12 @@ class AccountViewModel : BaseViewModel() {
 
     }
 
-    fun getTransferWalletToPoints(amount:Int) {
+    fun getTransferWalletToPoints(amount: Int) {
         isLoading.value = true
         callTransferWalletToPoints = getRetrofitBuilder().transferWalletToPoints(amount)
 
-        callApi(callTransferWalletToPoints!!,
+        callApi(
+            callTransferWalletToPoints!!,
             onSuccess = {
                 isLoading.value = false
                 transferWalletToPointsObserver.value = it
@@ -248,16 +255,66 @@ class AccountViewModel : BaseViewModel() {
 
     }
 
-    fun addWalletTransaction(transactionSource: String, transactionType: String, amount: String) {
+    fun addWalletTransaction(
+        transactionId: Int? = null,
+        transactionSource: String,
+        transactionType: String,
+        transactionAmount: Double,
+        paymentCardNumber: String? = null,
+        paymentCardExpiryMonth: String? = null,
+        paymentCardExpiryYear: String? = null,
+        paymentCardSecurityCode: String? = null,
+        paymentCardHolderName: String? = null,
+        paymentMethodId: String? = null,
+        totalAmount: Double? = null,
+        withdrawBankTAccountId: Int? = null
+    ) {
         isLoading.value = true
+
         val map: HashMap<String, RequestBody> = HashMap()
+
+        // Required fields
         map["TransactionSource"] = transactionSource.requestBody()
         map["TransactionType"] = transactionType.requestBody()
-        map["TransactionAmount"] = amount.requestBody()
+        map["TransactionAmount"] = transactionAmount.toString().requestBody()
+
+        // Optional TransactionId
+        transactionId?.let {
+            map["TransactionId"] = it.toString().requestBody()
+        }
+        paymentCardNumber?.let {
+            map["ExecutePaymentDto.PaymentCard.Number"] = it.requestBody()
+        }
+        paymentCardExpiryMonth?.let {
+            map["ExecutePaymentDto.PaymentCard.ExpiryMonth"] = it.requestBody()
+        }
+        paymentCardExpiryYear?.let {
+            map["ExecutePaymentDto.PaymentCard.ExpiryYear"] = it.requestBody()
+        }
+        paymentCardSecurityCode?.let {
+            map["ExecutePaymentDto.PaymentCard.SecurityCode"] = it.requestBody()
+        }
+        paymentCardHolderName?.let {
+            map["ExecutePaymentDto.PaymentCard.HolderName"] = it.requestBody()
+        }
+
+        // Optional ExecutePaymentDto fields
+        paymentMethodId?.let {
+            map["ExecutePaymentDto.PaymentMethodId"] = it.requestBody()
+        }
+        totalAmount?.let {
+            map["ExecutePaymentDto.TotalAmount"] = it.toString().requestBody()
+        }
+
+        // Optional withdrawal account ID
+        withdrawBankTAccountId?.let {
+            map["WithdrawBankTAccountId"] = it.toString().requestBody()
+        }
 
         callAddWallet = getRetrofitBuilder().addWalletTransaction(map)
 
-        callApi(callAddWallet!!,
+        callApi(
+            callAddWallet!!,
             onSuccess = {
                 isLoading.value = false
                 addWalletTransactionObserver.value = it
@@ -267,22 +324,22 @@ class AccountViewModel : BaseViewModel() {
                 if (throwable != null && errorBody == null)
                     isNetworkFail.value = throwable !is HttpException
                 else {
-                    errorResponseObserver.value =
-                        getErrorResponse(statusCode, errorBody)
+                    errorResponseObserver.value = getErrorResponse(statusCode, errorBody)
                 }
             },
             goLogin = {
                 isLoading.value = false
                 needToLogin.value = true
-            })
+            }
+        )
     }
-
 
     fun getUserPointDetailsInWallet() {
         isLoading.value = true
         callUserPointDetails = getRetrofitBuilder().getUserPointsTransactions()
 
-        callApi(callUserPointDetails!!,
+        callApi(
+            callUserPointDetails!!,
             onSuccess = {
                 isLoading.value = false
                 userPointsDetailsObserver.value = it
@@ -307,7 +364,8 @@ class AccountViewModel : BaseViewModel() {
 
         callConvertMount = getRetrofitBuilder().transferPointsToMoney(amount)
 
-        callApi(callConvertMount!!,
+        callApi(
+            callConvertMount!!,
             onSuccess = {
                 isLoading.value = false
                 convertMoneyToPointObserver.value = it
@@ -330,7 +388,8 @@ class AccountViewModel : BaseViewModel() {
     fun grtLostProducts() {
         isLoading.value = true
         callLostProducts = getRetrofitBuilder().getLostProducts()
-        callApi(callLostProducts!!,
+        callApi(
+            callLostProducts!!,
             onSuccess = {
                 isLoading.value = false
                 productListObserver.value = it
@@ -370,7 +429,8 @@ class AccountViewModel : BaseViewModel() {
         }
 
         callAddContact = getRetrofitBuilder().addEditContactUs(map)
-        callApi(callAddContact!!,
+        callApi(
+            callAddContact!!,
             onSuccess = {
                 isLoading.value = false
                 contactsMessageObserver.value = it
@@ -394,7 +454,8 @@ class AccountViewModel : BaseViewModel() {
     fun getListContactUs() {
         isLoading.value = true
         callListContactUs = getRetrofitBuilder().getListContactUs()
-        callApi(callListContactUs!!,
+        callApi(
+            callListContactUs!!,
             onSuccess = {
                 isLoading.value = false
                 technicalSupportMessageListObserver.value = it
@@ -418,7 +479,8 @@ class AccountViewModel : BaseViewModel() {
         isLoading.value = true
         callUserData = getRetrofitBuilder().getUserData()
 
-        callApi(callUserData!!,
+        callApi(
+            callUserData!!,
             onSuccess = {
                 isLoading.value = false
                 getUserDataObserver.value = it
@@ -468,7 +530,8 @@ class AccountViewModel : BaseViewModel() {
         callChangeUserPassword = getRetrofitBuilder()
             .editProfileChangePassword(data)
 
-        callApi(callChangeUserPassword!!,
+        callApi(
+            callChangeUserPassword!!,
             onSuccess = {
                 isLoading.value = false
                 changePasswordObserver.value = it
@@ -496,7 +559,8 @@ class AccountViewModel : BaseViewModel() {
         callChangeUserEmail = getRetrofitBuilder()
             .editProfileChangeEmail(newEmail)
 
-        callApi(callChangeUserEmail!!,
+        callApi(
+            callChangeUserEmail!!,
             onSuccess = {
                 isLoading.value = false
                 changeEmailObserver.value = it
@@ -524,7 +588,8 @@ class AccountViewModel : BaseViewModel() {
         callChangeUserEmailOtp = getRetrofitBuilder()
             .confirmChangeEmail(data)
 
-        callApi(callChangeUserEmailOtp!!,
+        callApi(
+            callChangeUserEmailOtp!!,
             onSuccess = {
                 isLoading.value = false
                 confirmChangeEmailOtpObserver.value = it
@@ -550,7 +615,8 @@ class AccountViewModel : BaseViewModel() {
         callResendOtp = getRetrofitBuilder()
             .resendOtp(userPhone, otpType, language)
 
-        callApi(callResendOtp!!,
+        callApi(
+            callResendOtp!!,
             onSuccess = {
                 isLoading.value = false
                 validateAndGenerateOTPObserver.value = it
@@ -581,7 +647,8 @@ class AccountViewModel : BaseViewModel() {
         callUpdateMobile = getRetrofitBuilder()
             .updateUserMobileNumber(data)
 
-        callApi(callUpdateMobile!!,
+        callApi(
+            callUpdateMobile!!,
             onSuccess = {
                 isLoading.value = false
                 updateUserMobielNumberObserver.value = it
@@ -623,7 +690,8 @@ class AccountViewModel : BaseViewModel() {
         callUpdateAccountProfile = getRetrofitBuilder()
             .updateAccountProfile(data)
 
-        callApi(callUpdateAccountProfile!!,
+        callApi(
+            callUpdateAccountProfile!!,
             onSuccess = {
                 isLoading.value = false
                 updateProfileDataObserver.value = it

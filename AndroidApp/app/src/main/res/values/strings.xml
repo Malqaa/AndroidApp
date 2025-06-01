@@ -1415,6 +1415,7 @@
 </string>
 
     <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
+    <string name="there_are_no_bank_accounts_saved">There are no Bank Accounts saved. Please add a new Account by clicking the "Add New Account" button</string>
     <string name="choose_card">Choose card</string>
     <string name="convert_to_points">Convert credit</string>
     <string name="convert_wallet_into_points">Convert credit wallet into points</string>
@@ -1436,4 +1437,8 @@
   <string name="upload">Upload</string>
   <string name="invalid_file_path">Invalid file path</string>
   <string name="visa_master_card">Visa / MasterCard</string>
+  <string name="choose_the_bank_account">Choose The Bank Account</string>
+  <string name="all_cards">All Cards</string>
+  <string name="choose_another_account">Choose another account</string>
+    <string name="add_new_bank_account">Add New Bank Account</string>
 </resources>

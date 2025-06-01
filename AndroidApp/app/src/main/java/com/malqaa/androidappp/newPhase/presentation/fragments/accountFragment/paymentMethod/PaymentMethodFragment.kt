@@ -334,7 +334,7 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
             // show switch
             binding.switchSaveLater.isChecked = account.saveForLaterUse
         } else {
-            binding.textTitle.text = getString(R.string.edit_visa_master_card)
+            binding.textTitle.text = getString(R.string.add_payment_method)
             binding.layoutCardDetails.visibility = View.VISIBLE
         }
 

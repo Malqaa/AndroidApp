@@ -1203,6 +1203,7 @@
     <string name="manage">إدارة الإعلان</string>
 
     <string name="there_are_no_cards_saved">لا يوجد كروت محفوظة/n من فضاك قم بإضافة كرت جديد او اختار وسيلة دفع اخرى </string>
+    <string name="there_are_no_bank_accounts_saved">لا توجد حسابات مصرفية تم حفظها. يرجى إضافة حساب جديد بالنقر فوق الزر "إضافة حساب جديد"</string>
     <string name="choose_card">اختار كارد</string>
     <string name="convert_to_points">تحويل الرصيد</string>
     <string name="convert_wallet_into_points">تحويل رصيد المحفظة الى نقاط</string>
@@ -1225,4 +1226,8 @@
     <string name="upload">رفع</string>
     <string name="invalid_file_path">مسار ملف غير صالح</string>
     <string name="visa_master_card">فيزا / ماستركارد</string>
+    <string name="choose_the_bank_account">اختر الحساب المصرفي</string>
+    <string name="all_cards">جميع البطاقات</string>
+    <string name="choose_another_account">اختر حسابًا آخر</string>
+    <string name="add_new_bank_account">أضف حساب مصرفي جديد</string>
 </resources>

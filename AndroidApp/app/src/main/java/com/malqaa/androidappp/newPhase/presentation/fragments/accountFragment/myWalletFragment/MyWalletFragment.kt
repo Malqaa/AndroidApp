@@ -4,16 +4,21 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.OpenableColumns
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
+import android.widget.LinearLayout
 import android.widget.PopupWindow
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.toColorInt
 import androidx.fragment.app.Fragment
@@ -25,8 +30,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.AddCardBinding
 import com.malqaa.androidappp.databinding.AllCardsLayoutBinding
+import com.malqaa.androidappp.databinding.BottomSheetPaymentMethodBinding
 import com.malqaa.androidappp.databinding.FragmentMyWalletFragmentBinding
-import com.malqaa.androidappp.databinding.ItemCardBinding
 import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AccountObject
@@ -35,14 +40,17 @@ import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDet
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletPendingOrders
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletTransactionsDetails
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.viewmodel.AddProductViewModel
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.AccountDetailsAdapter
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountViewModel
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.paymentMethod.PaymentMethodViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.formatAsCardNumber
-import com.malqaa.androidappp.newPhase.utils.helper.widgets.rcv.GenericListAdapter
+import com.malqaa.androidappp.newPhase.utils.getMonth
+import com.malqaa.androidappp.newPhase.utils.getYear
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
+import java.io.File
 import java.util.Calendar
 
 
@@ -197,8 +205,22 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                 if (bottomSheetDialog != null) {
                     bottomSheetDialog!!.dismiss()
                 }
-                // TODO 01: change this code
-                paymentMethodViewModel.getBankAccountsList()
+
+                allCardsBottomSheetDialog.dismiss()
+
+                when (paymentAccountType) {
+                    PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                        addProductViewModel.getBankAccountsList(creditCards = true)
+                    }
+
+                    PaymentAccountType.BankAccount -> {
+                        addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.BankAccount.value)
+                    }
+
+                    else -> {
+                        addProductViewModel.getBankAccountsList(creditCards = true)
+                    }
+                }
             }
         }
 
@@ -225,6 +247,8 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                 if (bottomSheetDialog != null) {
                     bottomSheetDialog!!.dismiss()
                 }
+
+                allCardsBottomSheetDialog.dismiss()
                 addProductViewModel.getBankAccountsList(paymentAccountType.value)
             }
         }
@@ -232,8 +256,8 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
 
     private fun setViewClickListeners() {
         binding.chooseCard.setOnClickListener {
-            addProductViewModel.getBankAccountsList(creditCards = true)
             paymentAccountType = PaymentAccountType.VisaMasterCard
+            addProductViewModel.getBankAccountsList(creditCards = true)
         }
 
         binding.chooseAccount.setOnClickListener {
@@ -243,10 +267,11 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
 
         binding.selectedCard.btnChooseAnotherCard.setOnClickListener {
             addProductViewModel.getBankAccountsList(creditCards = true)
-            allCardsBottomSheetDialog()
         }
 
-        // TODO: add selected bank account
+        binding.selectedBankAccount.btnChooseAnotherCard.setOnClickListener {
+            addProductViewModel.getBankAccountsList(paymentAccountType = PaymentAccountType.BankAccount.value)
+        }
     }
 
     private fun setRecentOperationAdapter() {
@@ -264,7 +289,19 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         binding.swipeRefresh.setOnRefreshListener(this)
         binding.swipeRefresh.setColorSchemeResources(R.color.colorPrimaryDark)
 
-        setupAdapter()
+        accountDetailsAdapter = AccountDetailsAdapter { selectedItem ->
+            accountDetails = selectedItem // Save selected item globally
+            Log.d("test #1", "accountDetails: $selectedItem")
+        }
+
+        filePickerLauncher =
+            registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+                uri?.let {
+                    ibanCertificateUri = it
+                    val fileName = getFileNameFromUri(requireContext(), it)
+                    bottomSheetPaymentMethodBinding.textFileName.text = fileName
+                }
+            }
     }
 
     private fun setViewsClickListeners() {
@@ -327,11 +364,44 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    accountViewModel.addWalletTransaction(
-                        if (transactionType == ConstantObjects.transactionType_Out) "3" else "1",
-                        transactionType,
-                        binding.etAmount.text.toString().trim()
-                    )
+                    if (::paymentAccountType.isInitialized || accountDetails != null) {
+                        when (paymentAccountType) {
+                            PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                                accountViewModel.addWalletTransaction(
+                                    transactionSource = if (transactionType == ConstantObjects.transactionType_Out) "3" else "1",
+                                    transactionType = transactionType,
+                                    transactionAmount = binding.etAmount.text.toString().trim()
+                                        .toDouble(),
+                                    paymentCardNumber = accountDetails?.accountNumber,
+                                    paymentCardExpiryMonth = accountDetails?.expiaryDate?.getMonth(),
+                                    paymentCardExpiryYear = accountDetails?.expiaryDate?.getYear(),
+                                    paymentCardSecurityCode = accountDetails?.cvv.toString(),
+                                    paymentCardHolderName = accountDetails?.bankHolderName,
+                                    paymentMethodId = accountDetails?.paymentAccountType?.value.toString(),
+                                    totalAmount = binding.etAmount.text.toString().trim()
+                                        .toDouble(),
+                                )
+                            }
+
+                            PaymentAccountType.BankAccount -> {
+                                accountViewModel.addWalletTransaction(
+                                    transactionSource = if (transactionType == ConstantObjects.transactionType_Out) "3" else "1",
+                                    transactionType = transactionType,
+                                    transactionAmount = binding.etAmount.text.toString().trim()
+                                        .toDouble(),
+                                    withdrawBankTAccountId = accountDetails?.id
+                                )
+                            }
+                        }
+                    } else {
+                        // Handle the case where paymentAccountType is not initialized
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.please_choose_a_card),
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+
                 }
             }
         }
@@ -371,114 +441,56 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
 
     private lateinit var allCardsLayoutBinding: AllCardsLayoutBinding
     private lateinit var allCardsBottomSheetDialog: BottomSheetDialog
-    private lateinit var adapterList: GenericListAdapter<AccountDetails>
     private var accountDetails: AccountDetails? = null
+    private lateinit var accountDetailsAdapter: AccountDetailsAdapter
     private lateinit var addProductViewModel: AddProductViewModel
     private var selectedAccountDetails: ArrayList<AccountDetails> = ArrayList()
     private var bottomSheetDialog: BottomSheetDialog? = null
-
-    private fun allCardsBottomSheetDialog() {
-        allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
-        allCardsBottomSheetDialog = BottomSheetDialog(requireContext())
-        allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
-
-        if (adapterList.itemCount > 0) {
-            allCardsLayoutBinding.recyclerViewAllCards.show()
-            allCardsLayoutBinding.descText.hide()
-            allCardsLayoutBinding.recyclerViewAllCards.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = adapterList
-            }
-        } else {
-            allCardsLayoutBinding.recyclerViewAllCards.hide()
-            allCardsLayoutBinding.descText.show()
-        }
-
-        allCardsLayoutBinding.apply {
-            buttonAddNew.setOnClickListener { addCardBottomSheetDialog() }
-
-            buttonDone.setOnClickListener {
-                val cvv = accountDetails?.cvv
-
-                if (accountDetails == null) {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.please_choose_a_card),
-                        context = requireContext()
-                    )
-                    return@setOnClickListener
-                } else if (cvv.toString().length !in 3..4) {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.please_enter_cvv),
-                        context = requireContext()
-                    )
-                    return@setOnClickListener
-                }
-
-                allCardsBottomSheetDialog.dismiss()
-
-                when (paymentAccountType) {
-                    PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
-                        _binding.chooseCard.hide()
-                        _binding.selectedCard.linearLayoutSelectedPaymentOptions.visibility =
-                            View.VISIBLE
-
-                        _binding.selectedCard.apply {
-                            textCardHoldersName.text = accountDetails?.bankHolderName
-                            textCardNumber.text = accountDetails?.accountNumber.formatAsCardNumber()
-                            textExpiryDate.text = accountDetails?.expiaryDate
-                        }
-                    }
-
-                    PaymentAccountType.BankAccount -> {
-                        _binding.chooseAccount.hide()
-                        _binding.selectedBankAccount.linearLayoutSelectedPaymentOptions.visibility =
-                            View.VISIBLE
-
-                        _binding.selectedBankAccount.apply {
-                            textCardHoldersName.text = accountDetails!!.bankHolderName
-                            textCardNumber.text =
-                                accountDetails!!.accountNumber.formatAsCardNumber()
-                            textExpiryDate.text = accountDetails!!.expiaryDate
-                        }
-                    }
-                }
-            }
-        }
-
-        addProductViewModel.isLoadingBackAccountList.observe(this) {
-            if (it) {
-                allCardsLayoutBinding.progressBarAllCards.show()
-            } else {
-                allCardsLayoutBinding.progressBarAllCards.hide()
-            }
-        }
-
-        // Set background to transparent
-        allCardsBottomSheetDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        // Show the dialog
-        allCardsBottomSheetDialog.show()
-    }
 
     private fun newAllCardsBottomSheetDialog(list: ArrayList<AccountDetails>?) {
         allCardsLayoutBinding = AllCardsLayoutBinding.inflate(layoutInflater)
         allCardsBottomSheetDialog = BottomSheetDialog(requireContext())
         allCardsBottomSheetDialog.setContentView(allCardsLayoutBinding.root)
 
+        val (title, description) = when (paymentAccountType) {
+            PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> getString(R.string.all_cards) to getString(
+                R.string.there_are_no_cards_saved
+            )
+
+            PaymentAccountType.BankAccount -> getString(R.string.choose_the_bank_account) to getString(
+                R.string.there_are_no_bank_accounts_saved
+            )
+
+            else -> getString(R.string.all_cards) to getString(R.string.there_are_no_cards_saved)
+        }
+
+        allCardsLayoutBinding.title.text = title
+
         if (list?.size!! > 0) {
             allCardsLayoutBinding.recyclerViewAllCards.show()
             allCardsLayoutBinding.descText.hide()
             allCardsLayoutBinding.recyclerViewAllCards.apply {
                 layoutManager = LinearLayoutManager(requireContext())
-                adapter = adapterList
+                adapter = accountDetailsAdapter
             }
         } else {
             allCardsLayoutBinding.recyclerViewAllCards.hide()
+            allCardsLayoutBinding.descText.text = description
             allCardsLayoutBinding.descText.show()
         }
 
         allCardsLayoutBinding.apply {
-            buttonAddNew.setOnClickListener { addCardBottomSheetDialog() }
+            buttonAddNew.setOnClickListener {
+                when (paymentAccountType) {
+                    PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                        addCardBottomSheetDialog()
+                    }
+
+                    PaymentAccountType.BankAccount -> {
+                        showBottomSheetDialog()
+                    }
+                }
+            }
 
             buttonDone.setOnClickListener {
                 val cvv = accountDetails?.cvv
@@ -489,18 +501,18 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                         context = requireContext()
                     )
                     return@setOnClickListener
-                } else if (cvv.toString().length !in 3..4) {
-                    HelpFunctions.ShowLongToast(
-                        getString(R.string.please_enter_cvv),
-                        context = requireContext()
-                    )
-                    return@setOnClickListener
                 }
-
-                allCardsBottomSheetDialog.dismiss()
 
                 when (paymentAccountType) {
                     PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                        if (cvv.toString().length !in 3..4) {
+                            HelpFunctions.ShowLongToast(
+                                getString(R.string.please_enter_cvv),
+                                context = requireContext()
+                            )
+                            return@setOnClickListener
+                        }
+
                         _binding.chooseCard.hide()
                         _binding.selectedCard.linearLayoutSelectedPaymentOptions.visibility =
                             View.VISIBLE
@@ -518,13 +530,17 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                             View.VISIBLE
 
                         _binding.selectedBankAccount.apply {
-                            textCardHoldersName.text = accountDetails!!.bankHolderName
-                            textCardNumber.text =
+                            textAccountNumber.text =
                                 accountDetails!!.accountNumber.formatAsCardNumber()
-                            textExpiryDate.text = accountDetails!!.expiaryDate
+                            textBankName.text = accountDetails!!.bankName
+                            textBankHolders.text = accountDetails!!.bankHolderName
+                            textIban.text = accountDetails!!.ibanNumber
+                            textSwiftCode.text = accountDetails!!.swiftCode
                         }
                     }
                 }
+
+                allCardsBottomSheetDialog.dismiss()
             }
         }
 
@@ -624,6 +640,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         addCardBottomSheetDialog.show()
     }
 
+    // TODO 01: handel this function (check bank & card)
     private fun checkAddCard(
         bottomSheetDialog: BottomSheetDialog,
         binding: AddCardBinding,
@@ -729,14 +746,15 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                             View.VISIBLE
 
                         _binding.selectedBankAccount.apply {
-                            textCardHoldersName.text = accountDetails!!.bankHolderName
-                            textCardNumber.text =
+                            textAccountNumber.text =
                                 accountDetails!!.accountNumber.formatAsCardNumber()
-                            textExpiryDate.text = accountDetails!!.expiaryDate
+                            textBankName.text = accountDetails!!.bankName
+                            textBankHolders.text = accountDetails!!.bankHolderName
+                            textIban.text = accountDetails!!.ibanNumber
+                            textSwiftCode.text = accountDetails!!.swiftCode
                         }
                     }
                 }
-
             }
 
             bottomSheetDialog.dismiss()
@@ -744,85 +762,143 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         }
     }
 
-    private fun setupAdapter() {
-        adapterList = object : GenericListAdapter<AccountDetails>(
-            R.layout.item_card,
-            bind = { element, holder, itemCount, position ->
-                val itemBinding = ItemCardBinding.bind(holder.itemView)
-
-                holder.view.run {
-                    element.run {
-                        itemBinding.textCardHoldersName.text = bankHolderName
-                        itemBinding.textCardNumber.text = accountNumber.formatAsCardNumber()
-                        itemBinding.textExpiryDate.text = expiaryDate
-                        itemBinding.radioButtonCard.isSelected = isSelected
-                        itemBinding.radioButtonCard.isChecked = isSelected
-
-                        itemBinding.editTextCvv.setText(
-                            if (cvv != 0) cvv.toString() else ""
-                        )
-
-                        // Enable/disable based on selection
-                        itemBinding.editTextCvv.isEnabled = element.isSelected
-                        itemBinding.editTextCvv.isFocusable = element.isSelected
-                        itemBinding.editTextCvv.isFocusableInTouchMode = element.isSelected
-                    }
-
-                    itemBinding.editTextCvv.addTextChangedListener(object : TextWatcher {
-                        override fun afterTextChanged(s: Editable?) {
-                            val newCvv = s?.toString()?.toIntOrNull()
-                            if (newCvv != null && newCvv.toString().length <= 3) {
-                                element.cvv = newCvv
-                            }
-                        }
-
-                        override fun beforeTextChanged(
-                            s: CharSequence?,
-                            start: Int,
-                            count: Int,
-                            after: Int
-                        ) {
-                        }
-
-                        override fun onTextChanged(
-                            s: CharSequence?,
-                            start: Int,
-                            before: Int,
-                            count: Int
-                        ) {
-                        }
-                    })
-
-                    itemBinding.radioButtonCard.setOnClickListener {
-                        val enteredCvv = itemBinding.editTextCvv.text.toString().toIntOrNull()
-                        if (enteredCvv != null) {
-                            element.cvv = enteredCvv
-                        }
-
-                        val previousSelectedPosition =
-                            selectedAccountDetails.indexOfFirst { it.isSelected }
-                        selectedAccountDetails.forEach { it.isSelected = false }
-                        element.isSelected = true
-                        accountDetails = element
-
-                        if (previousSelectedPosition != -1) {
-                            adapterList.notifyItemChanged(previousSelectedPosition)
-                        }
-                        adapterList.notifyItemChanged(position)
-                    }
-                }
-            }
-        ) {
-            override fun getFilter(): Filter {
-                TODO("Not yet implemented")
-            }
-        }
-    }
-
     @SuppressLint("ResourceType")
     private fun addAllCardsAdaptor(list: ArrayList<AccountDetails>) {
         selectedAccountDetails = list
-        adapterList.updateAdapter(list)
+        accountDetailsAdapter.updateAdapter(list)
+    }
+
+    private lateinit var filePickerLauncher: ActivityResultLauncher<Array<String>>
+    private var ibanCertificateUri: Uri? = null
+    private lateinit var bottomSheetPaymentMethodBinding: BottomSheetPaymentMethodBinding
+
+    private fun showBottomSheetDialog() {
+        val binding = BottomSheetPaymentMethodBinding.inflate(layoutInflater)
+        bottomSheetPaymentMethodBinding = binding
+        bottomSheetDialog = BottomSheetDialog(requireContext()).apply {
+            setContentView(binding.root)
+            window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+
+        val layoutCardDetails = binding.root.findViewById<LinearLayout>(R.id.layout_card_details)
+        val layoutBankTransfer = binding.root.findViewById<LinearLayout>(R.id.layout_bank_transfer)
+
+        // init data set
+        binding.textTitle.text = getString(R.string.add_new_bank_account)
+        binding.radioGroup.visibility = View.GONE
+        layoutCardDetails.visibility = View.GONE
+        layoutBankTransfer.visibility = View.VISIBLE
+        paymentAccountType = PaymentAccountType.BankAccount
+
+        binding.buttonUpload.setOnClickListener {
+            // Handle upload button click
+            filePickerLauncher.launch(arrayOf("application/pdf", "image/*"))
+        }
+
+        binding.addAccountBtn.text = getString(R.string.Add)
+
+        binding.addAccountBtn.setOnClickListener {
+            checkDataToAddBackAccount(
+                bottomSheetDialog = bottomSheetDialog!!,
+                binding = binding,
+                paymentAccountType = paymentAccountType,
+            )
+        }
+
+        bottomSheetDialog!!.show()
+    }
+
+    private fun checkDataToAddBackAccount(
+        bottomSheetDialog: BottomSheetDialog,
+        binding: BottomSheetPaymentMethodBinding,
+        paymentAccountType: PaymentAccountType = PaymentAccountType.BankAccount
+    ) {
+        var readyToAdd = true
+
+        // Visa & Mada Fields
+        val cardHolderName = binding.editTextCardHolderName.text.toString().trim()
+        val cardNumber = binding.editTextCardNumber.text.toString().trim()
+        val expiryDate = binding.editTextExpiryDate.text.toString().trim()
+
+        // Bank Transfer Fields
+        val bankName = binding.editTextBankName.text.toString().trim()
+        val bankAccountNumber = binding.editTextBankAccountNumber.text.toString().trim()
+        val bankHoldersName = binding.editTextBankHolderSName.text.toString().trim()
+        val iban = binding.editTextIban.text.toString().trim()
+        val swiftCode = binding.editTextSwiftCode.text.toString().trim()
+
+        val accountNumber = cardNumber.ifEmpty { bankAccountNumber }
+        val bankHolderName = cardHolderName.ifEmpty { bankHoldersName }
+
+        when (paymentAccountType) {
+            PaymentAccountType.BankAccount -> {
+                if (bankName.isEmpty()) {
+                    readyToAdd = false
+                    binding.editTextBankName.error =
+                        "${getString(R.string.enter)} ${getString(R.string.bank_name)}"
+                }
+                if (bankAccountNumber.isEmpty()) {
+                    readyToAdd = false
+                    binding.editTextBankAccountNumber.error =
+                        "${getString(R.string.enter)} ${getString(R.string.bank_account_number)}"
+                }
+                if (bankHoldersName.isEmpty()) {
+                    readyToAdd = false
+                    binding.editTextBankHolderSName.error =
+                        "${getString(R.string.enter)} ${getString(R.string.bank_holder_s_name)}"
+                }
+                if (iban.isEmpty()) {
+                    readyToAdd = false
+                    binding.editTextIban.error =
+                        "${getString(R.string.enter)} ${getString(R.string.iban)}"
+                }
+                if (ibanCertificateUri == null) {
+                    readyToAdd = false
+                    binding.textFileName.error =
+                        "${getString(R.string.enter)} ${getString(R.string.iban_certificate)}"
+                }
+            }
+        }
+
+        if (readyToAdd) {
+            ibanCertificateUri?.let { uri ->
+                val fileName = getFileNameFromUri(requireContext(), uri)
+
+                // OPTIONAL: Copy content to temp file if API needs a java.io.File
+                val inputStream = requireContext().contentResolver.openInputStream(uri)
+                val tempFile = File(requireContext().cacheDir, fileName)
+                inputStream?.use { input ->
+                    tempFile.outputStream().use { output ->
+                        input.copyTo(output)
+                    }
+                }
+
+                paymentMethodViewModel.addBankAccountData(
+                    accountNumber = accountNumber,
+                    bankName = bankName,
+                    bankHolderName = bankHolderName,
+                    ibanNumber = iban,
+                    swiftCode = swiftCode,
+                    expiryDate = expiryDate,
+                    ibanCertificate = fileName,
+                    ibanCertificateFile = tempFile, // This is a real java.io.File
+                    saveForLaterUse = binding.switchSaveLater.isChecked,
+                    paymentAccountType = PaymentAccountType.BankAccount.value.toString()
+                )
+            }
+
+            bottomSheetDialog.dismiss()
+        }
+    }
+
+    private fun getFileNameFromUri(context: Context, uri: Uri): String {
+        var name = ""
+        context.contentResolver.query(uri, null, null, null, null)?.use { cursor ->
+            val nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+            cursor.moveToFirst()
+            name = cursor.getString(nameIndex)
+        }
+        return name
     }
 
     override fun onRefresh() {
