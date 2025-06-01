@@ -66,7 +66,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
     private lateinit var paymentMethodViewModel: PaymentMethodViewModel
     private var transactionType: String = ConstantObjects.transactionType_Out
 
-    private lateinit var paymentAccountType: PaymentAccountType
+    private var paymentAccountType: PaymentAccountType? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -131,6 +131,19 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         accountViewModel.addWalletTransactionObserver.observe(viewLifecycleOwner) { addWalletTransaction ->
             if (addWalletTransaction.status_code == 200) {
                 binding.etAmount.text = null
+                accountDetails = null
+                when (paymentAccountType) {
+                    PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                        _binding.chooseCard.show()
+                    }
+
+                    PaymentAccountType.BankAccount -> {
+                        _binding.chooseAccount.show()
+                    }
+                }
+                paymentAccountType = null
+                binding.selectedCard.linearLayoutSelectedPaymentOptions.hide()
+                binding.selectedBankAccount.linearLayoutSelectedPaymentOptions.hide()
                 onRefresh()
             } else {
                 HelpFunctions.ShowLongToast(
@@ -249,7 +262,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                 }
 
                 allCardsBottomSheetDialog.dismiss()
-                addProductViewModel.getBankAccountsList(paymentAccountType.value)
+                addProductViewModel.getBankAccountsList(paymentAccountType?.value)
             }
         }
     }
@@ -364,7 +377,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                         Toast.LENGTH_LONG
                     ).show()
                 } else {
-                    if (::paymentAccountType.isInitialized || accountDetails != null) {
+                    if (paymentAccountType != null || accountDetails != null) {
                         when (paymentAccountType) {
                             PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
                                 accountViewModel.addWalletTransaction(
@@ -710,7 +723,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
                     bankHolderName = holderName,
                     expiryDate = expiryText,
                     saveForLaterUse = binding.switchSaveLater.isChecked,
-                    paymentAccountType = paymentAccountType.value.toString()
+                    paymentAccountType = paymentAccountType?.value.toString()
                 )
             }
 
@@ -801,7 +814,7 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
             checkDataToAddBackAccount(
                 bottomSheetDialog = bottomSheetDialog!!,
                 binding = binding,
-                paymentAccountType = paymentAccountType,
+                paymentAccountType = paymentAccountType!!,
             )
         }
 
