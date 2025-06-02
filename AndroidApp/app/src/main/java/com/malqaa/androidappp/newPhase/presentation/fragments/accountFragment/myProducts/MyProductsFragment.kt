@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -56,6 +57,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
     lateinit var soldOutOrdersList: ArrayList<OrderItem>
     lateinit var myOrdersAdapter: MyOrdersAdapter
     lateinit var soldoUtLayOutManager: GridLayoutManager
+    var sellingMethod = ""
+    var orderStatus = ""
 
     //  tap id 1 ,2,3
     private var tapId: Int = 1
@@ -83,8 +86,10 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         setAdapterForNotSaleAdapter()
         setAdapterForArchivedAdapter()
         binding.soldOutRcv.hide()
+        binding.soldSortByContainer.hide()
         binding.didNotSaleRcv.hide()
         binding.archivedRcv.hide()
+        binding.sortByContainer.show()
         binding.forSaleRecycler.show()
     }
 
@@ -124,7 +129,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             object : EndlessRecyclerViewScrollListener(soldoUtLayOutManager) {
                 override fun onLoadMore(page: Int, totalItemsCount: Int, view: RecyclerView) {
                     if (tapId == 2) {
-                        myProductsViewModel.getSoldOutOrders(page)
+                        myProductsViewModel.getSoldOutOrders(pageIndex = page, orderStatus = orderStatus)
                     }
                 }
             }
@@ -168,11 +173,92 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
         binding.toolbar.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
+        binding.sortByContainer.setOnClickListener {
+            val popupMenu = PopupMenu(requireActivity(), binding.sortByContainer)
+            popupMenu.menuInflater.inflate(R.menu.sort_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.sort_by_all -> {
+                        sellingMethod = ""
+                        onRefresh()
+                        true
+                    }
+                    R.id.sort_by_fixed -> {
+                        sellingMethod = "1"
+                        onRefresh()
+                        true
+                    }
+                    R.id.sort_by_auction -> {
+                        sellingMethod = "2"
+                        onRefresh()
+                        true
+                    }
+                    R.id.sort_by_negotiable -> {
+                        sellingMethod = "3"
+                        onRefresh()
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+        }
+        binding.soldSortByContainer.setOnClickListener {
+            val popupMenu = PopupMenu(requireActivity(), binding.soldSortByContainer)
+            popupMenu.menuInflater.inflate(R.menu.sold_menu, popupMenu.menu)
+
+            popupMenu.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.all -> {
+                        orderStatus = ""
+                        onRefresh()
+                        true
+                    }
+                    R.id.waiting_for_payment -> {
+                        orderStatus = "1"
+                        onRefresh()
+                        true
+                    }
+                    R.id.waiting_for_review -> {
+                        orderStatus = "2"
+                        onRefresh()
+                        true
+                    }
+                    R.id.ready_for_delivery -> {
+                        orderStatus = "4"
+                        onRefresh()
+                        true
+                    }
+                    R.id.delivery_in_progress -> {
+                        orderStatus = "5"
+                        onRefresh()
+                        true
+                    }
+                    R.id.delivered -> {
+                        orderStatus = "6"
+                        onRefresh()
+                        true
+                    }
+                    R.id.canceled -> {
+                        orderStatus = "7"
+                        onRefresh()
+                        true
+                    }
+                    else -> false
+                }
+            }
+
+            popupMenu.show()
+        }
         binding.forSale.setOnClickListener {
             tapId = 1
             binding.soldOutRcv.hide()
             binding.didNotSaleRcv.hide()
             binding.forSaleRecycler.show()
+            binding.sortByContainer.show()
+            binding.soldSortByContainer.hide()
             binding.archivedRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.round_btn)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
@@ -190,6 +276,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.forSaleRecycler.hide()
             binding.didNotSaleRcv.hide()
             binding.archivedRcv.hide()
+            binding.sortByContainer.hide()
+            binding.soldSortByContainer.show()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.round_btn)
@@ -205,6 +293,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.soldOutRcv.hide()
             binding.didNotSaleRcv.show()
             binding.forSaleRecycler.hide()
+            binding.sortByContainer.hide()
+            binding.soldSortByContainer.hide()
             binding.archivedRcv.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
@@ -227,6 +317,8 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             binding.didNotSaleRcv.hide()
             binding.forSaleRecycler.hide()
             binding.archivedRcv.show()
+            binding.sortByContainer.hide()
+            binding.soldSortByContainer.hide()
             binding.forSale.setBackgroundResource(R.drawable.edittext_bg)
             binding.forSale.setTextColor(ContextCompat.getColor(requireActivity(), R.color.gray))
             binding.soldOut.setBackgroundResource(R.drawable.edittext_bg)
@@ -408,7 +500,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
                 requireActivity()
             )
             if (tapId == 1)
-                myProductsViewModel.getForSaleProduct()
+                myProductsViewModel.getForSaleProduct(sellingMethod = sellingMethod)
             else {
                 myProductsViewModel.getForDidNotSaleProducts()
             }
@@ -432,13 +524,13 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
             1 -> {
                 productList.clear()
                 myProductForSaleListAdapter.notifyDataSetChanged()
-                myProductsViewModel.getForSaleProduct()
+                myProductsViewModel.getForSaleProduct(sellingMethod = sellingMethod)
             }
 
             2 -> {
                 soldOutOrdersList.clear()
                 myOrdersAdapter.notifyDataSetChanged()
-                myProductsViewModel.getSoldOutOrders(1)
+                myProductsViewModel.getSoldOutOrders(pageIndex = 1, orderStatus = orderStatus)
             }
 
             3 -> {

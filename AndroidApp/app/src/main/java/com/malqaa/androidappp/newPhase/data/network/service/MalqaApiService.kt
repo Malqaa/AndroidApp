@@ -463,7 +463,8 @@ interface MalqaApiService {
 
     @GET("ListProductByBusinessAccountId")
     fun getMyProduct(
-        @Query("lang") language: String = ConstantObjects.currentLanguage
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
+        @Query("SellingMethod") sellingMethod: String
     ): Call<ProductListResp>
 
     @GET("ListDidntSellProducts")
@@ -565,7 +566,8 @@ interface MalqaApiService {
     @GET("GetBusinessAccountOrders?PageRowsCount=10")
     fun getBusinessAccountOrders(
         @Query("pageIndex") page: Int,
-        @Query("lang") language: String = ConstantObjects.currentLanguage
+        @Query("lang") language: String = ConstantObjects.currentLanguage,
+        @Query("orderStatus") orderStatus: String
     ): Call<OrderListResp>
 
     @GET("GetClientAddedOrders?PageRowsCount=10&OrderStatus!=6")

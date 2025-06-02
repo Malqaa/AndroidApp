@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/all"
+        android:title="@string/all" />
+    <item
+        android:id="@+id/waiting_for_payment"
+        android:title="@string/WaitingForPayment" />
+    <item
+        android:id="@+id/waiting_for_review"
+        android:title="@string/WaitingForReview" />
+    <item
+        android:id="@+id/ready_for_delivery"
+        android:title="@string/ReadyForDelivery" />
+    <item
+        android:id="@+id/delivery_in_progress"
+        android:title="@string/DeliveryInProgress" />
+    <item
+        android:id="@+id/delivered"
+        android:title="@string/Delivered" />
+    <item
+        android:id="@+id/canceled"
+        android:title="@string/cancel" />
+</menu>

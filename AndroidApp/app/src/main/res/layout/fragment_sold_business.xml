@@ -90,6 +90,71 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/_5sdp">
 
+            <LinearLayout
+                android:id="@+id/sortBy_container"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="@drawable/sort_button_background"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:visibility="gone"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/basil_sort_outline" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sort_by"
+                    android:textColor="#45495E"
+                    android:layout_marginHorizontal="8dp"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/vector"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/soldSortBy_container"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:background="@drawable/sort_button_background"
+                android:orientation="horizontal"
+                android:paddingHorizontal="12dp"
+                android:layout_marginStart="16dp"
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/basil_sort_outline" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/sort_by"
+                    android:textColor="#45495E"
+                    android:layout_marginHorizontal="8dp"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/vector"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/for_sale_recycler"
@@ -101,7 +166,8 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
-                tools:listitem="@layout/product_item" />
+                tools:listitem="@layout/product_item"
+                android:layout_below="@id/sortBy_container"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/did_not_sale_rcv"
@@ -125,7 +191,8 @@
                 android:layout_marginRight="@dimen/_5sdp"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
-                tools:listitem="@layout/item_user_order" />
+                tools:listitem="@layout/item_user_order"
+                android:layout_below="@id/soldSortBy_container"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/archived_rcv"

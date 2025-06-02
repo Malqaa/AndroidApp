@@ -1211,8 +1211,8 @@
     <string name="package_fixed">خيار سعر البيع الثابت</string>
     <string name="package_negotiable">خيار السعر قابل للتفاوض</string>
     <string name="package_auction">خيار المزاد العلني</string>
-    <string name="pending_balance">Pending Balance</string>
-    <string name="archived">Archived</string>
+    <string name="pending_balance">الرصيد المعلق</string>
+    <string name="archived">المؤرشف</string>
 
     <string name="bank_holder_s_name">اسم حامل البنك</string>
     <string name="application_setting">إعدادات التطبيق</string>
@@ -1225,4 +1225,5 @@
     <string name="edit_bank_account">تعديل الحساب المصرفي</string>
     <string name="upload">رفع</string>
     <string name="invalid_file_path">مسار ملف غير صالح</string>
+    <string name="sort_by">ترتيب حسب</string>
 </resources>

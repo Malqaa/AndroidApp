@@ -1436,4 +1436,5 @@
   <string name="edit_bank_account">Edit Bank Account</string>
   <string name="upload">Upload</string>
   <string name="invalid_file_path">Invalid file path</string>
+    <string name="sort_by">Sort By</string>
 </resources>

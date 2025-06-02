@@ -61,9 +61,11 @@ class MyProductViewModel : BaseViewModel() {
             callExpireHours?.cancel()
         }
     }
-    fun getForSaleProduct() {
+    fun getForSaleProduct(sellingMethod: String) {
         isLoading.value = true
-        callForSaleProduct = getRetrofitBuilder().getMyProduct()
+        callForSaleProduct = getRetrofitBuilder().getMyProduct(
+            sellingMethod = sellingMethod
+        )
         callApi(callForSaleProduct!!,
             onSuccess = {
                 isLoading.value = false
@@ -134,13 +136,13 @@ class MyProductViewModel : BaseViewModel() {
 
     }
 
-    fun getSoldOutOrders(pageIndex: Int) {
+    fun getSoldOutOrders(pageIndex: Int,orderStatus:String) {
         if (pageIndex == 1)
             isLoading.value = true
         else
             isloadingMore.value = true
 
-        callSoldOutOrders = getRetrofitBuilder().getBusinessAccountOrders(pageIndex)
+        callSoldOutOrders = getRetrofitBuilder().getBusinessAccountOrders(page = pageIndex, orderStatus = orderStatus)
         callApi(callSoldOutOrders!!,
             onSuccess = {
                 isLoading.value = false
