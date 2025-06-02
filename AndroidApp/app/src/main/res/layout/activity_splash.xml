@@ -2,53 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainContainer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".newPhase.presentation.activities.splashActivity.SplashActivity">
-
-    <pl.droidsonroids.gif.GifImageView
-        android:id="@+id/gifImageView"
-        android:scaleType="fitXY"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/intro2" />
+    android:background="@color/bg"
+    tools:context=".activities_main.SplashActivity">
 
     <ImageView
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="@dimen/_300sdp"
+        android:layout_height="@dimen/_100sdp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="180dp"
-        android:src="@drawable/splash_logo" />
-
-    <RelativeLayout
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layoutDirection="ltr"
-        android:layout_alignParentBottom="true">
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:src="@drawable/splash_icon_1" />
-        <ImageView
-            android:layout_width="180dp"
-            android:layout_height="180dp"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/spalsh_icon_22" />
-    </RelativeLayout>
+        android:src="@drawable/splash_3" />
 
 
-    <!--    <VideoView-->
-    <!--        android:id="@+id/splash_view"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_minus30sdp"
+        android:src="@drawable/splash_1" />
+
+    <ImageView
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_minus30sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/splash_2" />
 </RelativeLayout>

@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/SilverBackground"
-
-    tools:context=".fragments.shoppingcart5_location.ShopcartLocationInfo">
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.shoppingcart5_location.ShopcartLocationInfo">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_cart_locationinfo"
@@ -50,23 +50,25 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
                     android:layout_marginTop="25dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginEnd="4dp"
-                    android:layout_toStartOf="@+id/img_map"
+                    android:textSize="15sp"
                     android:maxLines="3"
                     android:text="Outside Zoom store, EPPCO station, Sheikh Zayed Road, after Dnata, Business Bay Dubai"
-                    android:textSize="15sp" />
+                    android:layout_toStartOf="@+id/img_map"
+                    />
 
                 <ImageView
                     android:id="@+id/img_map"
                     android:layout_width="90dp"
                     android:layout_height="90dp"
-                    android:layout_alignParentEnd="true"
                     android:layout_marginTop="13dp"
-                    android:layout_marginEnd="8dp"
                     android:layout_marginBottom="13dp"
-                    android:src="@drawable/map_img" />
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="8dp"
+                    android:src="@drawable/map_img"
+                    />
 
             </RelativeLayout>
 
@@ -229,8 +231,7 @@
         android:layout_height="64dp"
         android:textAllCaps="false"
         android:textColor="#ffffff"
-          android:layout_margin="@dimen/_15sdp"
-        android:background="@drawable/round_btn"
+        android:backgroundTint="@color/GoldenApp"
         android:text="SAVE ADDRESS"
         android:layout_alignParentBottom="true" />
 

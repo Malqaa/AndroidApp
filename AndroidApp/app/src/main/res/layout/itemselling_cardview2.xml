@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_marginBottom="6dp"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ImageView
+            android:id="@+id/myimagee_featuredgeneral"
+            android:layout_width="385dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="15dp"
+            android:src="@drawable/camera_nitiii"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/titlenamee_featuredgeneral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:text="Product Name"
+            android:textColor="#808080"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myimagee_featuredgeneral" />
+
+        <TextView
+            android:id="@+id/descrip_featuredgeneral"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="fill"
+            android:layout_marginTop="8dp"
+            android:text="Description Description Description Description Description Description Description Description Description "
+            app:layout_constraintTop_toBottomOf="@+id/titlenamee_featuredgeneral"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/pricee_featuredgeneral"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:text="$1,000"
+            android:textColor="@color/Black"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descrip_featuredgeneral" />
+
+        <TextView
+            android:id="@+id/sellxlbuynow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:text="Buy Now"
+            android:textColor="@color/GreenApp"
+            android:textSize="24sp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descrip_featuredgeneral" />
+
+        <TextView
+            android:id="@+id/sellxldate"
+            android:layout_width="96dp"
+            android:layout_height="27dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/itemselling_btnraduis"
+            android:gravity="center"
+            android:text="Closed: 26 Nov"
+            android:textColor="#FF0000"
+            android:textSize="12sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/myimagee_featuredgeneral" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/white">
+
+<ImageView
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="20dp"
+    android:id="@+id/ques_icon"
+    android:layout_width="wrap_content"
+    android:layout_height="24dp"
+    android:src="@drawable/questionn"
+    android:tint="@color/GoldenApp"/>
+
+ <TextView
+     android:id="@+id/ques_text"
+     android:layout_toEndOf="@+id/ques_icon"
+     android:layout_marginStart="15dp"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:layout_alignBottom="@+id/ques_icon"
+     android:text="There is dual sim available?"/>
+
+ <TextView
+     android:id="@+id/buyer_name"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="16dp"
+     android:layout_marginTop="4dp"
+     android:layout_toEndOf="@+id/ques_icon"
+     android:layout_below="@+id/ques_text"
+     android:textSize="10dp"
+     android:text="Buyer name"
+     />
+
+
+ <ImageView
+     android:id="@+id/ans_icon"
+     android:layout_marginStart="20dp"
+     android:layout_marginTop="15dp"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_below="@+id/buyer_name"
+     android:src="@drawable/answerr"
+     android:tint="@color/GreenApp"/>
+
+
+ <TextView
+     android:id="@+id/ans_text"
+     android:layout_toEndOf="@+id/ans_icon"
+     android:layout_marginStart="23dp"
+     android:layout_marginTop="15dp"
+     android:layout_below="@+id/buyer_name"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:textColor="@color/black"
+     android:text="no dual sim "/>
+
+ <TextView
+     android:id="@+id/seller_name"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_marginStart="16dp"
+     android:layout_marginTop="4dp"
+     android:layout_toEndOf="@+id/ques_icon"
+     android:layout_below="@+id/ans_text"
+     android:textSize="10dp"
+     android:text="Seller name"
+     />
+
+<androidx.recyclerview.widget.RecyclerView
+    android:id="@+id/commentRecycler"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:listitem="card"
+    android:layout_below="@+id/seller_name"
+    />
+
+ <Button
+     android:id="@+id/buttonans"
+     android:layout_width="wrap_content"
+     android:layout_height="36dp"
+     android:backgroundTint="@color/white"
+     android:text="ANSWER"
+     android:textColor="@color/GreenApp"
+     android:textSize="10sp"
+     android:layout_toStartOf="@+id/buttoncomment"
+     android:layout_marginEnd="20dp"
+     android:layout_below="@+id/commentRecycler"
+      />
+
+
+ <Button
+     android:id="@+id/buttoncomment"
+     android:layout_width="wrap_content"
+     android:layout_height="36dp"
+     android:backgroundTint="@color/white"
+     android:text="COMMENT"
+     android:textColor="@color/GreenApp"
+     android:textSize="10sp"
+     android:layout_alignParentEnd="true"
+     android:layout_marginEnd="10dp"
+     android:layout_below="@+id/commentRecycler"
+     />
+
+
+ <View
+     android:layout_marginTop="10dp"
+     android:layout_width="match_parent"
+     android:layout_height="1dp"
+     android:background="@color/graishhh"
+     android:layout_below="@+id/buttoncomment"
+     />
+</RelativeLayout>

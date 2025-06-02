@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:id="@+id/contentFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_wreckedcar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#339933"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/PopupOverlay"
+        android:layout_alignParentTop="true">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_below="@+id/toolbar_wreckedcar"
+        android:layout_above="@+id/btnwreckedcar"
+        >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:background="@color/white"
+            >
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/year_wreckedcar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Year"
+                    android:id="@+id/year1_wreckedcar"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/model_wreckedcar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/year_wreckedcar"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/model_wreckedcar1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Model" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/make_wreckedcar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/model_wreckedcar"
+                >
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/make1_wreckedcar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Make" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnwreckedcar"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp"
+        android:background="@color/GoldenApp"
+        android:text="Next"
+        android:layout_alignParentBottom="true" />
+</RelativeLayout>

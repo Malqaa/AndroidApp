@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainlayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/SilverBackground"
+    tools:context="botmnav_fragments.AddPhotoFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_addphoto"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentTop="true"
+        android:background="#339933"
+        app:popupTheme="@style/PopupOverlay">
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/butt555"
+        android:layout_below="@+id/toolbar_addphoto">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="60dp"
+                android:backgroundTint="@color/white"
+                android:clickable="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txview"
+                app:srcCompat="@drawable/add_a_photo" />
+
+            <TextView
+                android:id="@+id/selectedImages"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="25dp"
+                android:visibility="gone"
+                android:text="@string/SelectedImages"
+                android:textColor="@color/greenApp"
+                app:layout_constraintBottom_toTopOf="@+id/imageView3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <ImageSwitcher
+                android:id="@+id/imageView3"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="80dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageInitial"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="80dp"
+                app:srcCompat="@drawable/photo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/forwardSelectedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="175dp"
+                android:src="@drawable/ic_baseline_arrow_forward_ios_24"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imageView3"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/backSelectedImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="175dp"
+                android:src="@drawable/ic_baseline_arrow_back_ios_new_24"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@id/imageView3"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/txview"
+                android:layout_width="245dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/currentimageabannerimage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3" />
+
+            <TextView
+                android:id="@+id/txv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/outofphotos"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/floatingActionButton" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/addphoto_inputlay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="40dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txv2">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/addvideo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/Addavideolink" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/butt555"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/GoldenApp"
+        android:text="@string/NEXT"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="22sp" />
+
+</RelativeLayout>

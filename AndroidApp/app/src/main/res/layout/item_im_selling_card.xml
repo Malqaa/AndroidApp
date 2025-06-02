@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        >
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/imgcard"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="7dp"
+            >
+            <ImageView
+                android:id="@+id/item_imselling_imgg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cam"
+                />
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/item_imselling_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="10dp"
+            android:text="@string/Riyadh"
+            android:textSize="11sp"
+            android:layout_toEndOf="@+id/imgcard"
+            />
+
+        <TextView
+            android:id="@+id/item_imselling_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLines="2"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="10dp"
+            android:text="Official Marvel Comics T-Shirt Classic Boxed Logo. Official Marvel Comics T-Shirt Classic Boxed Logo."
+            android:textSize="9sp"
+            android:textColor="#212121"
+            android:layout_marginEnd="15dp"
+            android:layout_below="@+id/item_imselling_title"
+            android:layout_toEndOf="@+id/imgcard"
+            android:layout_alignParentEnd="true"
+            />
+
+        <TextView
+            android:id="@+id/item_imselling_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/ReservePrice"
+            android:textSize="9dp"
+            android:layout_below="@id/item_imselling_desc"
+            android:layout_toEndOf="@+id/imgcard"
+            />
+
+        <TextView
+            android:id="@+id/item_imselling_reserveprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:layout_marginStart="10dp"
+            android:textColor="@color/greenApp"
+            android:textSize="13dp"
+            android:layout_marginBottom="8dp"
+            android:layout_below="@id/item_imselling_review"
+            android:layout_toEndOf="@+id/imgcard"
+            android:layout_alignParentBottom="true"
+            />
+
+
+        <TextView
+            android:id="@+id/buynowww"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/BuyNow"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/item_imselling_desc"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="12dp"
+            android:textSize="9dp" />
+
+        <TextView
+            android:id="@+id/item_imselling_buynowprice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$800"
+            android:textColor="@color/greenApp"
+            android:textSize="13dp"
+            android:layout_below="@id/buynowww"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="8dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/SilverBackground"
+            android:layout_alignParentBottom="true"/>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

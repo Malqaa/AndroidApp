@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_123"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".botmnav_fragments.create_ads.ChooseCateFragment">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/choose_nested"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="55dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/SilverBackground">
+
+
+            <TextView
+                android:id="@+id/textView37"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Suggested Categories"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_suggested_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textView38"
+                app:layout_constraintTop_toBottomOf="@+id/textView37" />
+
+
+            <TextView
+                android:id="@+id/textView38"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="All Categories"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recycler_suggested_category" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_all_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView38" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+    <FrameLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_choosecat"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:layout_alignParentTop="true"
+            android:background="#339933"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/PopupOverlay">
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <com.arlib.floatingsearchview.FloatingSearchView
+            android:id="@+id/choose_float"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            app:floatingSearch_searchHint="Search for a category..." />
+
+    </FrameLayout>
+
+</RelativeLayout>

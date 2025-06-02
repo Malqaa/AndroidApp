@@ -1,4 +1,4 @@
-<!--<?xml version="1.0" encoding="utf-8"?>-->
+<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -7,51 +7,107 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.homeScreen.HomeFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.home.view.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_homee">
+
         <action
-            android:id="@+id/action_navigation_home_to_categoriesFragment"
-            app:destination="@id/categoriesFragment" />
+            android:id="@+id/home_carspec"
+            app:destination="@+id/carspicification" />
+
         <action
-            android:id="@+id/logout_to_home"
-            app:destination="@id/navigation_home" />
+            android:id="@+id/home_browsemarket"
+            app:destination="@+id/browsemarket_frag" />
+
+        <action
+            android:id="@+id/home_viewallcategories"
+            app:destination="@+id/viewall_categories_frag" />
+
+        <action
+            android:id="@+id/home_seeall_generalfeaturedads"
+            app:destination="@+id/seelall_generalfeaturedads_frag" />
+
     </fragment>
 
 
     <fragment
         android:id="@+id/navigation_watchlist"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.watchlistFragment.WatchlistFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.watchlist_fragment.WatchlistFragment"
         android:label="@string/title_watchlist"
         tools:layout="@layout/fragment_watchlist" />
 
+    <fragment
+        android:id="@+id/fragment_dynamic_template"
+        android:name="com.malka.androidappp.botmnav_fragments.dynamic_template.FragmentDynamicTemplate"
+        tools:layout="@layout/fragment_dynamic_template">
+
+        <action
+            android:id="@+id/fragment_dynamic_to_listing"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments.NotificationsFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.nofication_fragments.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
 
     <fragment
         android:id="@+id/navigation_account"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.AccountFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.AccountFragment"
         android:label="@string/title_account"
         tools:layout="@layout/fragment_account">
 
+        <action
+            android:id="@+id/acc_won"
+            app:destination="@+id/won_frag" />
+        <action
+            android:id="@+id/acc_lost"
+            app:destination="@+id/lost_frag" />
         <action
             android:id="@+id/accountsettingtoprofile"
             app:destination="@+id/profileFrag" />
         <action
             android:id="@+id/accountsettingtosettings"
             app:destination="@+id/settingfrag" />
-
+        <action
+            android:id="@+id/account_sold"
+            app:destination="@+id/soldfraggg" />
+        <action
+            android:id="@+id/acc_unsold"
+            app:destination="@id/unsold_frag" />
+        <action
+            android:id="@+id/acc_shopcart"
+            app:destination="@id/shopping_cart" />
         <action
             android:id="@+id/acc_watchlist"
             app:destination="@id/navigation_watchlist" />
+        <action
+            android:id="@+id/acc_fav"
+            app:destination="@+id/fav_frag" />
+        <action
+            android:id="@+id/acc_listanitem"
+            app:destination="@+id/list_an_item"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
             android:id="@+id/account_sellingopt"
             app:destination="@+id/sellingopt_frag" />
+        <action
+            android:id="@+id/account_fixedprice"
+            app:destination="@id/fixed_price_frag" />
+
+        <action
+            android:id="@+id/account_itemimselling"
+            app:destination="@+id/item_imselling_frag" />
 
         <action
             android:id="@+id/account_products"
@@ -63,99 +119,1740 @@
 
     </fragment>
 
+
     <fragment
-        android:id="@+id/myProduct"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.MyProductsFragment"
+        android:id="@+id/profileFrag"
+        android:name="com.malka.androidappp.botmnav_fragments.ProfileFrag"
+        android:label="Profile"
+        tools:layout="@layout/frag_profile">
+
+
+        <action
+            android:id="@+id/profile_editdetail"
+            app:destination="@id/editprofiledetails" />
+
+        <action
+            android:id="@+id/profile_feedback"
+            app:destination="@+id/feedback_frag" />
+
+        <action
+            android:id="@+id/profile_acc"
+            app:destination="@+id/navigation_account" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingfrag"
+        android:name="com.malka.androidappp.botmnav_fragments.setting.SettingFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_setting">
+        <action
+            android:id="@+id/setting_acc"
+            app:destination="@+id/navigation_account" />
+
+        <action
+            android:id="@+id/setting_notificsetting"
+            app:destination="@+id/notification_setting_frag" />
+
+        <action
+            android:id="@+id/setting_emailprefrences"
+            app:destination="@id/emailprefrences_setting_frag" />
+
+        <action
+            android:id="@+id/setting_privacyopt"
+            app:destination="@+id/privacy_opt_frag" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/carspicification"
+        android:name="com.malka.androidappp.botmnav_fragments.cardetail_page.CarSpecificsFragment"
+        android:label="Car Specification"
+        tools:layout="@layout/fragment_car_specifics">
+
+        <action
+            android:id="@+id/shipping_address_to_payment"
+            app:destination="@+id/payment" />
+
+        <action
+            android:id="@+id/shippingaddress_googlemap"
+            app:destination="@+id/shopcart_mapfrag" />
+
+        <action
+            android:id="@+id/carspec_quesans"
+            app:destination="@+id/quesans_frag" />
+
+        <action
+            android:id="@+id/carspec_home"
+            app:destination="@+id/navigation_home" />
+
+        <action
+            android:id="@+id/carspec_aboutseller"
+            app:destination="@+id/about_about_seller" />
+
+        <action
+            android:id="@+id/advdetails_shipingaddress"
+            app:destination="@+id/shopcart_shippingadress_frag" />
+
+        <action
+            android:id="@+id/buy_now_to_checkout"
+            app:destination="@+id/shopping_cart_checkout" />
+
+        <action
+            android:id="@+id/detail_to_give_feedback"
+            app:destination="@+id/give_feedback" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/give_feedback"
+        android:name="com.malka.androidappp.botmnav_fragments.feedback_frag.insert_feedback.GiveFeedback"
+        android:label="Give Feedback"
+        tools:layout="@layout/fragment_give_feedback">
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/editprofiledetails"
+        android:name="com.malka.androidappp.botmnav_fragments.edit_profile.EditProfileDetailsFragment"
+        android:label="Edit Profile Details"
+        tools:layout="@layout/fragment_edit_profile_details">
+        <action
+            android:id="@+id/editto_profile"
+            app:destination="@+id/profileFrag"
+            app:popUpTo="@+id/profileFrag"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/soldfraggg"
+        android:name="com.malka.androidappp.botmnav_fragments.sold_business.SoldBusiness"
         android:label="Sold"
-        tools:layout="@layout/fragment_sold" />
+        tools:layout="@layout/fragment_sold">
+
+        <action
+            android:id="@+id/sold_acc"
+            app:destination="@+id/navigation_account" />
+
+        <action
+            android:id="@+id/sold_unsold"
+            app:destination="@+id/unsold_frag" />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/mybids"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.my_bids.MyBidsFragment"
-        android:label="Edit Profile"
-        tools:layout="@layout/activity_my_bids_fragment" />
+        android:id="@+id/unsold_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.unsold_business.UnsoldBusiness"
+        android:label="Unsold "
+        tools:layout="@layout/fragment_unsold">
+
+        <action
+            android:id="@+id/unsold_acc"
+            app:destination="@+id/navigation_account" />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/paymentMethod"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.paymentMethod.PaymentMethodFragment"
-        android:label="@string/payment_method"
-        tools:layout="@layout/fragment_payment_method" />
+        android:id="@+id/shopping_cart"
+        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart1_dummy.ShopcartDummy"
+        android:label="Shopping Cart"
+        tools:layout="@layout/fragment_shopcart">
+
+        <action
+            android:id="@+id/shoppingcartdummy_shoppingcart2"
+            app:destination="@+id/shopingcart2_frag" />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/applicationSetting"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.appSettingFragment.ApplicationSettingFragment"
-        android:label="Application Setting"
-        tools:layout="@layout/activity_application_setting" />
-    <fragment
-        android:id="@+id/myRequest"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersFragment"
-        android:label="My Request"
-        tools:layout="@layout/fragment_my_orders" />
-    <fragment
-        android:id="@+id/myWallet"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myWalletFragment.MyWalletFragment"
-        android:label="@string/my_wallet"
-        tools:layout="@layout/fragment_my_wallet_fragment" />
+        android:id="@+id/fav_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.favourite_frag.MainFavouritesFrag"
+        android:label="Favoutites"
+        tools:layout="@layout/fragment_favourites">
+        <action
+            android:id="@+id/fav_acc"
+            app:destination="@+id/navigation_account" />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/followUp"
-        android:name="com.malqaa.androidappp.fragments.follow_Up.FollowUpFragment"
-        android:label="@string/follow_up"
-        tools:layout="@layout/fragment_follow_up_fragment" />
+        android:id="@+id/feedback_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.feedback_frag.FeedbackFragment"
+        android:label="Feedback"
+        tools:layout="@layout/fragment_feedback">
+        <action
+            android:id="@+id/feedback_profile"
+            app:destination="@+id/profileFrag" />
+
+    </fragment>
 
     <fragment
-        android:id="@+id/newCategory"
-        android:name="com.malqaa.androidappp.fragments.follow_Up.FavoriteCategory"
-        android:label=" Follow Up"
-        tools:layout="@layout/fragment_favorite_category" />
+        android:id="@+id/about_about_seller"
+        android:name="com.malka.androidappp.botmnav_fragments.AboutTheSeller"
+        android:label="About the seller"
+        tools:layout="@layout/fragment_about_the_seller">
+
+        <action
+            android:id="@+id/aboutseller_carspecs"
+            app:destination="@+id/carspicification" />
+
+        <action
+            android:id="@+id/seller_feedback"
+            app:destination="@+id/feedback_frag" />
+
+        <action
+            android:id="@+id/aboutseller_memberlisting"
+            app:destination="@+id/member_listing_frag" />
+    </fragment>
 
     <fragment
-        android:id="@+id/newSubCategory"
-        android:name="com.malqaa.androidappp.fragments.follow_Up.FavoriteSubCategory"
-        android:label=" Follow Up"
+        android:id="@+id/list_an_item"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListanItemFragment"
+        android:label="List An Item"
+        tools:layout="@layout/fragment_listan_item">
+
+        <action
+            android:id="@+id/lisitem_choosecate"
+            app:destination="@id/choosecat"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/subcategories"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.all_categories.SubCategories"
+        android:label="Sub Categories"
         tools:layout="@layout/fragment_sub_categories">
-        <argument
-            android:name="categoryId"
-            app:argType="integer" />
+
+        <action
+            android:id="@+id/back_to_cat"
+            app:destination="@+id/choosecat"
+            app:popUpTo="@id/choosecat"
+            app:popUpToInclusive="true" />
+
+
+        <action
+            android:id="@+id/sub_cat_to_add_photo"
+            app:destination="@id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/choosecat"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ChooseCateFragment"
+        android:label="Choose A Category"
+        tools:layout="@layout/fragment_choose_cate">
+
+        <action
+            android:id="@+id/all_cat_to_add_photo"
+            app:destination="@id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/all_cat_to_sub_cat"
+            app:destination="@id/subcategories"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_appliances"
+            app:destination="@id/appliances_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_shopcloth"
+            app:destination="@id/shopcloth_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_futniturecat"
+            app:destination="@id/furniture_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_petsanimcat"
+            app:destination="@id/petsanimal_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_propertycat"
+            app:destination="@id/property_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_electronicgamecat"
+            app:destination="@id/elecgamecat_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_servicecat"
+            app:destination="@id/servicecat_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+        <action
+            android:id="@+id/choosecat_boatsmarine"
+            app:destination="@id/boatsmarine_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/choosecat_addphoto"
+            app:destination="@id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/chosecat_vehiclecat"
+            app:destination="@+id/vehicle_cat"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
-        android:id="@+id/myPoints"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myPointFragment.MyPointsFragment"
-        android:label="@string/my_points"
-        tools:layout="@layout/fragment_my_points_fragment" />
+        android:id="@+id/add_photo"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.AddPhotoFragment"
+        android:label="Add a photo"
+        tools:layout="@layout/fragment_add_photo">
+
+
+        <action
+            android:id="@+id/back_to_cat"
+            app:destination="@+id/choosecat"
+            app:popUpTo="@id/choosecat"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/addphoto_commercialland"
+            app:destination="@+id/commercialsubcatsubland" />
+
+        <action
+            android:id="@+id/addphoto_commercialshops"
+            app:destination="@+id/commercialsubcatsubshops" />
+
+        <action
+            android:id="@+id/addphoto_commercialhotels"
+            app:destination="@+id/commercialsubcatsubhotels" />
+
+        <action
+            android:id="@+id/addphoto_commercialfactories"
+            app:destination="@+id/commercialsubcatsubfactories" />
+
+        <action
+            android:id="@+id/addphoto_commercialoffices"
+            app:destination="@+id/commercialsubcatsuboffices" />
+
+        <action
+            android:id="@+id/addphoto_commercialworkshops"
+            app:destination="@+id/commercialsubcatsubworkshops" />
+        <action
+            android:id="@+id/addphoto_commercialwarehouses"
+            app:destination="@+id/commercialsubcatsubwarehouses" />
+
+        <action
+            android:id="@+id/addphoto_agricultureforsale"
+            app:destination="@+id/agriculturesubcatforsale" />
+
+        <action
+            android:id="@+id/addphoto_agricultureforrent"
+            app:destination="@+id/agriculturesubcatforrent" />
+
+        <action
+            android:id="@+id/addphoto_residentialland"
+            app:destination="@+id/residentialland" />
+
+        <action
+            android:id="@+id/addphoto_residentialvillas"
+            app:destination="@+id/residentialvillas" />
+        <action
+            android:id="@+id/addphoto_residentialbuildings"
+            app:destination="@+id/residentialbuildings" />
+        <action
+            android:id="@+id/addphoto_residentialapartments"
+            app:destination="@+id/residentialapartments" />
+        <action
+            android:id="@+id/addphoto_residentialholidayhouse"
+            app:destination="@+id/residentialholidayhouse" />
+
+        <action
+            android:id="@+id/addphoto_wreckcar"
+            app:destination="@+id/wrecked_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_truckitemdetail"
+            app:destination="@+id/truckitemdetails_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/add_photo_forlkliftpallet"
+            app:destination="@+id/forkliftpallet_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_listingdetail"
+            app:destination="@+id/diggeritemdetails_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_trailers"
+            app:destination="@+id/trailer_itemdetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_motorbikeitemdetail"
+            app:destination="@+id/bikeitemdetail_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_busitemdetails"
+            app:destination="@+id/bus_itemdetailfrag_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_caritemdetails"
+            app:destination="@+id/car_itemdetail_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_generalitemdetails"
+            app:destination="@+id/general_itemdetail_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+        <action
+            android:id="@+id/addphoto_otherlistdeta"
+            app:destination="@+id/other_detailgeneral"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/addphoto_otherlistproperty"
+            app:destination="@+id/otherdetail_property"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_addphoto"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/addphoto_otherdetailautomobile"
+            app:destination="@+id/otherdetail_automobile"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
-        android:id="@+id/sellerRating"
-        android:name="com.malqaa.androidappp.newPhase.presentation.activities.sellerDetailsActivity.SellerRatingFragment"
-        android:label="My Points"
-        tools:layout="@layout/fragment_seller_rating">
+        android:id="@+id/vehicle_cat"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.vehiclecateegory.VehicleCategory"
+        android:label="Vehicle Category"
+        tools:layout="@layout/fragment_all_cate">
+
+        <action
+            android:id="@+id/vehiclecat_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/other_detailgeneral"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.OtherDetailsGeneral"
+        android:label="Other Details"
+        tools:layout="@layout/fragment_other_details">
+
+        <action
+            android:id="@+id/close_otherdetails"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/otherde_list"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/list_details"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingDetailsFragment"
+        android:label="List Details"
+        tools:layout="@layout/fragment_list_details">
+        <action
+            android:id="@+id/listdetail_pricepayment"
+            app:destination="@+id/pricepayment_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_listingdetails"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/promotional_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.PromotionalFragment"
+        android:label="Promotional"
+        tools:layout="@layout/fragment_promotional">
+
+        <action
+            android:id="@+id/promotional_to_confirmation"
+            app:destination="@+id/confirmation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_promotional"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/confirmation"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.Confirmation"
+        android:label="Confirmation"
+        tools:layout="@layout/fragment_confirmation">
+
+        <action
+            android:id="@+id/confirmation_to_listing_fee"
+            app:destination="@id/listing_fee"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/listing_fee"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingFee"
+        android:label="Listing Fee"
+        tools:layout="@layout/fragment_listing_fee">
+
+        <action
+            android:id="@+id/prom_continue"
+            app:destination="@+id/continue_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/continue_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ContinueFragment"
+        android:label="Continue"
+        tools:layout="@layout/fragment_continue">
+
+        <action
+            android:id="@+id/contine_carspec"
+            app:destination="@id/carspicification"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/mobile_navigation"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/quesans_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.question_ans_comnt.QuesAnsFragment"
+        android:label="Question Answer"
+        tools:layout="@layout/fragment_ques_ans">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/browsemarket_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.browse_market.BrowseMarketFragment"
+        android:label="Browse"
+        tools:layout="@layout/fragment_browse_market">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/listduration_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ListingDuration"
+        android:label="List Duration"
+        tools:layout="@layout/fragment_listing_duration">
+        <action
+            android:id="@+id/listdur_pickupship"
+            app:destination="@id/ship_pickup_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_listduration"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/pricepayment_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.PricingPayment"
+        android:label="Pricing And Payment"
+        tools:layout="@layout/fragment_pricing_payment">
+
+        <action
+            android:id="@+id/pricepay_listduration"
+            app:destination="@+id/listduration_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_pricepayment"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/ship_pickup_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.ShippingPickups"
+        android:label="Shipping And pick-up options"
+        tools:layout="@layout/fragment_shipping_pickups">
+
+        <action
+            android:id="@+id/shippick_promotional"
+            app:destination="@+id/promotional_frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/close_shippick"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/member_listing_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.memberlisting.MemberListing"
+        android:label="Member Listing"
+        tools:layout="@layout/fragment_member_listing">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/property_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.propertycategory.PropertyFragment"
+        android:label="Property Category"
+        tools:layout="@layout/fragment_property">
+
+
+        <action
+            android:id="@+id/property_sy_commercial"
+            app:destination="@+id/property_commercial_subcat_a" />
+
+        <action
+            android:id="@+id/property_residentialagriculture"
+            app:destination="@+id/property_residential_subcat_a" />
+        <action
+            android:id="@+id/property_residential"
+            app:destination="@+id/property_residential_subcat" />
+
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/boatsmarine_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.boatmarine_category.BoatsMarineFragment"
+        android:label="Boats and Marine"
+        tools:layout="@layout/fragment_boats_marine">
+
+        <action
+            android:id="@+id/boatsmarine_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/servicecat_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.service_category.ServicesCategoryFragment"
+        android:label="Service Category"
+        tools:layout="@layout/fragment_services_category">
+
+        <action
+            android:id="@+id/servicecat_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/elecgamecat_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.electronicgame_category.ElectronicGameCatFragment"
+        android:label="Electronic And Game Category"
+        tools:layout="@layout/fragment_electronic_game_cat">
+
+        <action
+            android:id="@+id/elecgame_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/petsanimal_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.pets_animals_category.PetsAnimFragment"
+        android:label="Pets And Animals Category"
+        tools:layout="@layout/fragment_pets_anim">
+
+        <action
+            android:id="@+id/petanimal_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/furniture_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.furniture_furnish_category.FurnitureFragment"
+        android:label="Furniture And Furnish Category"
+        tools:layout="@layout/fragment_furniture">
+
+        <action
+            android:id="@+id/furniturecat_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopcloth_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.shop_cloth_category.ShopClothFragment"
+        android:label="Shop, Clothes And Jewellery Category"
+        tools:layout="@layout/fragment_shop_cloth">
+
+        <action
+            android:id="@+id/shopcat_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/appliances_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.appliances_category.AppliancesFragment"
+        tools:layout="@layout/fragment_appliances">
+
+        <action
+            android:id="@+id/appliancescat_addphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/sellingopt_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.selling_option.SellingOption"
+        tools:layout="@layout/fragment_selling_option">
+
+        <action
+            android:id="@+id/sellingopt_blacklist"
+            app:destination="@+id/blacklist_frag" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/blacklist_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.selling_option.blacklist_member.BlacklistMenbers"
+        tools:layout="@layout/fragment_blacklist_menbers">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/notification_setting_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.setting.setting_notification.SettingNotification"
+        tools:layout="@layout/fragment_setting_notification">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/privacy_opt_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.setting.privacy_option.PrivacyOption"
+        tools:layout="@layout/fragment_privacy_option">
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/logout_notification_frag"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.nofication_fragments.LogoutNotification"
+        android:name="com.malka.androidappp.botmnav_fragments.nofication_fragments.LogoutNotification"
         tools:layout="@layout/fragment_logout_notification">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/logout_watchlist_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.watchlist_fragment.LogoutWatchlish"
+        tools:layout="@layout/fragment_logout_watchlish">
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/logout_account_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.account_fragment.LogoutAccount"
+        tools:layout="@layout/fragment_logout_account">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/emailprefrences_setting_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.setting.setting_email_preferences.EmailPreferencesSetting"
+        tools:layout="@layout/fragment_email_preferences_setting">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherdetail_property"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.OtherDetailsProperty"
+        tools:layout="@layout/fragment_other_details_property">
+
+        <action
+            android:id="@+id/close_otherdetailsproperty"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/otherdetailProperty_listingdetail"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/otherdetail_automobile"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.OtherDetailsAutoMobile"
+        tools:layout="@layout/fragment_other_details_auto_mobile">
+
+        <action
+            android:id="@+id/close_otherdetailsautomobile"
+            app:destination="@+id/navigation_account"
+            app:popEnterAnim="@anim/slide_down_in"
+            app:popExitAnim="@anim/no_anim"
+            app:popUpTo="@id/navigation_account"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/otherdetailAutomobile_listingdetail"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/fixed_price_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.fixed_price_offer.FixedPriceOffer"
+        android:label="Fixed Price Offer"
+        tools:layout="@layout/fragment_fixed_price_offer">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/item_imselling_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.item_em_selling.ItemImSelling"
+        android:label="Item I'm Selling"
+        tools:layout="@layout/fragment_item_im_selling">
+
+        <action
+            android:id="@+id/my_items_to_detail_page"
+            app:destination="@+id/carspicification"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/myproductcreation"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct"
+        android:label="My Products"
+        tools:layout="@layout/fragment_create_product">
+
+        <action
+            android:id="@+id/product_page2"
+            app:destination="@+id/product_page2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myproductview"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.MyProduct"
+        android:label="My Products"
+        tools:layout="@layout/fragment_my_product">
+
+        <action
+            android:id="@+id/my_product_to_product_detail"
+            app:destination="@+id/ProductDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/my_product_to_edit_product"
+            app:destination="@+id/edit_product1"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/create_a_product"
+            app:destination="@+id/myproductcreation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/edit_product1"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct1"
+        tools:layout="@layout/fragment_edit_product1">
+
+        <action
+            android:id="@+id/edit_product1_to_2"
+            app:destination="@+id/editproduct2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editproduct2"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct2"
+        tools:layout="@layout/fragment_edit_product2">
+
+        <action
+            android:id="@+id/edit_product2_to_3"
+            app:destination="@+id/editproduct3"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editproduct3"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct3"
+        tools:layout="@layout/fragment_edit_product3">
+
+        <action
+            android:id="@+id/edit_product3_to_4"
+            app:destination="@+id/editproduct4"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editproduct4"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct4"
+        tools:layout="@layout/fragment_edit_product4">
+
+        <action
+            android:id="@+id/edit_product4_to_5"
+            app:destination="@+id/editproduct5"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/editproduct5"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.EditProduct5"
+        tools:layout="@layout/fragment_edit_product5">
+
+        <action
+            android:id="@+id/edit_product5_to_continue"
+            app:destination="@+id/continue_edit_product"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/continue_edit_product"
+        android:name="com.malka.androidappp.botmnav_fragments.my_product.edit_product.ContinueEditProduct"
+        tools:layout="@layout/fragment_continue_edit_product">
+
+        <action
+            android:id="@+id/edit_product_continue_to_home"
+            app:destination="@+id/navigation_home"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/won_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.won_frag.WonFrag"
+        tools:layout="@layout/fragment_won">
 
     </fragment>
 
     <fragment
         android:id="@+id/lost_frag"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.productsLostFragment.ProductsLostFragment"
+        android:name="com.malka.androidappp.botmnav_fragments.won_n_loss.lost_frag.LostFrag"
         tools:layout="@layout/fragment_lost">
 
     </fragment>
 
     <fragment
-        android:id="@+id/categoriesFragment"
-        android:name="com.malqaa.androidappp.newPhase.presentation.fragments.categoriesFragment.CategoriesFragment"
-        android:label="CategoriesFragment" >
+        android:id="@+id/shopingcart2_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart2.Shoppingcart2"
+        tools:layout="@layout/fragment_shoppingcart2">
+
         <action
-            android:id="@+id/action_categoriesFragment_to_navigation_home"
-            app:destination="@id/navigation_home"
-            app:popUpTo="@id/navigation_home"
-            app:popUpToInclusive="false" />
+            android:id="@+id/shopcart2_shopcart3"
+            app:destination="@+id/shopcart_shippingadress_frag" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopping_cart_checkout"
+        android:name="com.malka.androidappp.botmnav_fragments.shopping_cart2.Shoppingcart2"
+        tools:layout="@layout/fragment_shoppingcart2">
+
+        <action
+            android:id="@+id/checkout_to_shipping_address"
+            app:destination="@+id/shipping_address" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/shipping_address"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress"
+        tools:layout="@layout/fragment_shipping_address">
+
+        <action
+            android:id="@+id/shipping_address_to_payment"
+            app:destination="@+id/payment" />
+
+        <action
+            android:id="@+id/shippingaddress_googlemap"
+            app:destination="@+id/shopcart_mapfrag" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/payment"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
+        tools:layout="@layout/fragment_cart_payment_method">
+
+        <action
+            android:id="@+id/payment_to_checkout"
+            app:destination="@+id/checkout" />
+
+        <action
+            android:id="@+id/payment_to_add_new_card"
+            app:destination="@+id/add_new_card" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/add_new_card"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart8_addnewcard.AddNewCard"
+        tools:layout="@layout/fragment_add_new_card">
+
+        <action
+            android:id="@+id/save_card_to_payment"
+            app:destination="@+id/payment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/checkout"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder"
+        tools:layout="@layout/fragment_cart_placeholder">
+
+        <action
+            android:id="@+id/checkout_to_home"
+            app:destination="@+id/navigation_home" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/shopcart_shippingadress_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress"
+        tools:layout="@layout/fragment_shipping_address">
+
+        <action
+            android:id="@+id/shippingaddress_googlemap"
+            app:destination="@+id/shopcart_mapfrag" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopcart_mapfrag"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart4_googlemap.ShopCartMap"
+        tools:layout="@layout/fragment_shop_cart_map">
+
+        <action
+            android:id="@+id/mapfrag_locationfrag"
+            app:destination="@+id/shopcart_locationfrag" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopcart_locationfrag"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart5_location.ShopcartLocationInfo"
+        tools:layout="@layout/fragment_shopcart_location_info">
+
+        <action
+            android:id="@+id/locationinfo_paymentmethod"
+            app:destination="@+id/shopcart_paymentmethod" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/shopcart_paymentmethod"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart6_paymentmethod.CartPaymentMethod"
+        tools:layout="@layout/fragment_cart_payment_method">
+
+        <action
+            android:id="@+id/paymentmethod_placeholder"
+            app:destination="@+id/shopcart_placeholder" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/shopcart_placeholder"
+        android:name="com.malka.androidappp.botmnav_fragments.shoppingcart7_placeholder.CartPlaceholder"
+        tools:layout="@layout/fragment_cart_placeholder">
+
+        <action
+            android:id="@+id/gotohome"
+            app:destination="@+id/navigation_home" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewall_categories_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.home_view_allcategories.ViewAllCategories"
+        tools:layout="@layout/fragment_view_all_categories">
+
+        <action
+            android:id="@+id/totalcategoies_browsecate"
+            app:destination="@+id/browsemarket_frag" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/seelall_generalfeaturedads_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.home_seeall_generalad.FeaturedGeneralAds"
+        tools:layout="@layout/fragment_featured_general_ads"></fragment>
+
+    <fragment
+        android:id="@+id/car_itemdetail_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.vehicles.CarSubcat"
+        tools:layout="@layout/fragment_car_subcat">
+
+
+        <action
+            android:id="@+id/itemdetail_listingdetails"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bus_itemdetailfrag_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.BusSubCat"
+        tools:layout="@layout/fragment_bus_sub_cat">
+
+        <action
+            android:id="@+id/busitemdetails_listingdetail"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/bikeitemdetail_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.MotorBikesSubCat"
+        tools:layout="@layout/fragment_motor_bikes_sub_cat">
+
+        <action
+            android:id="@+id/bikeitemdetails_listingdetail"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/trailer_itemdetail"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.Trailers"
+        tools:layout="@layout/fragment_trailers">
+
+        <action
+            android:id="@+id/traileritemdetail_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/diggeritemdetails_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.Diggers"
+        tools:layout="@layout/fragment_diggers">
+
+        <action
+            android:id="@+id/diggers_listingdetails"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/forkliftpallet_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.ForkliftsAndPalletMovers"
+        tools:layout="@layout/fragment_forklifts_and_pallet_movers">
+
+        <action
+            android:id="@+id/forlifts_listingdetails"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/truckitemdetails_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.Trucks"
+        tools:layout="@layout/fragment_trucks">
+
+        <action
+            android:id="@+id/truckitemdetail_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/wrecked_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_details.vehicle.WreckedCar"
+        tools:layout="@layout/fragment_wrecked_car">
+
+        <action
+            android:id="@+id/wreckedcaritemdetail_Listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_commercial_subcat_a"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_a.Commercial"
+        tools:layout="@layout/fragment_commercial">
+        <action
+            android:id="@+id/property_subcatatob"
+            app:destination="@+id/property_commercial_subcat_b"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_residential_subcat_a"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_a.Residential_Agriculture"
+        tools:layout="@layout/fragment_residential__agriculture">
+
+        <action
+            android:id="@+id/property_Asubcatbtoaddphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_residential_subcat"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_a.Residential"
+        tools:layout="@layout/fragment_residential">
+
+        <action
+            android:id="@+id/property_subcatatobR"
+            app:destination="@+id/property_residential_subcatsubcat"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_commercial_subcat_b"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_b.CommercialSubCat"
+        tools:layout="@layout/fragment_commercial_sub_cat">
+
+        <action
+            android:id="@+id/property_subcatbtoaddphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_residential_subcatsubcat"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_b.ResidentialSubCat"
+        tools:layout="@layout/fragment_residential_sub_cat">
+
+        <action
+            android:id="@+id/property_subcatbtoaddphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/property_residential_subcat_b"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_b.ResidentialSubCat"
+        tools:layout="@layout/fragment_residential_sub_cat">
+
+        <action
+            android:id="@+id/property_subcatbtoaddphoto"
+            app:destination="@+id/add_photo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/commercialsubcatsubland"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialLands"
+        tools:layout="@layout/fragment_commercial_lands">
+
+        <action
+            android:id="@+id/commercialsalelands_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsubshops"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialShops"
+        tools:layout="@layout/fragment_commercial_shops">
+
+        <action
+            android:id="@+id/commercialsaleshops_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsubhotels"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialHotel"
+        tools:layout="@layout/fragment_commercial_hotel">
+
+        <action
+            android:id="@+id/commercialsalehotel_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsubfactories"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialFactories"
+        tools:layout="@layout/fragment_commercial_factories">
+
+        <action
+            android:id="@+id/commercialsalefactories_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsuboffices"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialOffices"
+        tools:layout="@layout/fragment_commercial_offices">
+
+        <action
+            android:id="@+id/commercialsaleoffices_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsubworkshops"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommercialWorkshops"
+        tools:layout="@layout/fragment_commercial_workshops">
+
+        <action
+            android:id="@+id/commercialsaleworkshops_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/commercialsubcatsubwarehouses"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.CommericalWarehouses"
+        tools:layout="@layout/fragment_commerical_warehouses">
+
+        <action
+            android:id="@+id/commercialsalewarehouses_listingdetail"
+            app:destination="@+id/list_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/agriculturesubcatforsale"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.AgricultureForSale"
+        tools:layout="@layout/fragment_agriculture_for_sale">
+
+        <action
+            android:id="@+id/agriculturesale_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/agriculturesubcatforrent"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.AgricultureForRent"
+        tools:layout="@layout/fragment_agriculture_for_rent">
+
+        <action
+            android:id="@+id/agriculturerent_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/residentialland"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.ResidentialLands"
+        tools:layout="@layout/fragment_residential__lands">
+
+        <action
+            android:id="@+id/residentialland_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/residentialvillas"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.ResidentialVillas"
+        tools:layout="@layout/fragment_residential__villas">
+
+        <action
+            android:id="@+id/residentialvillas_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/residentialbuildings"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.ResidentialBuildings"
+        tools:layout="@layout/fragment_residential_buildings">
+
+        <action
+            android:id="@+id/residentialbuildings_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/residentialapartments"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.ResidentialApartments"
+        tools:layout="@layout/fragment_residential_apartments">
+
+        <action
+            android:id="@+id/residentialapartments_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/residentialholidayhouse"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.property.sub_cat_c.ResidentialHolidayHouse"
+        tools:layout="@layout/fragment_residential_holiday_house">
+
+        <action
+            android:id="@+id/residentialholidayhouse_listingdetail"
+            app:destination="@+id/list_details" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/general_itemdetail_frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_ads.item_detail.general.General"
+        tools:layout="@layout/fragment_general">
+
+
+        <action
+            android:id="@+id/itemdetail_listingdetails"
+            app:destination="@+id/list_details"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/product_page2"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct2"
+        tools:layout="@layout/fragment_create_product_pg2">
+
+        <action
+            android:id="@+id/product_page3"
+            app:destination="@+id/product_page3frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/product_page3frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct3"
+        tools:layout="@layout/fragment_create_product_pg3">
+
+        <action
+            android:id="@+id/product_page4"
+            app:destination="@+id/product_page4frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/product_page4frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct4"
+        tools:layout="@layout/fragment_create_product_pg4">
+
+        <action
+            android:id="@+id/product_page5"
+            app:destination="@+id/product_page5frag"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/product_page5frag"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.CreateProduct5"
+        tools:layout="@layout/fragment_create_product_pg5">
+
+        <action
+            android:id="@+id/prom_continue_for_products"
+            app:destination="@+id/continue_product"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/continue_product"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.ContinueProduct"
+        android:label="Continue"
+        tools:layout="@layout/fragment_continue_product">
+
+        <action
+            android:id="@+id/continue_to_product_detail"
+            app:destination="@+id/ProductDetail"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/ProductDetail"
+        android:name="com.malka.androidappp.botmnav_fragments.create_product.ProductDetail"
+        android:label="Product Detail"
+        tools:layout="@layout/fragment_product_detail">
+
+        <action
+            android:id="@+id/carspec_quesans"
+            app:destination="@+id/quesans_frag" />
+
+        <action
+            android:id="@+id/carspec_home"
+            app:destination="@+id/navigation_home" />
+
+        <action
+            android:id="@+id/carspec_aboutseller"
+            app:destination="@+id/about_about_seller" />
+
+        <action
+            android:id="@+id/advdetails_shipingaddress"
+            app:destination="@+id/shopcart_shippingadress_frag" />
+
+        <action
+            android:id="@+id/detail_to_give_feedback"
+            app:destination="@+id/give_feedback" />
     </fragment>
 
 </navigation>

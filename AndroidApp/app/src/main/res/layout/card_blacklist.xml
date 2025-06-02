@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    >
+
+    <TextView
+        android:id="@+id/tx_blacklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add to Blacklist"
+        android:textSize="18dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tx2_blacklist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="20dp"
+        android:textSize="11sp"
+        android:layout_below="@+id/tx_blacklist"
+        android:text="enter the name of the member you want to block"/>
+
+    <EditText
+        android:id="@+id/eText10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/buttonradius"
+        android:inputType="textPersonName"
+        android:padding="12dp"
+        android:layout_below="@+id/tx2_blacklist"/>
+
+    <Button
+        android:id="@+id/button8"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginEnd="10dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:text="Ok"
+        android:textColor="@color/GreenApp"
+        android:textSize="12sp"
+        android:layout_marginBottom="10dp"
+         />
+
+    <Button
+        android:id="@+id/button88"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/button8"
+        android:layout_alignParentBottom="true"
+        android:text="Cancel"
+        android:textColor="@color/GreenApp"
+        android:textSize="12sp"
+        android:layout_marginBottom="10dp"
+        />
+
+</RelativeLayout>
+</androidx.cardview.widget.CardView>

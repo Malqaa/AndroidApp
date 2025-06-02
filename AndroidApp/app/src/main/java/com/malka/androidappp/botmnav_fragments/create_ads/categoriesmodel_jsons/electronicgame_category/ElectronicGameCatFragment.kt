@@ -1,0 +1,88 @@
+package com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.electronicgame_category
+
+import android.content.Context
+import android.graphics.Color
+import android.os.Bundle
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
+import com.malka.androidappp.R
+import com.malka.androidappp.botmnav_fragments.create_ads.StaticClassAdCreate
+import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.Categories
+import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.CategoriesItem
+import com.malka.androidappp.botmnav_fragments.create_ads.categoriesmodel_jsons.JsonFileNames
+import kotlinx.android.synthetic.main.fragment_electronic_game_cat.*
+import java.io.InputStream
+
+
+class ElectronicGameCatFragment : Fragment(), ElectronicGameAdap.onElectronicGameClickListener {
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_electronic_game_cat, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        toolbar_electronicgame.setTitle("Electronic And Games Category")
+        toolbar_electronicgame.setTitleTextColor(Color.WHITE)
+        toolbar_electronicgame.setNavigationIcon(R.drawable.nav_icon_back)
+        toolbar_electronicgame.setNavigationOnClickListener(){ activity!!.onBackPressed()}
+
+        setUpRecyclerView(parseJson()!!)
+    }
+
+    private fun parseJson(): Categories? {
+        val elecgame = loadJson(activity!!, JsonFileNames.ELECTRONIC_GAME_CATEGORY)
+        val gson = Gson()
+        val data = gson.fromJson(elecgame, Categories::class.java)
+        return data
+    }
+
+    private fun setUpRecyclerView(data: Categories) {
+        elecgameCategoryRecyclerView.layoutManager =
+            LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false)
+        elecgameCategoryRecyclerView.adapter = ElectronicGameAdap(data, this)
+
+    }
+
+    fun loadJson(context: Context, fileName: String): String? {
+        var input: InputStream? = null
+        val jsonString: String
+
+        try {
+            // Create InputStream
+            input = context.assets.open(fileName)
+            val size = input.available()
+            // Create a buffer with the size
+            val buffer = ByteArray(size)
+            // Read data from InputStream into the Buffer
+            input.read(buffer)
+            // Create a json String
+            jsonString = String(buffer)
+            return jsonString;
+        } catch (ex: Exception) {
+            ex.printStackTrace()
+        } finally {
+            // Must close the stream
+            input?.close()
+        }
+
+        return null
+    }
+
+    override fun onItemClick(item: CategoriesItem, position: Int) {
+        //Listen data
+        val getsubcat = item.name
+        StaticClassAdCreate.subcat = getsubcat
+        findNavController().navigate(R.id.elecgame_addphoto)
+    }
+}

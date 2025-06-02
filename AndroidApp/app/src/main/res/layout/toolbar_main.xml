@@ -2,61 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/greenApp"
+        />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_baseline_keyboard_backspace_24" />
-
-
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:layout_toRightOf="@+id/back_btn"
-                android:fontFamily="@font/madani_arabic_medium"
-
-                android:text="@string/add_product"
-                android:textColor="@color/black"
-                android:textSize="@dimen/_13sdp"
-                android:layout_toEndOf="@+id/back_btn" />
-
-            <ImageView
-                android:visibility="gone"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/ivRight"
-                android:layout_marginEnd="@dimen/_10sdp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_check"
-                 />
-        </RelativeLayout>
-    </androidx.appcompat.widget.Toolbar>
-
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_1sdp"
-        android:layout_gravity="center"
-        android:background="@color/light_gray">
+        android:layout_height="4dp"
+        android:background="@drawable/shadow" />
 
-    </LinearLayout>
 
 </LinearLayout>

@@ -7,7 +7,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardCornerRadius="10dp"
     android:background="@drawable/alert_background_corner"
-    tools:context=".newPhase.presentation.activities.searchProductListActivity.browse_market.SearchCategoryActivity"
+    tools:context=".botmnav_fragments.browse_market.BrowseMarketFragment"
     >
 
     <RelativeLayout
@@ -36,15 +36,15 @@
             android:layout_below="@+id/tx1"
             android:layout_centerHorizontal="true"
             />
-
+    
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/subcat_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:layout_below="@+id/tx2"
-            android:layout_alignParentBottom="true"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="30dp" />
+            android:layout_marginBottom="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_height="match_parent"/>
 
     </RelativeLayout>
 

@@ -5,8 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/Silvr"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    tools:context=".fragments.shoppingcart3_shippingaddress.ShippingAddress">
+    android:layout_marginBottom="?actionBarSize"
+    tools:context=".botmnav_fragments.shoppingcart3_shippingaddress.ShippingAddress">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_shopcart_shipping"
@@ -20,17 +20,14 @@
     <Button
         android:id="@+id/checkout_btn_shippingcart"
         android:layout_width="match_parent"
+        android:backgroundTint="@color/GoldenApp"
         android:layout_height="64dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginEnd="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:background="@drawable/round_btn"
         android:text="Confirm"
         android:textAllCaps="true"
         android:textColor="@color/white"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        />
     <ScrollView
         android:id="@+id/scrolll_shipping"
         android:layout_width="match_parent"
@@ -45,7 +42,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_address"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
             <RelativeLayout
                 android:id="@+id/addaddress_btn_relative"
                 android:layout_width="match_parent"
@@ -56,20 +54,20 @@
 
                 <Button
                     android:id="@+id/btn_add_new_address"
-                    style="?android:attr/borderlessButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="38dp"
-                    android:layout_alignParentEnd="true"
                     android:text="Add a new address"
                     android:textAllCaps="false"
-                    android:textColor="@color/greenApp" />
+                    android:textColor="@color/greenApp"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_alignParentEnd="true"
+                    />
             </RelativeLayout>
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recylerView_products"
+                android:layout_below="@+id/addaddress_btn_relative"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/addaddress_btn_relative" />
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
