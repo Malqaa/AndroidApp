@@ -851,14 +851,16 @@ interface MalqaApiService {
     fun getAllBanksAccount(
         @Query("pageIndex") pageIndex: Int = 1,
         @Query("PageRowsCount") pageRowsCount: Int = 100,
-        @Query("PaymentAccountType") paymentAccountType: Int? = null
+        @Query("PaymentAccountType") paymentAccountType: Int? = null,
+        @Query("creditCards") creditCards: Boolean = false
     ): Call<AccountBankListResp>
 
     @GET("BankTransfersList")
     fun bankTransfersList(
         @Query("pageIndex") pageIndex: Int = 1,
         @Query("PageRowsCount") pageRowsCount: Int = 100,
-        @Query("PaymentAccountType") paymentAccountType: Int? = null
+        @Query("PaymentAccountType") paymentAccountType: Int? = null,
+        @Query("creditCards") creditCards: Boolean = false
     ): Call<BankTransfersListResponse>
 
     @POST("AddBankTransfer")

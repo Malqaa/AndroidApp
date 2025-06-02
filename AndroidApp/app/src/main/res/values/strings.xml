@@ -1005,8 +1005,8 @@
     <string name="view_new_product_for_this_search">View new product for this search</string>
     <string name="my_wallet">My wallet</string>
     <string name="my_balance">My balance</string>
-    <string name="choose_the_account">Choose the account</string>
-    <string name="recharge_the_balance">Recharge the balance</string>
+    <string name="choose_the_account">Choose Bank Account</string>
+    <string name="recharge_balance">Recharge balance</string>
     <string name="recent_operations">Recent operations</string>
     <string name="a_security_deposit_has_been_added_to_the_losing_auction">A security deposit has been added to the losing auction</string>
     <string name="share_the_invite_code">Share the invite code</string>
@@ -1078,7 +1078,7 @@
     <string name="activate_email">Activate Email</string>
     <string name="add_a_new_category">Add a new category</string>
     <string name="choose_the_category_you_prefer_to_receive_all_new_about_it">Choose the category you prefer to receive all new about it</string>
-    <string name="balance_withdrawal">Balance withdrawal</string>
+    <string name="withdraw_a_balance">Withdraw a balance</string>
     <string name="favorite_subcategories">Favorite subcategories</string>
     <string name="filter_application">Filter application</string>
     <string name="reviews_type">Reviews type</string>
@@ -1382,7 +1382,7 @@
     <string name="payment_method">Payment method</string>
     <string name="visa_card">Visa Card</string>
     <string name="visa">Visa</string>
-    <string name="visa_credit_card">Visa /Credit Card</string>
+    <string name="visa_credit_card">Visa / Credit Card</string>
     <string name="add_new">Add New</string>
     <string name="card_holders_name">Card Holder’s Name</string>
     <string name="card_number">Card Number <font color="#FFA500">*</font></string>
@@ -1415,6 +1415,7 @@
 </string>
 
     <string name="there_are_no_cards_saved">There are no cards saved، \n Please add a new card by clicking the (Add new card) button or choose another payment method</string>
+    <string name="there_are_no_bank_accounts_saved">There are no Bank Accounts saved. Please add a new Account by clicking the "Add New Account" button</string>
     <string name="choose_card">Choose card</string>
     <string name="convert_to_points">Convert credit</string>
     <string name="convert_wallet_into_points">Convert credit wallet into points</string>
@@ -1436,5 +1437,10 @@
   <string name="edit_bank_account">Edit Bank Account</string>
   <string name="upload">Upload</string>
   <string name="invalid_file_path">Invalid file path</string>
+  <string name="visa_master_card">Visa / MasterCard</string>
+  <string name="choose_the_bank_account">Choose The Bank Account</string>
+  <string name="all_cards">All Cards</string>
+  <string name="choose_another_account">Choose another account</string>
+    <string name="add_new_bank_account">Add New Bank Account</string>
     <string name="sort_by">Sort By</string>
 </resources>
