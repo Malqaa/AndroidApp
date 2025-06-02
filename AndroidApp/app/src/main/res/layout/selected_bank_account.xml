@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutSelectedPaymentOptions"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:background="@drawable/product_attribute_bg_linebg"
+    android:orientation="vertical"
+    android:visibility="gone">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/product_attribute_bg4"
+        android:backgroundTint="#F8F8F8"
+        android:padding="16dp">
+
+        <!-- account number title -->
+        <TextView
+            android:id="@+id/textAccountNumberTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/account_number"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- account number -->
+        <TextView
+            android:id="@+id/textAccountNumber"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="#8B959E"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/textAccountNumberTitle"
+            app:layout_constraintStart_toEndOf="@+id/textAccountNumberTitle"
+            app:layout_constraintTop_toTopOf="@+id/textAccountNumberTitle"
+            tools:text="123456789" />
+
+        <!-- bank name title-->
+        <TextView
+            android:id="@+id/textBankNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/bank_name"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="@+id/textAccountNumberTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textAccountNumberTitle" />
+
+        <!-- bank name -->
+        <TextView
+            android:id="@+id/textBankName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#8B959E"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@+id/textBankNameTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textBankNameTitle"
+            tools:text="CIB" />
+
+        <!-- bank holder's name title -->
+        <TextView
+            android:id="@+id/textBankHoldersNameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/bank_holder_s_name"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/textBankNameTitle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/textBankNameTitle"
+            app:layout_constraintTop_toTopOf="@+id/textBankNameTitle" />
+
+        <!-- bank holder's name -->
+        <TextView
+            android:id="@+id/textBankHolders"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#8B959E"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@+id/textBankHoldersNameTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textBankHoldersNameTitle"
+            tools:text="Abdelaziz Dawoud" />
+
+        <!-- iban title-->
+        <TextView
+            android:id="@+id/textIbanTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/iban"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="@+id/textAccountNumberTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textBankName" />
+
+        <!-- iban -->
+        <TextView
+            android:id="@+id/textIban"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#8B959E"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@+id/textIbanTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textIbanTitle"
+            tools:text="123abc" />
+
+        <!-- swift code title-->
+        <TextView
+            android:id="@+id/textSwiftCodeTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:text="@string/swiftCode"
+            android:textColor="#293241"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintStart_toStartOf="@+id/textBankHoldersNameTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textBankHolders" />
+
+        <!-- swift code -->
+        <TextView
+            android:id="@+id/textSwiftCode"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="#8B959E"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintStart_toStartOf="@+id/textSwiftCodeTitle"
+            app:layout_constraintTop_toBottomOf="@+id/textSwiftCodeTitle"
+            tools:text="123abc" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/btnChooseAnotherCard"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_38sdp"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:background="@drawable/product_attribute_bg4"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center_vertical"
+            android:text="@string/choose_another_account"
+            android:textColor="#293241"
+            android:textSize="@dimen/_10sdp" />
+    </LinearLayout>
+</LinearLayout>

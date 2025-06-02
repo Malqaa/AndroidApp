@@ -61,31 +61,31 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="32dp"
                             android:orientation="horizontal"
-                            android:weightSum="2"
-                            android:layout_marginTop="32dp">
+                            android:weightSum="2">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="55dp"
-                                android:orientation="vertical"
+                                android:layout_marginHorizontal="8dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/button_curve_stroke_border_orange"
-                                android:layout_marginHorizontal="8dp"
-                                android:gravity="center">
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/tvTotalBalance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="6dp"
                                     android:fontFamily="@font/madani_arabic_bold"
+                                    android:gravity="center"
                                     android:text="@string/rial"
                                     android:textColor="@color/grey"
                                     android:textSize="12sp"
-                                    android:gravity="center"
-                                    app:drawableStartCompat="@drawable/healthicons_money_bag"
-                                    android:layout_marginStart="20dp"
-                                    android:layout_marginTop="6dp" />
+                                    app:drawableStartCompat="@drawable/healthicons_money_bag" />
 
                                 <TextView
                                     android:layout_width="wrap_content"
@@ -93,8 +93,7 @@
                                     android:fontFamily="@font/madani_arabic_light"
                                     android:text="@string/my_balance"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp"
-                                    />
+                                    android:textSize="12sp" />
 
 
                             </LinearLayout>
@@ -103,36 +102,36 @@
                                 android:id="@+id/pendingLayout"
                                 android:layout_width="0dp"
                                 android:layout_height="55dp"
-                                android:layout_weight="1"
-                                android:orientation="vertical"
-                                android:background="@drawable/button_curve_peg"
                                 android:layout_marginHorizontal="8dp"
-                                android:gravity="center">
+                                android:layout_weight="1"
+                                android:background="@drawable/button_curve_peg"
+                                android:gravity="center"
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/tvPendingBalance"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginStart="20dp"
+                                    android:layout_marginTop="6dp"
                                     android:fontFamily="@font/madani_arabic_bold"
+                                    android:gravity="center"
                                     android:text="@string/rial"
                                     android:textColor="@color/grey"
                                     android:textSize="12sp"
-                                    android:gravity="center"
-                                    app:drawableStartCompat="@drawable/iconamoon_lock_fill"
-                                    android:layout_marginStart="20dp"
-                                    android:layout_marginTop="6dp"/>
+                                    app:drawableStartCompat="@drawable/iconamoon_lock_fill" />
+
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="@font/madani_arabic_light"
                                     android:text="@string/pending_balance"
                                     android:textColor="@color/colorPrimary"
-                                    android:textSize="12sp"/>
+                                    android:textSize="12sp" />
 
                             </LinearLayout>
 
                         </LinearLayout>
-
 
 
                     </LinearLayout>
@@ -163,7 +162,7 @@
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
-                        android:text="@string/balance_withdrawal"
+                        android:text="@string/withdraw_a_balance"
                         android:textColor="@color/white"
                         android:textSize="@dimen/_10sdp" />
 
@@ -177,9 +176,26 @@
                         android:fontFamily="@font/madani_arabic_medium"
                         android:gravity="center"
                         android:padding="@dimen/_5sdp"
-                        android:text="@string/recharge_the_balance"
+                        android:text="@string/recharge_balance"
                         android:textColor="#45495E"
                         android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/choose_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edittext_bg"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:gravity="center"
+                        android:padding="@dimen/_10sdp"
+                        android:text="@string/choose_card"
+                        android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -196,8 +212,21 @@
                         android:padding="@dimen/_10sdp"
                         android:text="@string/choose_the_account"
                         android:textSize="@dimen/_12sdp" />
-
                 </LinearLayout>
+
+                <include
+                    android:id="@+id/selectedCard"
+                    layout="@layout/selected_payment_option"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
+
+                <include
+                    android:id="@+id/selectedBankAccount"
+                    layout="@layout/selected_bank_account"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -241,7 +270,7 @@
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/round_btn"
                     android:fontFamily="@font/madani_arabic_semi_bold"
-                    android:text="@string/balance_withdrawal"
+                    android:text="@string/withdraw_a_balance"
                     android:textAllCaps="false"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/_14sdp" />
@@ -251,6 +280,7 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:visibility="visible">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

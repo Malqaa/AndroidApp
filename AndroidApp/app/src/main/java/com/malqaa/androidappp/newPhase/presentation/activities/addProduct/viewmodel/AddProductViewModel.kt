@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
+import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountBankListResp
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.AccountDetails
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankAccountRequest
@@ -25,15 +26,12 @@ import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralRespon
 import com.malqaa.androidappp.newPhase.domain.models.shippingOptionsResp.ShippingOptionResp
 import com.malqaa.androidappp.newPhase.domain.models.showProductModel.ShowProductPriceResp
 import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBalanceResponse
-import com.malqaa.androidappp.newPhase.domain.enums.PaymentAccountType
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.Extension.requestBody
 import com.malqaa.androidappp.newPhase.utils.SingleLiveEvent
 import com.malqaa.androidappp.newPhase.utils.getMonth
 import com.malqaa.androidappp.newPhase.utils.getYear
 import com.malqaa.androidappp.newPhase.utils.helper.ConstantsHelper
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -58,7 +56,7 @@ class AddProductViewModel : BaseViewModel() {
     var pointsBalance: MutableLiveData<GetPointsBalanceResponse> = MutableLiveData()
     var walletBalance: MutableLiveData<GetWalletBalanceResponse> = MutableLiveData()
     var _listBackAccountObserver = SingleLiveEvent<AccountBankListResp>()
-    val listBackAccountObserver :LiveData<AccountBankListResp>
+    val listBackAccountObserver: LiveData<AccountBankListResp>
         get() = _listBackAccountObserver
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
     var cartPriceSummeryObserver: MutableLiveData<CartPriceSummeryResp> = MutableLiveData()
@@ -68,7 +66,6 @@ class AddProductViewModel : BaseViewModel() {
     var bankOptionObserver: MutableLiveData<AccountBankListResp> = MutableLiveData()
     var paymentOptionObserver: MutableLiveData<ShippingOptionResp> = MutableLiveData()
     var showProductPriceResp: MutableLiveData<ShowProductPriceResp> = MutableLiveData()
-
 
 
     private var callSellerListProductOp: Call<ShippingOptionResp>? = null
@@ -315,6 +312,7 @@ class AddProductViewModel : BaseViewModel() {
                 }
             })
     }
+
     fun getShowProductPrice() {
         isLoading.value = true
         getRetrofitBuilder().showProductPublishPrice()
@@ -364,11 +362,12 @@ class AddProductViewModel : BaseViewModel() {
     }
 
     fun getBankAccountsList(
-        paymentAccountType: Int? = null
+        paymentAccountType: Int? = null,
+        creditCards: Boolean = false
     ) {
         isLoadingBackAccountList.value = true
         getRetrofitBuilder()
-            .getAllBanksAccount(paymentAccountType = paymentAccountType)
+            .getAllBanksAccount(paymentAccountType = paymentAccountType, creditCards = creditCards)
             .enqueue(object : Callback<AccountBankListResp> {
                 override fun onFailure(call: Call<AccountBankListResp>, t: Throwable) {
                     isNetworkFail.value = t !is HttpException
@@ -381,7 +380,7 @@ class AddProductViewModel : BaseViewModel() {
                 ) {
                     isLoadingBackAccountList.value = false
                     if (response.isSuccessful) {
-                        _listBackAccountObserver.postValue( response.body())
+                        _listBackAccountObserver.postValue(response.body())
                     } else {
                         errorResponseObserver.value =
                             getErrorResponse(response.code(), response.errorBody())
@@ -695,7 +694,8 @@ class AddProductViewModel : BaseViewModel() {
         Log.d("test #1", "pointsNumber: $pointsNumber")
         if (pointsNumber != null) {
             map["ExecutePaymentDto.PointsNumber"] =
-                pointsNumber.toInt().toString().toRequestBody("multipart/form-data".toMediaTypeOrNull())
+                pointsNumber.toInt().toString()
+                    .toRequestBody("multipart/form-data".toMediaTypeOrNull())
         }
         // =========================================================================================
 
