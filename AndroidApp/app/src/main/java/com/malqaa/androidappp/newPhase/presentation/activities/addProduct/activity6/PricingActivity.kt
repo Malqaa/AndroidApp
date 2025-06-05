@@ -620,6 +620,10 @@ class PricingActivity : BaseActivity<ActivityPricingPaymentBinding>() {
         val bottomSheetDialog = BottomSheetDialog(this)
         bottomSheetDialog.setContentView(binding.root)
 
+        // hide switch abd set is checked to true
+        binding.switchSaveLater.isChecked = true
+        binding.switchSaveLater.visibility = View.GONE
+
         // Handle button click event using ViewBinding
         binding.addAccountBtn.setOnClickListener {
             // Check and add bank account

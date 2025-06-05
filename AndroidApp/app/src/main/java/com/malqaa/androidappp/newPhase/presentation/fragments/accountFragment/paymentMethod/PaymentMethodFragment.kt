@@ -51,7 +51,6 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
     private lateinit var adapter: PaymentMethodAdapter
 
     private var bottomSheetDialog: BottomSheetDialog? = null
-    private var isEdit: Boolean = false
 
     private var accountsList: ArrayList<BankTransfers>? = null
     private lateinit var paymentAccountType: PaymentAccountType
@@ -285,6 +284,10 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
                     layoutCardDetails.visibility = View.GONE
                     layoutBankTransfer.visibility = View.VISIBLE
                     paymentAccountType = PaymentAccountType.BankAccount
+
+                    // hide switch abd set is checked to true
+                    binding.switchSaveLater.isChecked = true
+                    binding.switchSaveLater.visibility = View.GONE
                 }
             }
         }
@@ -316,7 +319,9 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
                 PaymentAccountType.BankAccount -> {
                     binding.textTitle.text = getString(R.string.edit_bank_account)
                     binding.layoutBankTransfer.visibility = View.VISIBLE
-                    binding.switchSaveLater.visibility = View.VISIBLE
+                    // hide switch abd set is checked to true
+                    binding.switchSaveLater.isChecked = true
+                    binding.switchSaveLater.visibility = View.GONE
 
                     // fill fields
                     binding.editTextBankName.setText(account.bankName)

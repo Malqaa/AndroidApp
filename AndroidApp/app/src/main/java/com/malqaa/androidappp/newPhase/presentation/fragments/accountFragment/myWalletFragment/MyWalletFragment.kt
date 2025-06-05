@@ -800,6 +800,9 @@ class MyWalletFragment : Fragment(R.layout.fragment_my_wallet_fragment),
         binding.textTitle.text = getString(R.string.add_new_bank_account)
         binding.radioGroup.visibility = View.GONE
         layoutCardDetails.visibility = View.GONE
+        // hide switch abd set is checked to true
+        binding.switchSaveLater.visibility = View.GONE
+        binding.switchSaveLater.isChecked = true
         layoutBankTransfer.visibility = View.VISIBLE
         paymentAccountType = PaymentAccountType.BankAccount
 
