@@ -341,6 +341,7 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
         } else {
             binding.textTitle.text = getString(R.string.add_payment_method)
             binding.layoutCardDetails.visibility = View.VISIBLE
+            paymentAccountType = PaymentAccountType.VisaMasterCard
         }
 
         binding.editTextExpiryDate.addTextChangedListener(object : TextWatcher {
