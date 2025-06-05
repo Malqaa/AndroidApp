@@ -1,7 +1,7 @@
 Release Notes for Version 1.0.0
 
 - New Features:
-    - [my-wallet] - withdraw a balance & Recharge balance
+    - When adding the bank account, hide the 'Save for later use' option and always keep it set to true — in the Wallet, the Order, and when adding a product and selecting the payment method as Bank Transfer.
 
 Important Notes:
 - Fix the last updates.
