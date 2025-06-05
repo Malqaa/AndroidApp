@@ -684,8 +684,10 @@
     <string name="enter">أدخل</string>
     <string name="account_holder_s_name">اسم صاحب الحساب</string>
     <string name="bank_name">اسم البنك</string>
+    <string name="bank_name_required">اسم البنك</string>
     <string name="account_number">رقم الحساب</string>
     <string name="iban">الايبان</string>
+    <string name="iban_required">الايبان</string>
     <string name="save_later">حفظ للأستخدام في وقت لاحق</string>
     <string name="add_account">اضافة الحساب</string>
     <string name="Rayal">ريال</string>
@@ -796,8 +798,9 @@
     <string name="merchant_page">صفحة التاجر </string>
     <string name="membership_number">رقم العضوية</string>
     <string name="seller_information">معلومات البائع</string>
-    <string name="card_holder_s_name">أسم صاحب الكارد</string>
+    <string name="card_holder_s_name">اسم صاحب البطاقة <font color="#EE6C4D">*</font></string>
     <string name="cvv">رمز التحقق</string>
+    <string name="cvv_required">رمز التحقق</string>
     <string name="pay_by_card">الدفع بالبطاقة</string>
     <string name="order_completed_successfully">اكتمل الطلب بنجاح</string>
     <string name="track_your_order">أتبع طلبك</string>
@@ -1175,6 +1178,7 @@
     <string name="add_new">أضف جديد</string>
     <string name="card_holders_name">اسم حامل البطاقة</string>
     <string name="card_number">رقم البطاقة</string>
+    <string name="card_number_required">رقم البطاقة <font color="#EE6C4D">*</font></string>
     <string name="choose_another_card">اختر بطاقة أخرى</string>
     <string name="please_enter_cvv">يرجى إدخال رمز تحقق صحيح</string>
     <string name="the_points_balance_equals">رصيد النقاط يساوي %1$s</string>
@@ -1216,10 +1220,13 @@
     <string name="archived">المؤرشف</string>
 
     <string name="bank_holder_s_name">اسم حامل البنك</string>
+    <string name="bank_holder_s_name_required">اسم صاحب الحساب البنكي <font color="#EE6C4D">*</font></string>
     <string name="application_setting">إعدادات التطبيق</string>
     <string name="are_you_sure_to_delete_the_payment_option">هل أنت متأكد من حذف خيار الدفع.</string>
     <string name="bank_account_number">رقم الحساب المصرفي</string>
+    <string name="bank_account_number_required">رقم الحساب المصرفي <font color="#EE6C4D">*</font></string>
     <string name="iban_certificate">شهادة رقم الآيبان</string>
+    <string name="iban_certificate_required">شهادة رقم الآيبان <font color="#EE6C4D">*</font></string>
     <string name="add_payment_method">أضف طريقة الدفع</string>
     <string name="edit_visa_master_card">تعديل بطاقة فيزا أو ماستركارد</string>
     <string name="edit_mada_card">تعديل بطاقة مدى</string>
@@ -1232,4 +1239,8 @@
     <string name="choose_another_account">اختر حسابًا آخر</string>
     <string name="add_new_bank_account">أضف حساب مصرفي جديد</string>
     <string name="sort_by">ترتيب حسب</string>
+    <string name="bank_account">الحساب المصرفي</string>
+    <string name="your_has_been_successfully_added">تمت إضافة %1$s بنجاح</string>
+    <string name="card">بطاقة</string>
+    <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">لا توجد بطاقات محفوظة. يرجى إضافة بطاقة جديدة بالنقر فوق زر إضافة بطاقة جديدة</string>
 </resources>

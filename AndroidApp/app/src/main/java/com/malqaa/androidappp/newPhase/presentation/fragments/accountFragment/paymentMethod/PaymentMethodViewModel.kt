@@ -24,8 +24,7 @@ class PaymentMethodViewModel : BaseViewModel() {
     var isLoadingBackAccountList: MutableLiveData<Boolean> = MutableLiveData()
 
     var _listBackAccountObserver = SingleLiveEvent<BankTransfersListResponse>()
-    val listBackAccountObserver: LiveData<BankTransfersListResponse>
-        get() = _listBackAccountObserver
+    val listBackAccountObserver: LiveData<BankTransfersListResponse> get() = _listBackAccountObserver
 
     fun addBankAccountData(
         accountNumber: String,

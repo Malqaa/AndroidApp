@@ -64,7 +64,7 @@
                     android:layout_weight="1"
                     android:checked="false"
                     android:enabled="true"
-                    android:text="@string/bank_transfer" />
+                    android:text="@string/bank_account" />
             </RadioGroup>
 
             <!-- Visa & Mada Fields -->
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/card_number"
+                    android:text="@string/card_number_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
@@ -170,7 +170,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/bank_name"
+                    android:text="@string/bank_name_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
@@ -195,7 +195,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/bank_account_number"
+                    android:text="@string/bank_account_number_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
@@ -220,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/bank_holder_s_name"
+                    android:text="@string/bank_holder_s_name_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
@@ -245,7 +245,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/iban"
+                    android:text="@string/iban_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 
@@ -270,7 +270,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_10sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:text="@string/iban_certificate"
+                    android:text="@string/iban_certificate_required"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_14sdp" />
 

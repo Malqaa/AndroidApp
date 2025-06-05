@@ -29,6 +29,7 @@ import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.BankTra
 import com.malqaa.androidappp.newPhase.domain.models.accountBackListResp.EditBankTransfer
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowAlert
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowDeleteAlert
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
@@ -128,37 +129,56 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
                 binding.progressBarBankAccount.hide()
             }
         }
-
         paymentMethodViewModel.listBackAccountObserver.observe(viewLifecycleOwner) {
             if (it.statusCode == 200) {
-                if (it.accountsList != null) {
+                val accountsList = it.accountsList
+                if (accountsList.isNullOrEmpty()) {
+                    // Show your message to the user (e.g., Toast, Snackbar, or UI TextView)
+                    binding.textEmpty.visibility = View.VISIBLE
+                    adapter.updateList(emptyList()) // Optionally clear the adapter
+                } else {
+                    // Hide the message
+                    binding.textEmpty.visibility = View.GONE
                     if (AddProductObjectData.paymentOptionList != null) {
                         AddProductObjectData.paymentOptionList?.let { paymentOptionList ->
-                            if (paymentOptionList.contains(AddProductObjectData.PAYMENT_OPTION_BANk) && AddProductObjectData.selectedAccountDetails != null) {
-                                // using adapter here
-                                val paymentMethods = updateList(accountBankListResp = it)
-                                adapter.updateList(paymentMethods)
-
-                            } else {
-                                // using adapter here
-                                val paymentMethods = updateList(accountBankListResp = it)
-                                adapter.updateList(paymentMethods)
-                            }
+                            val paymentMethods = updateList(accountBankListResp = it)
+                            adapter.updateList(paymentMethods)
                         }
                     } else {
-                        // using adapter here
                         val paymentMethods = updateList(accountBankListResp = it)
                         adapter.updateList(paymentMethods)
                     }
                 }
             }
         }
+
         paymentMethodViewModel.addBackAccountObserver.observe(viewLifecycleOwner) {
             if (it.status_code == 200) {
                 if (bottomSheetDialog != null) {
                     bottomSheetDialog!!.dismiss()
                 }
                 paymentMethodViewModel.getBankAccountsList()
+
+                val paymentType = when (paymentAccountType) {
+                    PaymentAccountType.VisaMasterCard, PaymentAccountType.Mada -> {
+                        getString(R.string.card)
+                    }
+
+                    PaymentAccountType.BankAccount -> {
+                        getString(R.string.bank_account)
+                    }
+
+                    else -> ""
+                }
+                ShowAlert(
+                    context = requireContext(),
+                    icon = R.drawable.ic_order_success,
+                    alertTitle = "",
+                    alertMessage = getString(
+                        R.string.your_has_been_successfully_added,
+                        paymentType
+                    )
+                )
             }
         }
 
@@ -259,8 +279,10 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
             window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         }
 
-        val layoutCardDetails = binding.root.findViewById<LinearLayout>(R.id.layout_card_details)
-        val layoutBankTransfer = binding.root.findViewById<LinearLayout>(R.id.layout_bank_transfer)
+        val layoutCardDetails =
+            binding.root.findViewById<LinearLayout>(R.id.layout_card_details)
+        val layoutBankTransfer =
+            binding.root.findViewById<LinearLayout>(R.id.layout_bank_transfer)
 
         // Set radio buttons
         binding.radioGroup.setOnCheckedChangeListener { group, checkedId ->
@@ -280,7 +302,7 @@ class PaymentMethodFragment : Fragment(R.layout.fragment_payment_method) {
                     paymentAccountType = PaymentAccountType.Mada
                 }
 
-                getString(R.string.bank_transfer) -> {
+                getString(R.string.bank_account) -> {
                     layoutCardDetails.visibility = View.GONE
                     layoutBankTransfer.visibility = View.VISIBLE
                     paymentAccountType = PaymentAccountType.BankAccount

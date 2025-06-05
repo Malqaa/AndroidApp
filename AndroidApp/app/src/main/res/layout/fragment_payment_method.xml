@@ -29,6 +29,15 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:listitem="@layout/item_payment_method" />
 
+            <TextView
+                android:id="@+id/text_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button"
+                android:textAlignment="center"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
             <LinearLayout
                 android:id="@+id/add_new_card"
                 android:layout_width="match_parent"
@@ -53,9 +62,9 @@
     <!-- 🔄 ProgressBar overlay -->
     <ProgressBar
         android:id="@+id/progressBarBankAccount"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_centerInParent="true"
-        android:visibility="gone"
-        style="?android:attr/progressBarStyleLarge" />
+        android:visibility="gone" />
 </RelativeLayout>

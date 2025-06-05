@@ -1,7 +1,11 @@
 Release Notes for Version 1.0.0
 
 - New Features:
-    - When adding the bank account, hide the 'Save for later use' option and always keep it set to true — in the Wallet, the Order, and when adding a product and selecting the payment method as Bank Transfer.
+    - [BUG-647] - When clicking on add a new visa/Mastercard, Crash happens and card isn't saved.
+    - [BUG-646] - Delete asterisks [*] on bank account card.
+    - [BUG-633] - Modify [Bank transfer] to [bank account] in payment cards.
+    - [BUG-650] - System doesn't display [card has been successfully added] in popup, when adding a new card.
+    - [BUG-648] - System displays cards by default, and doesn't appear the message when there are not a new cards.
 
 Important Notes:
 - Fix the last updates.

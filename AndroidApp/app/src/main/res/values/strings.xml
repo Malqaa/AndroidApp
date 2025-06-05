@@ -870,9 +870,11 @@
     <string name="dismiss">Dismiss</string>
     <string name="enter">Enter</string>
     <string name="account_holder_s_name">Account Holder\'s Name</string>
-    <string name="bank_name">Bank name <font color="#FFA500">*</font></string>
+    <string name="bank_name">Bank name</string>
+    <string name="bank_name_required">Bank name <font color="#FFA500">*</font></string>
     <string name="account_number">Account number</string>
-    <string name="iban">IBAN <font color="#FFA500">*</font></string>
+    <string name="iban">IBAN</string>
+    <string name="iban_required">IBAN <font color="#FFA500">*</font></string>
     <string name="save_later">Save for later use</string>
     <string name="add_account">Add account</string>
     <string name="Please_choose_catgeory">Please choose category</string>
@@ -992,7 +994,8 @@
     <string name="membership_number">Membership Number</string>
     <string name="seller_information">Seller information</string>
     <string name="card_holder_s_name">Card holder\'s name <font color="#EE6C4D">*</font></string>
-    <string name="cvv">CVV <font color="#FFA500">*</font></string>
+    <string name="cvv">CVV</string>
+    <string name="cvv_required">CVV <font color="#FFA500">*</font></string>
     <string name="pay_by_card">Pay by card</string>
     <string name="order_completed_successfully">Order completed successfully</string>
     <string name="track_your_order">Follow up my order</string>
@@ -1385,7 +1388,8 @@
     <string name="visa_credit_card">Visa / Credit Card</string>
     <string name="add_new">Add New</string>
     <string name="card_holders_name">Card Holder’s Name</string>
-    <string name="card_number">Card Number <font color="#FFA500">*</font></string>
+    <string name="card_number">Card Number</string>
+    <string name="card_number_required">Card Number <font color="#FFA500">*</font></string>
     <string name="choose_another_card">choose another card</string>
     <string name="please_enter_cvv">Please enter valid CVV</string>
     <string name="the_points_balance_equals">The Points balance equals %1$s</string>
@@ -1426,11 +1430,14 @@
   <string name="package_auction">Public Auction Option</string>
     <string name="pending_balance">Pending Balance</string>
     <string name="archived">Archived</string>
-    <string name="bank_holder_s_name">Bank Holder’s Name <font color="#FFA500">*</font></string>
+    <string name="bank_holder_s_name">Bank Holder’s Name</string>
+    <string name="bank_holder_s_name_required">Bank Holder’s Name <font color="#FFA500">*</font></string>
     <string name="application_setting">Application Setting</string>
     <string name="are_you_sure_to_delete_the_payment_option">are you sure to delete the payment option.</string>
-  <string name="bank_account_number">Bank Account Number <font color="#FFA500">*</font></string>
-  <string name="iban_certificate">IBAN Certificate <font color="#FFA500">*</font></string>
+  <string name="bank_account_number">Bank Account Number</string>
+  <string name="bank_account_number_required">Bank Account Number <font color="#FFA500">*</font></string>
+  <string name="iban_certificate">IBAN Certificate</string>
+  <string name="iban_certificate_required">IBAN Certificate <font color="#FFA500">*</font></string>
   <string name="add_payment_method">Add Payment Method</string>
   <string name="edit_visa_master_card">Edit Visa Master Card</string>
   <string name="edit_mada_card">Edit Mada Card</string>
@@ -1443,4 +1450,8 @@
   <string name="choose_another_account">Choose another account</string>
     <string name="add_new_bank_account">Add New Bank Account</string>
     <string name="sort_by">Sort By</string>
+  <string name="bank_account">Bank account</string>
+  <string name="your_has_been_successfully_added">Your %1$s has been successfully added</string>
+  <string name="card">Card</string>
+  <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">There are no saved cards. Please add a new card by clicking the Add New Card button</string>
 </resources>
