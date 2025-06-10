@@ -957,7 +957,7 @@
     <string name="empty_cart">Shopping Cart is Empty</string>
     <string name="for_sale">For Sale</string>
     <string name="sold_out">Sold out</string>
-    <string name="did_not_sell">Did not sell</string>
+    <string name="did_not_sell">Didn\'t sell</string>
     <string name="request_type">Request type</string>
     <string name="order_time">Order Time</string>
     <string name="shipments">Shipments</string>

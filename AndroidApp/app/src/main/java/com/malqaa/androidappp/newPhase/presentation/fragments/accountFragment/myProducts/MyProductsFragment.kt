@@ -564,7 +564,7 @@ class MyProductsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener,
 
                 if (tapId == 1)
                     putExtra("isMyProductForSale", true)
-                else if (tapId == 3)
+                else if (tapId == 3||tapId == 4)
                     putExtra("isMyProductForSale", false)
             })    }
 

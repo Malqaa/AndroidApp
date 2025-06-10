@@ -108,20 +108,9 @@ class DidNotSaleAdapter
             holder.viewBinding.dateTv.text = dateTime.format(outputFormatter).toString()
         }
 
-        holder.viewBinding.imageViewShare.setOnClickListener {
-            context.shared(shareBody = "http://advdev-001-site1.dtempurl.com/Home/GetProductById?id=${product.id}")
-        }
-
-        // Handle favorite or settings icon based on product ownership
-
-        holder.viewBinding.ivSetting.visibility = View.VISIBLE
-        holder.viewBinding.ivSetting.setOnClickListener {
-            setOnProductItemListeners.onShowMoreSetting(
-                position,
-                product.id,
-                categoryId
-            )
-        }
+        holder.viewBinding.imageViewShare.visibility = View.GONE
+        holder.viewBinding.ivFav.visibility = View.GONE
+        holder.viewBinding.ivSetting.visibility = View.GONE
 
 
         // Handle localization for time bar background
