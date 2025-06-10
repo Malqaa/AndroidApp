@@ -143,15 +143,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         productDetialsViewModel.addLastViewedProduct(productId)
 //        }
 
-        if (isMyProductForSale) {
-            myProductDetails2Binding.editProduct.show()
-            myProductDetails2Binding.layInfo.show()
-            myProductDetails2Binding.discountProduct.show()
-        } else {
-            myProductDetails2Binding.layInfo.hide()
-            myProductDetails2Binding.editProduct.hide()
-            myProductDetails2Binding.discountProduct.hide()
-        }
+
 
 
 
@@ -979,25 +971,35 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                 myProductDetails2Binding.layAuction.hide()
             }
 
-            if (productDetails.businessAccountId != null && productDetails.providerId == ConstantObjects.logged_userid) {
+
+
+            if (isMyProductForSale) {
+                if (productDetails.businessAccountId != null && productDetails.providerId == ConstantObjects.logged_userid) {
+                    myProductDetails2Binding.layInfo.hide()
+                    myProductDetails2Binding.editProduct.hide()
+                    myProductDetails2Binding.discountProduct.hide()
+                    myProductDetails2Binding.containerDeleteProduct.hide()
+                    myProductDetails2Binding.manageProduct.show()
+                } else {
+                    myProductDetails2Binding.layInfo.show()
+                    myProductDetails2Binding.editProduct.show()
+                    myProductDetails2Binding.containerDeleteProduct.show()
+                    val fixedPriceEnabled = productDetails.isFixedPriceEnabled
+                    if (fixedPriceEnabled)
+                        myProductDetails2Binding.discountProduct.show()
+                    else
+                        myProductDetails2Binding.discountProduct.hide()
+                    myProductDetails2Binding.manageProduct.hide()
+                }
+            } else {
                 myProductDetails2Binding.layInfo.hide()
                 myProductDetails2Binding.editProduct.hide()
                 myProductDetails2Binding.discountProduct.hide()
                 myProductDetails2Binding.containerDeleteProduct.hide()
-                myProductDetails2Binding.manageProduct.show()
-            } else {
-                myProductDetails2Binding.layInfo.show()
-                myProductDetails2Binding.editProduct.show()
-                myProductDetails2Binding.discountProduct.show()
-                myProductDetails2Binding.containerDeleteProduct.show()
                 myProductDetails2Binding.manageProduct.hide()
+                binding.containerShareAndFav.hide()
             }
 
-            val fixedPriceEnabled = productDetails.isFixedPriceEnabled
-            if (fixedPriceEnabled)
-                myProductDetails2Binding.discountProduct.show()
-            else
-                myProductDetails2Binding.discountProduct.hide()
 
         } else {
             showError(getString(R.string.serverError))
