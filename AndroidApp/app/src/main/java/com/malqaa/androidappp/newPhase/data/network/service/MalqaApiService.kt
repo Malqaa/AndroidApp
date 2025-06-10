@@ -90,6 +90,7 @@ import com.malqaa.androidappp.newPhase.domain.models.validateAndGenerateOTPResp.
 import com.malqaa.androidappp.newPhase.domain.models.walletBalance.GetWalletBalanceResponse
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.TransactionPointsAmountRes
 import com.malqaa.androidappp.newPhase.domain.models.walletDetailsResp.WalletDetailsResp
+import com.malqaa.androidappp.newPhase.domain.models.winningBidsResponse.WinningBidsResponse
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -1165,6 +1166,9 @@ interface MalqaApiService {
 
     @GET("MyBids")
     fun getMyBids(): Call<ProductListResp>
+
+    @GET("MyWininingBids")
+    fun getMyWinningBids(): Call<WinningBidsResponse>
 
     @GET("ListFavoriteSeller")
     fun getListFavoriteSeller(@Query("lang") language: String = ConstantObjects.currentLanguage): Call<GeneralResponses<List<FavoriteSeller>>>

@@ -1232,4 +1232,9 @@
     <string name="choose_another_account">اختر حسابًا آخر</string>
     <string name="add_new_bank_account">أضف حساب مصرفي جديد</string>
     <string name="sort_by">ترتيب حسب</string>
+    <string name="active_bidding_offers">Active bidding offers</string>
+    <string name="winning_bid_offers">Winning bid offers</string>
+    <string name="bid_price">Bid price</string>
+    <string name="auction_date">Auction date</string>
+    <string name="bid_date">Bid date</string>
 </resources>

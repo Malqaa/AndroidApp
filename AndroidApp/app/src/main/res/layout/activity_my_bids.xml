@@ -10,11 +10,50 @@
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@drawable/edittext_bg"
+        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:padding="@dimen/_5sdp"
+        android:textSize="@dimen/_12sdp">
+
+        <TextView
+            android:id="@+id/active_bids"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:background="@drawable/round_btn"
+            android:padding="@dimen/_10sdp"
+            android:text="@string/active_bidding_offers" />
+
+
+        <TextView
+            android:id="@+id/winning_bids"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/madani_arabic_medium"
+            android:gravity="center"
+            android:padding="@dimen/_10sdp"
+            android:textColor="#45495E"
+            android:text="@string/winning_bid_offers"
+            android:textSize="@dimen/_12sdp" />
+    </LinearLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_to_refresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -33,6 +72,16 @@
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:spanCount="1" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvWinningBids"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="4dp"
             android:layout_marginBottom="@dimen/_10sdp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:spanCount="1" />
