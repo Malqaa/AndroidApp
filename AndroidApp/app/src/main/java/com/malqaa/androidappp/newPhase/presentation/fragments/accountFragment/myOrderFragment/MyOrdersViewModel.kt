@@ -3,6 +3,8 @@ package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.m
 import androidx.lifecycle.MutableLiveData
 import com.malqaa.androidappp.newPhase.core.BaseViewModel
 import com.malqaa.androidappp.newPhase.data.network.callApi
+import com.malqaa.androidappp.newPhase.data.network.model.ExtendBankTransferPaymentPeriodRequest
+import com.malqaa.androidappp.newPhase.data.network.model.SellerConfirmOrRejectBankTransferPaymentRequest
 import com.malqaa.androidappp.newPhase.data.network.retrofit.RetrofitBuilder.getRetrofitBuilder
 import com.malqaa.androidappp.newPhase.domain.models.ErrorResponse
 import com.malqaa.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
@@ -49,7 +51,8 @@ class MyOrdersViewModel : BaseViewModel() {
     fun getSoldOutOrderDetailsByOrderId(orderId: Int) {
         isLoading.value = true
         callSoldOutOrder = getRetrofitBuilder().getOrderDetailsByOrderID(orderId)
-        callApi(callSoldOutOrder!!,
+        callApi(
+            callSoldOutOrder!!,
             onSuccess = {
                 isLoading.value = false
                 soldOutOrderDetailsByOrderIdRespObserver.value = it
@@ -76,7 +79,8 @@ class MyOrdersViewModel : BaseViewModel() {
             isloadingMore.value = true
 
         callCurrentOrders = getRetrofitBuilder().getCurrentOrders(pageIndex, userId)
-        callApi(callCurrentOrders!!,
+        callApi(
+            callCurrentOrders!!,
             onSuccess = {
                 isloadingMore.value = false
                 isLoading.value = false
@@ -105,7 +109,8 @@ class MyOrdersViewModel : BaseViewModel() {
         else
             isloadingMore.value = true
         callFinishOOrders = getRetrofitBuilder().getFinishedOrders(pageIndex, userId)
-        callApi(callFinishOOrders!!,
+        callApi(
+            callFinishOOrders!!,
             onSuccess = {
                 isloadingMore.value = false
                 isLoading.value = false
@@ -133,7 +138,8 @@ class MyOrdersViewModel : BaseViewModel() {
         isLoading.value = true
         callCurrentOrderDetails =
             getRetrofitBuilder().getOrderMasterDetailsByMasterOrderId(orderMasterID)
-        callApi(callCurrentOrderDetails!!,
+        callApi(
+            callCurrentOrderDetails!!,
             onSuccess = {
                 isLoading.value = false
                 currentOrderByMusterIdRespObserver.value = it
@@ -153,12 +159,77 @@ class MyOrdersViewModel : BaseViewModel() {
             })
     }
 
-    fun cancelOrder(orderId: Int, status: Int) {
+    fun changeOrderStatus(
+        orderId: Int,
+        orderStatus: Int,
+        confirmationCode: Int? = null
+    ) {
         isLoading.value = true
-        callChangeOrderStatus = getRetrofitBuilder().changeOrderStatus(orderId, status)
-        callApi(callChangeOrderStatus!!,
+        callChangeOrderStatus = getRetrofitBuilder().changeOrderStatus(
+            orderId = orderId,
+            orderStatus = orderStatus,
+            confirmationCode = confirmationCode
+        )
+        callApi(
+            callChangeOrderStatus!!,
             onSuccess = {
                 isLoading.value = false
+                changeOrderRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+    fun sellerConfirmOrRejectBankTransferPayment(
+        request: SellerConfirmOrRejectBankTransferPaymentRequest
+    ) {
+        isLoading.value = true
+        callChangeOrderStatus =
+            getRetrofitBuilder().sellerConfirmOrRejectBankTransferPayment(request = request)
+        callApi(
+            callChangeOrderStatus!!,
+            onSuccess = {
+                isLoading.value = false
+                // TODO 01: change this code
+                changeOrderRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
+    fun extendBankTransferPaymentPeriod(
+        request: ExtendBankTransferPaymentPeriodRequest
+    ) {
+        isLoading.value = true
+        callChangeOrderStatus =
+            getRetrofitBuilder().extendBankTransferPaymentPeriod(request = request)
+        callApi(
+            callChangeOrderStatus!!,
+            onSuccess = {
+                isLoading.value = false
+                // TODO 02: change this code
                 changeOrderRespObserver.value = it
             },
             onFailure = { throwable, statusCode, errorBody ->

@@ -576,7 +576,7 @@ class AddressPaymentActivity : BaseActivity<ActivityAddressPaymentBinding>(),
         }
 
         cartViewModel!!.currentOrderByMusterIdRespObserver.observe(this) { resp ->
-            if (resp.status_code == 200) {
+            if (resp.statusCode == 200) {
 
                 if (resp.orderDetailsByMasterIDData != null) {
                     requestType = resp.orderDetailsByMasterIDData.requestType

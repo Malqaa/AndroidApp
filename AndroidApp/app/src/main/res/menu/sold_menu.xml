@@ -17,7 +17,7 @@
         android:title="@string/DeliveryInProgress" />
     <item
         android:id="@+id/delivered"
-        android:title="@string/Delivered" />
+        android:title="@string/delivered" />
     <item
         android:id="@+id/canceled"
         android:title="@string/cancel" />

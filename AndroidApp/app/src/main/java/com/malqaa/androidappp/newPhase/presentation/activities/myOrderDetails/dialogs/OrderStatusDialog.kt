@@ -3,18 +3,15 @@ package com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.d
 import android.content.Context
 import com.malqaa.androidappp.databinding.DialogOrderStatusBinding
 import com.malqaa.androidappp.newPhase.core.BaseDialog
-import com.malqaa.androidappp.newPhase.utils.ConstantObjects
+import com.malqaa.androidappp.newPhase.data.network.model.OrderStatus
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.show
-
 
 class OrderStatusDialog(
     context: Context,
     val status: Int,
-    var setOnSelectOrderStatus: SetOnSelectOrderStatus
-) :
-    BaseDialog<DialogOrderStatusBinding>(context) {
-
+    private var setOnSelectOrderStatus: SetOnSelectOrderStatus
+) : BaseDialog<DialogOrderStatusBinding>(context) {
 
     interface SetOnSelectOrderStatus {
         fun onSelectOrderStatus(orderStatus: Int)
@@ -27,105 +24,97 @@ class OrderStatusDialog(
     override fun isFullScreen(): Boolean = false
 
     override fun isCancelable(): Boolean = true
+
     override fun isLoadingDialog(): Boolean = false
+
     override fun initialization() {
-        if (status >= 3) {
+        val currentStatus = OrderStatus.fromInt(status)
+
+        if (status >= OrderStatus.InProgress.value) {
             binding.tvCanceled.hide()
         }
-        when (status) {
-            ConstantObjects.WaitingForPayment -> {
+
+        // Hide current and previous statuses
+        when (currentStatus) {
+            OrderStatus.WaitingForPayment -> {
                 binding.tvWaitingForPayment.hide()
-                binding.tvWaitingForReview.show()
-                binding.tvInProgress.show()
-                binding.tvReadyForDelivery.show()
-                binding.tvDeliveryInProgress.show()
-                binding.tvDelivered.show()
-                binding.tvRetrieved.hide()
             }
 
-            ConstantObjects.WaitingForReview -> {
+            OrderStatus.WaitingForReview -> {
+                binding.tvWaitingForPayment.hide()
                 binding.tvWaitingForReview.hide()
-                binding.tvWaitingForPayment.hide()
-                binding.tvInProgress.show()
-                binding.tvReadyForDelivery.show()
-                binding.tvDeliveryInProgress.show()
-                binding.tvDelivered.show()
-                binding.tvRetrieved.hide()
             }
 
-            ConstantObjects.InProgress -> {
+            OrderStatus.InProgress -> {
+                binding.tvWaitingForPayment.hide()
+                binding.tvWaitingForReview.hide()
                 binding.tvInProgress.hide()
-                binding.tvWaitingForReview.hide()
-                binding.tvWaitingForPayment.hide()
-                binding.tvReadyForDelivery.show()
-                binding.tvDeliveryInProgress.show()
-                binding.tvDelivered.show()
-                binding.tvRetrieved.hide()
             }
 
-            ConstantObjects.ReadyForDelivery -> {
+            OrderStatus.ReadyForDelivery -> {
+                binding.tvWaitingForPayment.hide()
+                binding.tvWaitingForReview.hide()
+                binding.tvInProgress.hide()
                 binding.tvReadyForDelivery.hide()
-                binding.tvInProgress.hide()
-                binding.tvWaitingForReview.hide()
-                binding.tvWaitingForPayment.hide()
-                binding.tvDeliveryInProgress.show()
-                binding.tvDelivered.show()
-                binding.tvRetrieved.hide()
             }
 
-            ConstantObjects.DeliveryInProgress -> {
+            OrderStatus.DeliveryInProgress -> {
+                binding.tvWaitingForPayment.hide()
+                binding.tvWaitingForReview.hide()
+                binding.tvInProgress.hide()
+                binding.tvReadyForDelivery.hide()
                 binding.tvDeliveryInProgress.hide()
-                binding.tvReadyForDelivery.hide()
-                binding.tvInProgress.hide()
-                binding.tvWaitingForReview.hide()
-                binding.tvWaitingForPayment.hide()
-                binding.tvDelivered.show()
-                binding.tvRetrieved.hide()
             }
 
-            ConstantObjects.Delivered -> {
+            OrderStatus.Delivered -> {
+                binding.tvWaitingForPayment.hide()
+                binding.tvWaitingForReview.hide()
+                binding.tvInProgress.hide()
+                binding.tvReadyForDelivery.hide()
+                binding.tvDeliveryInProgress.hide()
                 binding.tvDelivered.hide()
-                binding.tvDeliveryInProgress.hide()
-                binding.tvReadyForDelivery.hide()
-                binding.tvInProgress.hide()
-                binding.tvWaitingForReview.hide()
-                binding.tvWaitingForPayment.hide()
-                binding.tvRetrieved.show()
             }
+
+            else -> {}
         }
 
-        binding.btnCancel.setOnClickListener {
-            dismiss()
+        // Show retrieved only if Delivered
+        if (currentStatus == OrderStatus.Delivered) {
+            binding.tvRetrieved.show()
+        } else {
+            binding.tvRetrieved.hide()
         }
-        binding.ivClose.setOnClickListener {
-            dismiss()
-        }
+
+        // Click Listeners
+        binding.btnCancel.setOnClickListener { dismiss() }
+        binding.ivClose.setOnClickListener { dismiss() }
+
         binding.tvWaitingForPayment.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.WaitingForPayment)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.WaitingForPayment.value)
             dismiss()
         }
         binding.tvWaitingForReview.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.WaitingForReview)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.WaitingForReview.value)
             dismiss()
         }
         binding.tvInProgress.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.InProgress)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.InProgress.value)
             dismiss()
         }
         binding.tvReadyForDelivery.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.ReadyForDelivery)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.ReadyForDelivery.value)
             dismiss()
         }
         binding.tvDeliveryInProgress.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.DeliveryInProgress)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.DeliveryInProgress.value)
             dismiss()
         }
         binding.tvDelivered.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.Delivered)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.Delivered.value)
             dismiss()
         }
         binding.tvCanceled.setOnClickListener {
-            setOnSelectOrderStatus.onSelectOrderStatus(ConstantObjects.Canceled)
+            setOnSelectOrderStatus.onSelectOrderStatus(OrderStatus.Canceled.value)
             dismiss()
         }
     }

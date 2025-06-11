@@ -4,6 +4,8 @@ import com.google.gson.JsonObject
 import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ModelShipAddresses
 import com.malqaa.androidappp.fragments.shoppingcart3_shippingaddress.shipping_addresslist.model_shipping.ShippingAddressesData
 import com.malqaa.androidappp.newPhase.data.network.constants.Constants
+import com.malqaa.androidappp.newPhase.data.network.model.ExtendBankTransferPaymentPeriodRequest
+import com.malqaa.androidappp.newPhase.data.network.model.SellerConfirmOrRejectBankTransferPaymentRequest
 import com.malqaa.androidappp.newPhase.domain.models.GeneralResponses
 import com.malqaa.androidappp.newPhase.domain.models.NotificationResp
 import com.malqaa.androidappp.newPhase.domain.models.NotificationUnReadResp
@@ -719,7 +721,8 @@ interface MalqaApiService {
     @POST("ChangeOrderStatus")
     fun changeOrderStatus(
         @Query("orderId") orderId: Int,
-        @Query("status") orderStatus: Int
+        @Query("status") orderStatus: Int,
+        @Query("confirmationCode") confirmationCode: Int? = null
     ): Call<GeneralResponse>
 
     @DELETE("RemoveShippmentProductsFromCart")
@@ -1188,4 +1191,15 @@ interface MalqaApiService {
     @POST("TransferWalletToPoints")
     fun transferWalletToPoints(@Query("transactionPointsAmount") transactionPointsAmount: Int):
             Call<TransactionPointsAmountRes>
+
+    @POST("SellerConfirmOrRejectBankTransferPayment")
+    fun sellerConfirmOrRejectBankTransferPayment(
+        @Body request: SellerConfirmOrRejectBankTransferPaymentRequest
+    ): Call<GeneralResponse>
+
+    @POST("ExtendBankTransferPaymentPeriod")
+    fun extendBankTransferPaymentPeriod(
+        @Body request: ExtendBankTransferPaymentPeriodRequest
+    ): Call<GeneralResponse>
+
 }

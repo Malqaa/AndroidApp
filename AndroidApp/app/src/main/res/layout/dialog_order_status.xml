@@ -99,7 +99,7 @@
         android:includeFontPadding="false"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:text="@string/Delivered"
+        android:text="@string/delivered"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="14sp" />

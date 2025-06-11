@@ -29,6 +29,7 @@ import androidx.annotation.RequiresApi
 import androidx.loader.content.CursorLoader
 import com.bumptech.glide.Glide
 import com.malqaa.androidappp.R
+import com.malqaa.androidappp.databinding.AlertPopupConfirmWithCommentBinding
 import com.malqaa.androidappp.databinding.AlertPopupDeleteBinding
 import com.malqaa.androidappp.databinding.AlertpopupBinding
 import com.malqaa.androidappp.databinding.ProgressBarBinding
@@ -212,6 +213,42 @@ class HelpFunctions {
                 binding.buttonYes.setOnClickListener {
                     onConfirm()
                     alertDialog.dismiss()
+                }
+
+                binding.textCancel.setOnClickListener {
+                    alertDialog.dismiss()
+                }
+            }
+        }
+
+        fun ShowConfirmWithCommnetAlert(
+            context: Context?,
+            subtitle: String,
+            onConfirm: (String) -> Unit,
+        ) {
+            if (context != null) {
+                val dialogBuilder = AlertDialog.Builder(context)
+                val inflater = LayoutInflater.from(context)
+
+                // Use View Binding
+                val binding = AlertPopupConfirmWithCommentBinding.inflate(inflater)
+
+                // Set sub-title
+                binding.textSubtitle.text = subtitle
+
+                dialogBuilder.setView(binding.root)
+                val alertDialog = dialogBuilder.create()
+                alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                alertDialog.show()
+
+                binding.buttonYes.setOnClickListener {
+                    val text = binding.editText.text
+                    if (text.isNullOrEmpty()) {
+                        binding.editText.error = context.getString(R.string.please_enter_a_comment)
+                    } else {
+                        onConfirm(text.toString())
+                        alertDialog.dismiss()
+                    }
                 }
 
                 binding.textCancel.setOnClickListener {

@@ -1,13 +1,19 @@
 package com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.InputType
+import android.util.Log
+import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityMyOrderDetailsRequestedFromMeBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
+import com.malqaa.androidappp.newPhase.data.network.model.OrderStatus
 import com.malqaa.androidappp.newPhase.domain.models.orderDetails.OrderDetailsData
 import com.malqaa.androidappp.newPhase.domain.models.orderDetails.OrderDetailsResp
 import com.malqaa.androidappp.newPhase.domain.models.orderDetailsByMasterID.OrderProductFullInfoDto
@@ -17,6 +23,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.myOrderDetails.di
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myOrderFragment.MyOrdersViewModel
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
+import com.malqaa.androidappp.newPhase.utils.HelpFunctions.Companion.ShowAlert
 import com.malqaa.androidappp.newPhase.utils.hide
 import com.malqaa.androidappp.newPhase.utils.linearLayoutManager
 import com.malqaa.androidappp.newPhase.utils.show
@@ -31,13 +38,11 @@ class MyOrderDetailsRequestedFromMeActivity :
     lateinit var productsList: ArrayList<OrderProductFullInfoDto>
     var orderId: Int = 0
     var orderItem: OrderItem? = null
-    lateinit var orderStatusDialog: OrderStatusDialog
-
-    //  tap id 1 ,2,3
-    private var tapId: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("test #1", "onCreate: MyOrderDetailsRequestedFromMeActivity")
 
         // Initialize view binding
         binding = ActivityMyOrderDetailsRequestedFromMeBinding.inflate(layoutInflater)
@@ -57,20 +62,31 @@ class MyOrderDetailsRequestedFromMeActivity :
     }
 
     private fun setUpViewClickListeners() {
-        binding.toolbarMain.backBtn.setOnClickListener {
-            onBackPressed()
-        }
+        binding.toolbarMain.backBtn.setOnClickListener { onBackPressed() }
+
         binding.btnChangeOrderStatus.setOnClickListener {
-            var orderStatusDialog =
+            val orderStatusDialog =
                 OrderStatusDialog(
-                    this,
-                    orderDetailsResp?.orderDetails?.orderStatus ?: 0,
-                    object : OrderStatusDialog.SetOnSelectOrderStatus {
+                    context = this,
+                    status = orderDetailsResp?.orderDetails?.orderStatus ?: 0,
+                    setOnSelectOrderStatus = object : OrderStatusDialog.SetOnSelectOrderStatus {
                         override fun onSelectOrderStatus(orderStatus: Int) {
-                            myOrdersViewModel.cancelOrder(orderId, orderStatus)
-
+                            if (orderStatus == OrderStatus.Delivered.value) {
+                                // Show confirmation code input dialog
+                                showConfirmationCodeDialog { confirmationCode ->
+                                    myOrdersViewModel.changeOrderStatus(
+                                        orderId = orderId,
+                                        orderStatus = orderStatus,
+                                        confirmationCode = confirmationCode
+                                    )
+                                }
+                            } else {
+                                myOrdersViewModel.changeOrderStatus(
+                                    orderId = orderId,
+                                    orderStatus = orderStatus
+                                )
+                            }
                         }
-
                     })
             orderStatusDialog.show()
         }
@@ -134,7 +150,16 @@ class MyOrderDetailsRequestedFromMeActivity :
                 HelpFunctions.ShowLongToast(getString(R.string.dataAlreadyExit), this)
             } else {
                 if (it.message != null) {
-                    showApiError(it.message!!)
+                    if (it.message == "InvalidConfirmationCode") {
+                        ShowAlert(
+                            context = this,
+                            alertTitle = "",
+                            alertMessage = getString(R.string.the_entered_code_is_incorrect),
+                            icon = R.drawable.warning
+                        )
+                    } else {
+                        showApiError(it.message!!)
+                    }
                 } else {
                     showApiError(getString(R.string.serverError))
                 }
@@ -218,4 +243,32 @@ class MyOrderDetailsRequestedFromMeActivity :
         super.onDestroy()
         myOrdersViewModel.closeAllCall()
     }
+
+    private fun showConfirmationCodeDialog(onCodeEntered: (Int) -> Unit) {
+        val input = EditText(this).apply {
+            inputType = InputType.TYPE_CLASS_NUMBER
+            hint = getString(R.string.enter_confirmation_code)
+            setPadding(24, 16, 24, 16)
+        }
+
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.confirmation_code))
+            .setView(input)
+            .setPositiveButton(getString(R.string.submit)) { dialog, _ ->
+                val code = input.text.toString().trim()
+                if (code.isNotEmpty()) {
+                    onCodeEntered(code.toInt())
+                } else {
+                    Toast.makeText(
+                        this,
+                        getString(R.string.please_enter_a_code),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ -> dialog.dismiss() }
+            .show()
+    }
+
 }

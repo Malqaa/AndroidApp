@@ -22,7 +22,7 @@
     <string name="noSubCategoryFound">No Sub Categories Found</string>
     <string name="loggedoutsuccessfully">Logged Out Successfully</string>
     <string name="City">City</string>
-    <string name="Confirm">Confirm</string>
+    <string name="confirm">Confirm</string>
     <string name="Confirm_Password">Confirm Password</string>
     <string name="Confirm_New_Password">Confirm New Password</string>
     <string name="Country">Country</string>
@@ -1272,11 +1272,9 @@
     <string name="withoutCharging">Without Charging</string>
     <string name="confirmed">Confirmed</string>
     <string name="unactivate">Unactivate</string>
-    <string name="canceled">Boiled</string>
     <string name="WaitingForReview">Waiting for review</string>
     <string name="ReadyForDelivery">Ready for delivery</string>
     <string name="DeliveryInProgress">Delivery in progress</string>
-    <string name="Delivered">Delivered</string>
     <string name="Retrieved">Retrieved</string>
     <string name="doneRate">Effectively rated, thank you</string>
     <string name="removeProductSuccessfully">The active product has been deleted</string>
@@ -1425,33 +1423,58 @@
     <string name="convert_wallet_into_points">Convert credit wallet into points</string>
     <string name="auction_closing_option_fees">Auction Closing Time Option Fees</string>
 
-  <string name="package_fixed">Fixed Sale Price Option</string>
-  <string name="package_negotiable">Negotiable Sale Price Option</string>
-  <string name="package_auction">Public Auction Option</string>
+    <string name="package_fixed">Fixed Sale Price Option</string>
+    <string name="package_negotiable">Negotiable Sale Price Option</string>
+    <string name="package_auction">Public Auction Option</string>
     <string name="pending_balance">Pending Balance</string>
     <string name="archived">Archived</string>
     <string name="bank_holder_s_name">Bank Holder’s Name</string>
     <string name="bank_holder_s_name_required">Bank Holder’s Name <font color="#FFA500">*</font></string>
     <string name="application_setting">Application Setting</string>
     <string name="are_you_sure_to_delete_the_payment_option">are you sure to delete the payment option.</string>
-  <string name="bank_account_number">Bank Account Number</string>
-  <string name="bank_account_number_required">Bank Account Number <font color="#FFA500">*</font></string>
-  <string name="iban_certificate">IBAN Certificate</string>
-  <string name="iban_certificate_required">IBAN Certificate <font color="#FFA500">*</font></string>
-  <string name="add_payment_method">Add Payment Method</string>
-  <string name="edit_visa_master_card">Edit Visa Master Card</string>
-  <string name="edit_mada_card">Edit Mada Card</string>
-  <string name="edit_bank_account">Edit Bank Account</string>
-  <string name="upload">Upload</string>
-  <string name="invalid_file_path">Invalid file path</string>
-  <string name="visa_master_card">Visa / MasterCard</string>
-  <string name="choose_the_bank_account">Choose The Bank Account</string>
-  <string name="all_cards">All Cards</string>
-  <string name="choose_another_account">Choose another account</string>
+    <string name="bank_account_number">Bank Account Number</string>
+    <string name="bank_account_number_required">Bank Account Number <font color="#FFA500">*</font></string>
+    <string name="iban_certificate">IBAN Certificate</string>
+    <string name="iban_certificate_required">IBAN Certificate <font color="#FFA500">*</font></string>
+    <string name="add_payment_method">Add Payment Method</string>
+    <string name="edit_visa_master_card">Edit Visa Master Card</string>
+    <string name="edit_mada_card">Edit Mada Card</string>
+    <string name="edit_bank_account">Edit Bank Account</string>
+    <string name="upload">Upload</string>
+    <string name="invalid_file_path">Invalid file path</string>
+    <string name="visa_master_card">Visa / MasterCard</string>
+    <string name="choose_the_bank_account">Choose The Bank Account</string>
+    <string name="all_cards">All Cards</string>
+    <string name="choose_another_account">Choose another account</string>
     <string name="add_new_bank_account">Add New Bank Account</string>
     <string name="sort_by">Sort By</string>
-  <string name="bank_account">Bank account</string>
-  <string name="your_has_been_successfully_added">Your %1$s has been successfully added</string>
-  <string name="card">Card</string>
-  <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">There are no saved cards. Please add a new card by clicking the Add New Card button</string>
+    <string name="bank_account">Bank account</string>
+    <string name="your_has_been_successfully_added">Your %1$s has been successfully added</string>
+    <string name="card">Card</string>
+    <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">There are no saved cards. Please add a new card by clicking the Add New Card button</string>
+
+    <!-- order-status -->
+    <string name="waiting_for_payment">Waiting for Payment</string>
+    <string name="waiting_for_review">Waiting for Review</string>
+    <string name="in_progress">In Progress</string>
+    <string name="ready_for_delivery">Ready for Delivery</string>
+    <string name="delivery_in_progress">Delivery in Progress</string>
+    <string name="delivered">Delivered</string>
+    <string name="canceled">Canceled</string>
+    <string name="retrieved">Retrieved</string>
+    <string name="upload_bank_transfer_document">Upload bank transfer document</string>
+    <string name="payment_invoice_attached">Payment invoice attached</string>
+    <string name="download">Download</string>
+    <string name="shipping_method">Shipping method</string>
+    <string name="shipment_total">Shipment Total</string>
+    <string name="extend">Extend</string>
+    <string name="please_enter_the_reason_of_rejection">Please enter the Reason of Rejection</string>
+    <string name="please_enter_a_comment">Please enter a comment</string>
+  <string name="enter_confirmation_code">Enter confirmation code</string>
+  <string name="confirmation_code">Confirmation Code</string>
+  <string name="please_enter_a_code">Please enter a code</string>
+  <string name="submit">Submit</string>
+  <string name="the_entered_code_is_incorrect">The entered code is incorrect</string>
+  <string name="waiting_for_buyer_for_upload_the_bank_transfer_document">Waiting for Buyer for Upload The Bank Transfer Document</string>
+  <string name="the_buyer_has_not_uploaded_the_bank_transfer_receipt_yet_do_you_want_to_extend_the_waiting_period_for_another_3_days">The buyer has not uploaded the bank transfer receipt yet. Do you want to extend the waiting period for another 3 days?</string>
 </resources>
