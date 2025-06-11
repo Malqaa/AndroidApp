@@ -77,7 +77,6 @@ class MyOrderDetailsActivity : BaseActivity<ActivityOrderDetailsBinding>(),
         setupViewModel()
         onRefresh()
 
-        initDate()
         initClickListener()
     }
 
@@ -134,30 +133,6 @@ class MyOrderDetailsActivity : BaseActivity<ActivityOrderDetailsBinding>(),
                 downloadFile(context = this, orderInvoice)
             }
         }
-    }
-
-    private fun initDate() {
-        // =========================================================================================
-        // image payment invoice attached
-        // =========================================================================================
-        val orderInvoice = orderDetailsByMasterIDResp
-            .orderDetailsByMasterIDData
-            ?.orderFullInfoDtoList
-            ?.getOrNull(0)
-            ?.orderInvoice
-
-        orderInvoice?.let { imageUrl ->
-            Glide.with(this)
-                .load(imageUrl)
-                .error(R.drawable.error_image)
-                .into(binding.imagePaymentInvoiceAttached)
-
-            binding.imagePaymentInvoiceAttached.setOnClickListener {
-                showImagePreviewDialog(imageUrl = imageUrl)
-            }
-        }
-        // =========================================================================================
-
     }
 
     private fun setOrderDetails(orderItem: OrderItem?) {
@@ -317,6 +292,18 @@ class MyOrderDetailsActivity : BaseActivity<ActivityOrderDetailsBinding>(),
             .orderDetailsByMasterIDData
             ?.orderFullInfoDtoList
             ?.getOrNull(0)
+
+        val orderInvoice = orderFullInfoDto?.orderInvoice
+        orderInvoice?.let { imageUrl ->
+            Glide.with(this)
+                .load(imageUrl)
+                .error(R.drawable.error_image)
+                .into(binding.imagePaymentInvoiceAttached)
+
+            binding.imagePaymentInvoiceAttached.setOnClickListener {
+                showImagePreviewDialog(imageUrl = imageUrl)
+            }
+        }
 
         val bankTransferPaymentStatus = orderFullInfoDto?.bankTransferPaymentStatus
         val orderStatus = orderFullInfoDto?.orderStatus
