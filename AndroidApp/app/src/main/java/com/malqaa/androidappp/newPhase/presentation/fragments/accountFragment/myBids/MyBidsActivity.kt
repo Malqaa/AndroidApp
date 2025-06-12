@@ -1,22 +1,28 @@
 package com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myBids
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.malqaa.androidappp.R
 import com.malqaa.androidappp.databinding.ActivityMyBidsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
+import com.malqaa.androidappp.newPhase.domain.models.winningBidsResponse.BidModel
 import com.malqaa.androidappp.newPhase.presentation.activities.loginScreen.SignInActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.ProductDetailsActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.searchProductListActivity.CategoryProductViewModel
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
+import com.malqaa.androidappp.newPhase.presentation.adapterShared.WinningBidsAdapter
 import com.malqaa.androidappp.newPhase.utils.ConstantObjects
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import com.malqaa.androidappp.newPhase.utils.hide
@@ -28,11 +34,16 @@ import kotlinx.coroutines.withContext
 class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout.OnRefreshListener,
     SetOnProductItemListeners {
     lateinit var productAdapter: ProductHorizontalAdapter
+    lateinit var winningBidsAdapter: WinningBidsAdapter
     private lateinit var productList: ArrayList<Product>
+    private lateinit var winningBidsList: ArrayList<BidModel>
+
     var added_product_id_to_fav = 0
     var lastUpdateIndex: Int = -1
     private lateinit var productsListViewModel: CategoryProductViewModel
     lateinit var gridViewLayoutManager: GridLayoutManager
+    private var tapId: Int = 1
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,21 +59,56 @@ class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout
         setVeiwClickListeners()
         setupViewModel()
         onRefresh()
+        binding.rvProduct.show()
+        binding.rvWinningBids.hide()
     }
 
     private fun setVeiwClickListeners() {
         binding.toolbarMain.backBtn.setOnClickListener {
             finish()
         }
+        binding.activeBids.setOnClickListener {
+            tapId = 1
+            binding.activeBids.background = ContextCompat.getDrawable(
+                this,
+                R.drawable.round_btn
+            )
+            binding.activeBids.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.winningBids.setTextColor(Color.parseColor("#45495E"))
+            binding.winningBids.background = null
+            binding.rvWinningBids.hide()
+            binding.rvProduct.show()
+            onRefresh()
+        }
+        binding.winningBids.setOnClickListener {
+            tapId = 2
+            binding.winningBids.background = ContextCompat.getDrawable(
+                this,
+                R.drawable.round_btn
+            )
+            binding.winningBids.setTextColor(Color.parseColor("#FFFFFF"))
+            binding.activeBids.setTextColor(Color.parseColor("#45495E"))
+            binding.activeBids.background = null
+            binding.rvWinningBids.show()
+            binding.rvProduct.hide()
+            onRefresh()
+        }
     }
 
     private fun setProductSearchCategoryAdapter() {
         productList = ArrayList()
-        gridViewLayoutManager = GridLayoutManager(this, 2)
         productAdapter = ProductHorizontalAdapter(productList, this, 0, false, false)
+        productAdapter.setIsGridLayout(true)
         binding.rvProduct.apply {
+            gridViewLayoutManager = GridLayoutManager(this@MyBidsActivity, 2)
             adapter = productAdapter
             layoutManager = gridViewLayoutManager
+        }
+        winningBidsList = ArrayList()
+        winningBidsAdapter = WinningBidsAdapter(bidModel = winningBidsList,this, categoryId =0 ,true)
+        binding.rvWinningBids.apply {
+            adapter = winningBidsAdapter
+            layoutManager = LinearLayoutManager(this@MyBidsActivity)
         }
     }
 
@@ -103,6 +149,18 @@ class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout
                     productAdapter.notifyDataSetChanged()
                 } else {
                     if (productList.isEmpty())
+                        showProductApiError(getString(R.string.noProductsAdded))
+                }
+            }
+        }
+        productsListViewModel.winningRespObserver.observe(this) { winningBidsResp ->
+            if (winningBidsResp.status_code == 200) {
+                if (!winningBidsResp.bidModel.isNullOrEmpty()) {
+                    winningBidsList.clear()
+                    winningBidsList.addAll(winningBidsResp.bidModel)
+                    winningBidsAdapter.notifyDataSetChanged()
+                } else {
+                    if (winningBidsList.isEmpty())
                         showProductApiError(getString(R.string.noProductsAdded))
                 }
             }
@@ -166,11 +224,25 @@ class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout
         binding.tvError.text = message
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onRefresh() {
         binding.swipeToRefresh.isRefreshing = false
-        productList.clear()
-        productAdapter.notifyDataSetChanged()
-        productsListViewModel.getMyBids()
+        binding.tvError.hide()
+        when(tapId){
+            1->{
+                productList.clear()
+                productAdapter.notifyDataSetChanged()
+                productsListViewModel.getMyBids()
+
+            }
+            2->{
+                winningBidsList.clear()
+                winningBidsAdapter.notifyDataSetChanged()
+                productsListViewModel.getMyWinningBids()
+            }
+
+        }
+
     }
 
     private val productDetailsLauncher =

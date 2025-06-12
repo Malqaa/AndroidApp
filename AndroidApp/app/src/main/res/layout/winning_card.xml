@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="12dp"
+    android:orientation="horizontal"
+    app:cardCornerRadius="12dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_120sdp">
+
+            <ImageView
+                android:id="@+id/productimg"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
+                android:background="@color/gray_light"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ProgressBar
+                android:id="@+id/loader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/productimg"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <LinearLayout
+                android:id="@+id/containerTimeBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:elevation="8dp"
+                android:background="@drawable/product_attribute_bg1_en"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/_2sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/titleDay"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="D"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/days_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/product_attribute_bg_gray"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="00"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/titleHour"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="H"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/hours_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/product_attribute_bg_gray"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="00"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/titleMinutes"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="M"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/minutes_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/product_attribute_bg_gray"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="00"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/titleSeconds"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="S"
+                    android:textSize="@dimen/_6sdp" />
+
+                <TextView
+                    android:id="@+id/seconds_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_5sdp"
+                    android:background="@drawable/product_attribute_bg_gray"
+                    android:gravity="center"
+                    android:padding="@dimen/_2sdp"
+                    android:text="00"
+                    android:textSize="@dimen/_6sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayoutFeatured"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/product_attribute_bg1_ar"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="@dimen/_2sdp"
+                android:paddingBottom="@dimen/_2sdp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="@string/featured"
+                    android:textColor="@color/bg"
+                    android:textSize="@dimen/_9sdp" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp">
+
+                <TextView
+                    android:id="@+id/category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:text="@string/Riyadh"
+                    android:textColor="@color/textColor"
+                    android:textSize="14sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/titlenamee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@id/typeProduct"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/category"
+                    tools:text="Only fastest oakland legislature top oklahoma scenario, competition ralph meetup triumph climb biz partners, estimate correspondence both temperature universe cultural a, followed lol proven argued expensive sick month. " />
+
+                <TextView
+                    android:id="@+id/subTitlenamee"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:textAlignment="viewStart"
+                    android:textColor="#000000"
+                    android:textSize="11sp"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toStartOf="@id/typeProduct"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/titlenamee"
+                    tools:text="Successful buys overnight extending length crystal sons"
+                    tools:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/typeProduct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/madani_arabic_medium"
+                    android:textColor="@color/textColor2"
+                    android:textSize="@dimen/_11sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_5sdp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="1">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/city_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/Riyadh"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/quantity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp"
+                        tools:text="@string/quantity" />
+                    <TextView
+                        android:id="@+id/date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp"
+                        tools:text="15/09/2023" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_5sdp"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:text="@string/bid_price"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/bid_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        tools:text="300" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginBottom="12dp"
+                    android:layout_weight="1"
+                    android:background="@color/bg" />
+            </LinearLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="12dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/user_pic"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:src="@drawable/profile_pic"
+                    android:scaleType="centerCrop"
+                    app:shapeAppearanceOverlay="@style/circleImageView"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"/>
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnMerchant"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/merchant"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_7sdp"
+                    tools:ignore="TouchTargetSizeCheck"
+                    android:layout_marginTop="50dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/btnPersonal"
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:background="@drawable/round_btn"
+                    android:fontFamily="@font/madani_arabic_semi_bold"
+                    android:text="@string/personal"
+                    android:textAllCaps="false"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/_7sdp"
+                    tools:ignore="TouchTargetSizeCheck"
+                    android:layout_marginTop="50dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <TextView
+                    android:id="@+id/user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/user_pic"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:text="@string/userName"
+                    android:fontFamily="@font/madani_arabic_bold"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/grey"
+                    android:textSize="14sp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginStart="16dp"/>
+                <TextView
+                    android:id="@+id/user_region"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toEndOf="@id/user_pic"
+                    app:layout_constraintTop_toBottomOf="@id/user_name"
+                    android:text="@string/userName"
+                    android:fontFamily="@font/madani_arabic_light"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/textColor"
+                    android:textSize="12sp"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginStart="16dp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="16dp">
+                    <TextView
+                        android:id="@+id/auction_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp"
+                        tools:text="@string/auction_date" />
+
+                    <TextView
+                        android:id="@+id/auction_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/madani_arabic_light"
+                        android:textColor="@color/textColor"
+                        android:textSize="12sp"
+                        android:layout_marginTop="4dp"
+                        tools:text="15/09/2023" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnPurchase"
+                        android:layout_width="80dp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:background="@drawable/round_btn"
+                        android:fontFamily="@font/madani_arabic_semi_bold"
+                        android:text="@string/purchase"
+                        android:textAllCaps="false"
+                        android:textColor="#ffffff"
+                        android:visibility="gone"
+                        android:textSize="@dimen/_7sdp"
+                        android:layout_marginTop="10dp"/>
+
+                </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

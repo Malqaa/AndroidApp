@@ -1243,4 +1243,9 @@
     <string name="your_has_been_successfully_added">تمت إضافة %1$s بنجاح</string>
     <string name="card">بطاقة</string>
     <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">لا توجد بطاقات محفوظة. يرجى إضافة بطاقة جديدة بالنقر فوق زر إضافة بطاقة جديدة</string>
+    <string name="active_bidding_offers">Active bidding offers</string>
+    <string name="winning_bid_offers">Winning bid offers</string>
+    <string name="bid_price">Bid price</string>
+    <string name="auction_date">Auction date</string>
+    <string name="bid_date">Bid date</string>
 </resources>

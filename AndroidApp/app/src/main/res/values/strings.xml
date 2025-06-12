@@ -1454,4 +1454,9 @@
   <string name="your_has_been_successfully_added">Your %1$s has been successfully added</string>
   <string name="card">Card</string>
   <string name="there_are_no_saved_cards_please_add_a_new_card_by_clicking_the_add_new_card_button">There are no saved cards. Please add a new card by clicking the Add New Card button</string>
+    <string name="active_bidding_offers">Active bidding offers</string>
+  <string name="winning_bid_offers">Winning bid offers</string>
+    <string name="bid_price">Bid price</string>
+    <string name="auction_date">Auction date</string>
+    <string name="bid_date">Bid date</string>
 </resources>

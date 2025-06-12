@@ -20,6 +20,7 @@ import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListResp
 import com.malqaa.androidappp.newPhase.domain.models.productResp.ProductListSearchResp
 import com.malqaa.androidappp.newPhase.domain.models.regionsResp.RegionsResp
 import com.malqaa.androidappp.newPhase.domain.models.servicemodels.GeneralResponse
+import com.malqaa.androidappp.newPhase.domain.models.winningBidsResponse.WinningBidsResponse
 import com.malqaa.androidappp.newPhase.utils.HelpFunctions
 import retrofit2.Call
 import retrofit2.Callback
@@ -28,6 +29,7 @@ import retrofit2.Response
 
 class CategoryProductViewModel : BaseViewModel() {
     var productListRespObserver: MutableLiveData<ProductListResp> = MutableLiveData()
+    var winningRespObserver: MutableLiveData<WinningBidsResponse> = MutableLiveData()
     var searchProductListRespObserver: MutableLiveData<ProductListSearchResp> = MutableLiveData()
     var saveSearchObserver: MutableLiveData<GeneralResponse> = MutableLiveData()
     var categoryFollowRespObserver: MutableLiveData<CategoryFollowResp> = MutableLiveData()
@@ -38,6 +40,7 @@ class CategoryProductViewModel : BaseViewModel() {
     private var callListCategoryFollow: Call<CategoryFollowResp>? = null
     private var callSaveSearch: Call<GeneralResponse>? = null
     private var callMyBids: Call<ProductListResp>? = null
+    private var callMyWinningBids: Call<WinningBidsResponse>? = null
     private var callFollow: Call<GeneralResponse>? = null
     private var regionsCallback: Call<RegionsResp>? = null
     private var neighborhoodsCallback: Call<RegionsResp>? = null
@@ -282,6 +285,30 @@ class CategoryProductViewModel : BaseViewModel() {
             })
     }
 
+    fun getMyWinningBids() {
+        isLoading.value = true
+        callMyWinningBids = getRetrofitBuilder().getMyWinningBids()
+
+        callApi(callMyWinningBids!!,
+            onSuccess = {
+                isLoading.value = false
+                winningRespObserver.value = it
+            },
+            onFailure = { throwable, statusCode, errorBody ->
+                isLoading.value = false
+                if (throwable != null && errorBody == null)
+                    isNetworkFail.value = throwable !is HttpException
+                else {
+                    errorResponseObserver.value =
+                        getErrorResponse(statusCode, errorBody)
+                }
+            },
+            goLogin = {
+                isLoading.value = false
+                needToLogin.value = true
+            })
+    }
+
     fun removeFollow(categoryID: Int, context: Activity) {
         HelpFunctions.startProgressBar(context)
 
@@ -354,6 +381,9 @@ class CategoryProductViewModel : BaseViewModel() {
         }
         if (callMyBids != null) {
             callMyBids?.cancel()
+        }
+        if (callMyWinningBids != null) {
+            callMyWinningBids?.cancel()
         }
         if (callFollow != null) {
             callFollow?.cancel()
