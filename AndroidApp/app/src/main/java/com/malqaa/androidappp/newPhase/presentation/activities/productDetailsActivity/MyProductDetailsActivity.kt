@@ -7,6 +7,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.Browser
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,14 +20,17 @@ import com.malqaa.androidappp.databinding.ActivityProductDetailsItem2Binding
 import com.malqaa.androidappp.databinding.MyProductDetailsBinding
 import com.malqaa.androidappp.newPhase.core.BaseActivity
 import com.malqaa.androidappp.newPhase.data.network.service.SetOnProductItemListeners
+import com.malqaa.androidappp.newPhase.domain.enums.ShowUserInfo
 import com.malqaa.androidappp.newPhase.domain.models.ImageSelectModel
 import com.malqaa.androidappp.newPhase.domain.models.addProductToCartResp.AddProductObjectData
+import com.malqaa.androidappp.newPhase.domain.models.categoryFollowResp.Branch
 import com.malqaa.androidappp.newPhase.domain.models.dynamicSpecification.DynamicSpecificationSentObject
 import com.malqaa.androidappp.newPhase.domain.models.homeSilderResp.HomeSliderItem
 import com.malqaa.androidappp.newPhase.domain.models.loginResp.LoginUser
 import com.malqaa.androidappp.newPhase.domain.models.productResp.Product
 import com.malqaa.androidappp.newPhase.domain.models.questionResp.QuestionItem
 import com.malqaa.androidappp.newPhase.domain.models.ratingResp.RateReviewItem
+import com.malqaa.androidappp.newPhase.domain.models.sellerInfoResp.SellerInformation
 import com.malqaa.androidappp.newPhase.presentation.MainActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProduct.confirmationAddProduct.ConfirmationAddProductActivity
 import com.malqaa.androidappp.newPhase.presentation.activities.addProductReviewActivity.AddRateProductActivity
@@ -38,6 +43,7 @@ import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsAct
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.adapter.SpecificationAdapter
 import com.malqaa.androidappp.newPhase.presentation.activities.productDetailsActivity.viewModels.ProductDetailsViewModel
 import com.malqaa.androidappp.newPhase.presentation.activities.productQuestionActivity.QuestionActivity
+import com.malqaa.androidappp.newPhase.presentation.activities.productsSellerInfoActivity.SellerInformationActivity
 import com.malqaa.androidappp.newPhase.presentation.adapterShared.ProductHorizontalAdapter
 import com.malqaa.androidappp.newPhase.presentation.dialogsShared.currentPriceDialog.BuyCurrentPriceDialog
 import com.malqaa.androidappp.newPhase.presentation.fragments.accountFragment.myProducts.dialog.AddDiscountDialog
@@ -111,6 +117,23 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
     lateinit var smallRatesList: ArrayList<RateReviewItem>
     lateinit var mainRatesList: ArrayList<RateReviewItem>
     var comeFrom = ""
+
+    var sellerInformation: SellerInformation? = null
+    val sellerInformationLaucher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent: Intent? = result.data
+                if (intent != null) {
+                    val isFollow = intent.getBooleanExtra("isFollow", false)
+                    sellerInformation?.isFollowed = isFollow
+                    if (isFollow) {
+                        myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
+                    } else {
+                        myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
+                    }
+                }
+            }
+        }
 
     private lateinit var buyCurrentPriceDialog: BuyCurrentPriceDialog
 
@@ -292,6 +315,118 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
             startActivity(intent)
         }
 
+        myProductDetails2Binding.ivSellerFollow.setOnClickListener {
+            if (HelpFunctions.isUserLoggedIn()) {
+                sellerInformation?.let {
+                    if (it.isFollowed) {
+                        productDetialsViewModel.removeSellerToFav(
+                            it.providerId,
+                            it.businessAccountId
+                        )
+                    } else {
+                        productDetialsViewModel.addSellerToFav(it.providerId, it.businessAccountId)
+                    }
+                }
+            } else {
+                startActivity(
+                    Intent(
+                        this,
+                        SignInActivity::class.java
+                    ).apply {})
+            }
+
+
+        }
+
+        myProductDetails2Binding.skypeBtn.setOnClickListener {
+            if (sellerInformation?.skype != null && sellerInformation?.skype != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.skype!!, this)
+            }
+        }
+        myProductDetails2Binding.youtubeBtn.setOnClickListener {
+            if (sellerInformation?.youTube != null && sellerInformation?.youTube != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.youTube!!, this)
+
+            }
+        }
+        myProductDetails2Binding.instagramBtn.setOnClickListener {
+            if (sellerInformation?.instagram != null && sellerInformation?.instagram != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.instagram!!, this)
+            }
+        }
+        myProductDetails2Binding.facebookBtn.setOnClickListener {
+            if (sellerInformation?.faceBook != null && sellerInformation?.faceBook != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.faceBook!!, this)
+            }
+        }
+        myProductDetails2Binding.twitterBtn.setOnClickListener {
+            if (sellerInformation?.twitter != null && sellerInformation?.twitter != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.twitter!!, this)
+            }
+        }
+        myProductDetails2Binding.linkedInBtn.setOnClickListener {
+            if (sellerInformation?.linkedIn != null && sellerInformation?.linkedIn != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.linkedIn!!, this)
+            }
+        }
+        myProductDetails2Binding.tiktokBtn.setOnClickListener {
+            if (sellerInformation?.tikTok != null && sellerInformation?.tikTok != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.tikTok!!, this)
+            }
+        }
+        myProductDetails2Binding.snapChatBtn.setOnClickListener {
+            if (sellerInformation?.snapchat != null && sellerInformation?.snapchat != "") {
+                HelpFunctions.openExternalLInk(sellerInformation?.snapchat!!, this)
+            }
+        }
+        myProductDetails2Binding.btnMapSeller.setOnClickListener {
+            openLocationInMapSec(sellerInformation?.branches ?: arrayListOf())
+
+        }
+
+        myProductDetails2Binding.containerSellerInfo.setOnClickListener {
+            if (sellerInformation != null) {
+                sellerInformationLaucher.launch(
+                    Intent(
+                        this,
+                        SellerInformationActivity::class.java
+                    ).apply {
+                        if (sellerInformation?.branches == null)
+                            sellerInformation?.branches = arrayListOf()
+
+                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+                    })
+//                startActivity(Intent(this, SellerInformationActivity::class.java))
+            }
+        }
+        myProductDetails2Binding.containerSellerImage.setOnClickListener {
+            if (sellerInformation != null) {
+                sellerInformationLaucher.launch(
+                    Intent(
+                        this,
+                        SellerInformationActivity::class.java
+                    ).apply {
+                        if (sellerInformation?.branches == null)
+                            sellerInformation?.branches = arrayListOf()
+
+                        putExtra(ConstantObjects.sellerObjectKey, sellerInformation)
+                    })
+            }
+        }
+
+        myProductDetails2Binding.btnSellerProducts.setOnClickListener {
+            if (myProductDetails2Binding.containerSellerProduct.isVisible) {
+                myProductDetails2Binding.containerSellerProduct.hide()
+                myProductDetails2Binding.sellerProductTv.text =
+                    getString(R.string.view_similar_product_from_seller)
+                myProductDetails2Binding.isSellerProductHideIv.setImageResource(R.drawable.down_arrow)
+            } else {
+                myProductDetails2Binding.containerSellerProduct.show()
+                myProductDetails2Binding.sellerProductTv.text = getString(R.string.showLess)
+                myProductDetails2Binding.isSellerProductHideIv.setImageResource(R.drawable.ic_arrow_up)
+            }
+        }
+
         myProductDetails2Binding.tvAddReview.setOnClickListener {
             if (HelpFunctions.isUserLoggedIn()) {
                 startActivityForResult(Intent(this, AddRateProductActivity::class.java).apply {
@@ -390,6 +525,13 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
         startActivity(mapIntent)
     }
 
+    private fun openLocationInMapSec(branches: ArrayList<Branch>) {
+        startActivity(Intent(this, ShowBranchesMapActivity::class.java).apply {
+            putParcelableArrayListExtra("customBranches", branches)
+
+        })
+    }
+
     private fun getLastVisiblePosition(rv: RecyclerView?): Int {
         if (rv != null) {
             val layoutManager = rv.layoutManager
@@ -428,6 +570,29 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
                         showProductApiError(getString(R.string.serverError))
                     }
                 }
+        }
+
+        productDetialsViewModel.sellerInfoObservable.observe(this) { sellerInfoResp ->
+            if (sellerInfoResp.status_code == 200) {
+                /**seller info*/
+                sellerInfoResp.sellerInformation?.let {
+                    setSellerInfo(it)
+
+                }
+
+            }
+        }
+        productDetialsViewModel.addSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = true
+                myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
+            }
+        }
+        productDetialsViewModel.removeSellerToFavObserver.observe(this) {
+            if (it.status_code == 200) {
+                sellerInformation?.isFollowed = false
+                myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
+            }
         }
         productDetialsViewModel.getRateResponseObservable.observe(this) { rateListResp ->
             if (rateListResp.status_code == 200) {
@@ -540,6 +705,29 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
             }
         }
+
+        productDetialsViewModel.sellerLoading.observe(this) {
+            if (it) {
+                myProductDetails2Binding.sellerProgressBar.show()
+            } else {
+                myProductDetails2Binding.sellerProgressBar.hide()
+            }
+        }
+        productDetialsViewModel.sellerProductsRespObserver.observe(this) { sellerProductListResp ->
+            if (sellerProductListResp.status_code == 200) {
+                sellerSimilerProductList.clear()
+                sellerProductListResp.productList?.let { sellerSimilerProductList.addAll(it) }
+                sellerProductAdapter.notifyDataSetChanged()
+                if (sellerSimilerProductList.isEmpty()) {
+                    myProductDetails2Binding.tvErrorNoSellerProduct.show()
+                } else {
+                    myProductDetails2Binding.tvErrorNoSellerProduct.hide()
+                }
+            } else {
+                myProductDetails2Binding.tvErrorNoSellerProduct.show()
+            }
+        }
+
         productDetialsViewModel.addDiscountObserver.observe(this) { addDiscountResp ->
             if (addDiscountResp.status_code == 200) {
                 HelpFunctions.ShowLongToast(
@@ -660,11 +848,174 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
     }
 
+    private fun setSellerInfo(it: SellerInformation) {
+        myProductDetails2Binding.tvErrorNoSellerProduct.hide()
+        productDetialsViewModel.getSellerListProduct(
+            it.providerId ?: "",
+            it.businessAccountId ?: ""
+        )
+        sellerInformation = it
+
+        if (it.showUserInformation == ShowUserInfo.EveryOne.name) {
+            myProductDetails2Binding.containerSellerInfo.show()
+        } else if (it.showUserInformation == ShowUserInfo.MembersOnly.name) {
+            if (HelpFunctions.isUserLoggedIn()) {
+                myProductDetails2Binding.containerSellerInfo.show()
+            } else {
+                myProductDetails2Binding.containerSellerInfo.hide()
+            }
+        } else {
+            myProductDetails2Binding.containerSellerInfo.hide()
+        }
+
+        Extension.loadImgGlide(
+            this,
+            it.image,
+            myProductDetails2Binding.sellerPicture,
+            binding.loader
+        )
+        if (it.businessAccountId == null) {
+            myProductDetails2Binding.txtTypeUser.text = getString(R.string.personal)
+        } else {
+            myProductDetails2Binding.txtTypeUser.text = getString(R.string.merchant)
+        }
+        myProductDetails2Binding.sellerName.text = it.name ?: ""
+        myProductDetails2Binding.memberSinceTv.text = HelpFunctions.getViewFormatForDateTrack(
+            it.createdAt ?: "", "dd/MM/yyyy"
+        )
+        myProductDetails2Binding.sellerCity.text = it.city ?: ""
+        myProductDetails2Binding.sellerNumber.text = it.phone ?: ""
+        if (it.isFollowed) {
+            myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification)
+        } else {
+            myProductDetails2Binding.ivSellerFollow.setImageResource(R.drawable.notification_log)
+        }
+        if (it.businessAccountId != "") {
+            myProductDetails2Binding.btnMapSeller.show()
+        } else {
+            if (it.lat != null && it.lon != null) {
+                myProductDetails2Binding.btnMapSeller.show()
+            } else {
+                myProductDetails2Binding.btnMapSeller.hide()
+            }
+        }
+
+        when (it.rate) {
+            3f -> {
+                myProductDetails2Binding.ivRateSeller.setImageResource(R.drawable.happyface_color)
+            }
+
+            2f -> {
+                myProductDetails2Binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
+            }
+
+            1f -> {
+                myProductDetails2Binding.ivRateSeller.setImageResource(R.drawable.sadcolor_gray)
+            }
+
+            else -> {
+                myProductDetails2Binding.ivRateSeller.setImageResource(R.drawable.smileface_color)
+            }
+        }
+        if (it.instagram != null && it.instagram != "") {
+            myProductDetails2Binding.instagramBtn.show()
+        } else {
+            myProductDetails2Binding.instagramBtn.hide()
+        }
+        if (it.youTube != null && it.youTube != "") {
+            myProductDetails2Binding.youtubeBtn.show()
+        } else {
+            myProductDetails2Binding.youtubeBtn.hide()
+        }
+        if (it.skype != null && it.skype != "") {
+            myProductDetails2Binding.skypeBtn.show()
+        } else {
+            myProductDetails2Binding.skypeBtn.hide()
+        }
+        if (it.faceBook != null && it.faceBook != "") {
+            myProductDetails2Binding.facebookBtn.show()
+        } else {
+            myProductDetails2Binding.facebookBtn.hide()
+        }
+        if (it.twitter != null && it.twitter != "") {
+            myProductDetails2Binding.twitterBtn.show()
+        } else {
+            myProductDetails2Binding.twitterBtn.hide()
+        }
+        if (it.linkedIn != null && it.linkedIn != "") {
+            myProductDetails2Binding.linkedInBtn.show()
+        } else {
+            myProductDetails2Binding.linkedInBtn.hide()
+        }
+        if (it.tikTok != null && it.tikTok != "") {
+            myProductDetails2Binding.tiktokBtn.show()
+        } else {
+            myProductDetails2Binding.tiktokBtn.hide()
+        }
+        if (it.snapchat != null && it.snapchat != "") {
+            myProductDetails2Binding.snapChatBtn.show()
+        } else {
+            myProductDetails2Binding.snapChatBtn.hide()
+        }
+
+        if (it.businessAccountId != "") {
+            myProductDetails2Binding.btnMapSeller.show()
+        } else {
+            if (it.lat != null && it.lon != null) {
+                if (it.lat != 0.0 && it.lon != 0.0) {
+                    myProductDetails2Binding.btnMapSeller.show()
+                }
+            } else {
+                myProductDetails2Binding.btnMapSeller.hide()
+            }
+        }
+    }
+
+
+    private fun setSellerAdapter() {
+        sellerSimilerProductList = ArrayList()
+        sellerProductAdapter =
+            ProductHorizontalAdapter(sellerSimilerProductList, object : SetOnProductItemListeners {
+                override fun onProductSelect(position: Int,productID:Int,categoryID:Int,userId:String,providerId:String,businessAccountId:String) {
+                    goToProductDetails(productID)
+                }
+
+                override fun onAddProductToFav(position: Int, productID: Int, categoryID: Int) {
+                    addSellerPorductToFav(position, productID)
+
+                }
+
+                override fun onShowMoreSetting(position: Int, productID: Int, categoryID: Int) {
+
+                }
+
+            }, 0, true)
+        productDetailsItem2Binding.rvSellerProduct.apply {
+            layoutManager = linearLayoutManager(RecyclerView.HORIZONTAL)
+            adapter = sellerProductAdapter
+        }
+    }
+
+    private fun addSellerPorductToFav(position: Int, productID: Int) {
+        if (HelpFunctions.isUserLoggedIn()) {
+            status_product_added_to_fav_from = added_from_last_seller_Products_status
+            added_position_from_last_Product = position
+            productDetialsViewModel.addProductToFav(productID)
+        } else {
+            startActivity(
+                Intent(
+                    this,
+                    SignInActivity::class.java
+                ).apply {})
+        }
+    }
+
     private fun setupViewAdapters() {
         setSpecificationAdapter()
         setupProductImagesAdapter()
         setReviewsAdapter()
         setQuestionAnswerAdapter()
+        setSellerAdapter()
     }
 
     private fun setQuestionAnswerAdapter() {
@@ -1123,6 +1474,7 @@ class MyProductDetailsActivity : BaseActivity<MyProductDetailsBinding>(),
 
     override fun onDestroy() {
         super.onDestroy()
+        sellerProductAdapter.onDestroyHandler()
         productDetialsViewModel.closeAllCall()
         productDetialsViewModel.baseCancel()
     }
