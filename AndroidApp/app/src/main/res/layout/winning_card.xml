@@ -306,9 +306,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp">
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginBottom="12dp">
 
-                <com.google.android.material.imageview.ShapeableImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_pic"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
@@ -379,8 +380,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:orientation="vertical"
                     android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_marginEnd="16dp">
                     <TextView
                         android:id="@+id/auction_title"
                         android:layout_width="wrap_content"
@@ -409,6 +409,7 @@
                         android:text="@string/purchase"
                         android:textAllCaps="false"
                         android:textColor="#ffffff"
+                        android:visibility="gone"
                         android:textSize="@dimen/_7sdp"
                         android:layout_marginTop="10dp"/>
 

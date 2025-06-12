@@ -105,7 +105,7 @@ class MyBidsActivity : BaseActivity<ActivityMyBidsBinding>(), SwipeRefreshLayout
             layoutManager = gridViewLayoutManager
         }
         winningBidsList = ArrayList()
-        winningBidsAdapter = WinningBidsAdapter(bidModel = winningBidsList,this,true)
+        winningBidsAdapter = WinningBidsAdapter(bidModel = winningBidsList,this, categoryId =0 ,true)
         binding.rvWinningBids.apply {
             adapter = winningBidsAdapter
             layoutManager = LinearLayoutManager(this@MyBidsActivity)

@@ -32,6 +32,7 @@ import java.time.format.DateTimeFormatter
 class WinningBidsAdapter(
     var bidModel: List<BidModel>,
     private var setOnProductItemListeners: SetOnProductItemListeners,
+    var categoryId: Int = 0,
     private var isMyProduct: Boolean = false
 ) : RecyclerView.Adapter<WinningBidsAdapter.SellerProductViewHolder>() {
 
@@ -106,7 +107,9 @@ class WinningBidsAdapter(
             val dateTime =
                 LocalDateTime.parse(bid.bidDate.toString(), DateTimeFormatter.ISO_LOCAL_DATE_TIME)
 
-            holder.viewBinding.dateTv.text = "${context.getString(R.string.bid_date)}${": "}${dateTime.format(outputFormatter).toString()}"
+            holder.viewBinding.dateTv.text = "${context.getString(R.string.bid_date)}${": "}${
+                dateTime.format(outputFormatter).toString()
+            }"
         }
 
         holder.viewBinding.bidPrice.text = "${bid.bidPrice}${" "}${context.getString(R.string.SAR)}"
@@ -122,67 +125,75 @@ class WinningBidsAdapter(
             holder.viewBinding.loader
         )
 
+        if (bid.auctionStatus==1){
+            holder.viewBinding.btnPurchase.visibility = View.VISIBLE
+            holder.viewBinding.btnPurchase.setOnClickListener {
+                setOnProductItemListeners.onProductSelect(position, bid.productId, categoryId,ConstantObjects.logged_userid,"","")
+            }
+        }else{
+            holder.viewBinding.btnPurchase.visibility = View.GONE
+        }
+
         // Auction countdown logic
-        val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
-        val endDateTime = formatter.parseDateTime(bid.auctionClosingTime)
+        if (bid.auctionClosingTime!!.isNotEmpty() && bid.auctionStatus == 1) {
+            val formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss")
+            val endDateTime = formatter.parseDateTime(bid.auctionClosingTime)
 
-        val millisUntilEnd = endDateTime.millis - DateTime().millis
-        if (millisUntilEnd > 0) {
-            object : CountDownTimer(millisUntilEnd, 1000) {
-                override fun onTick(millisUntilFinished: Long) {
-                    val seconds = millisUntilFinished / 1000
-                    val days = seconds / (60 * 60 * 24)
-                    val hours = (seconds / (60 * 60)) % 24
-                    val minutes = (seconds / 60) % 60
-                    val secs = seconds % 60
+            val millisUntilEnd = endDateTime.millis - DateTime().millis
+            if (millisUntilEnd > 0) {
+                object : CountDownTimer(millisUntilEnd, 1000) {
+                    override fun onTick(millisUntilFinished: Long) {
+                        val seconds = millisUntilFinished / 1000
+                        val days = seconds / (60 * 60 * 24)
+                        val hours = (seconds / (60 * 60)) % 24
+                        val minutes = (seconds / 60) % 60
+                        val secs = seconds % 60
 
-                    holder.viewBinding.containerTimeBar.visibility = View.VISIBLE
+                        holder.viewBinding.containerTimeBar.visibility = View.VISIBLE
 
-                    // Set values or hide views
-                    if (days > 0) {
-                        holder.viewBinding.daysTv.text = days.toString()
-                        holder.viewBinding.daysTv.visibility = View.VISIBLE
-                        holder.viewBinding.titleDay.visibility = View.VISIBLE
-                    } else {
-                        holder.viewBinding.daysTv.visibility = View.GONE
-                        holder.viewBinding.titleDay.visibility = View.GONE
-                    }
-                    if (hours>0){
-                        holder.viewBinding.hoursTv.text = hours.toString()
-                        holder.viewBinding.hoursTv.visibility = View.VISIBLE
-                        holder.viewBinding.titleHour.visibility = View.VISIBLE
-                    }
-                    else{
-                        holder.viewBinding.hoursTv.visibility = View.GONE
-                        holder.viewBinding.titleHour.visibility = View.GONE
+                        // Set values or hide views
+                        if (days > 0) {
+                            holder.viewBinding.daysTv.text = days.toString()
+                            holder.viewBinding.daysTv.visibility = View.VISIBLE
+                            holder.viewBinding.titleDay.visibility = View.VISIBLE
+                        } else {
+                            holder.viewBinding.daysTv.visibility = View.GONE
+                            holder.viewBinding.titleDay.visibility = View.GONE
+                        }
+                        if (hours > 0) {
+                            holder.viewBinding.hoursTv.text = hours.toString()
+                            holder.viewBinding.hoursTv.visibility = View.VISIBLE
+                            holder.viewBinding.titleHour.visibility = View.VISIBLE
+                        } else {
+                            holder.viewBinding.hoursTv.visibility = View.GONE
+                            holder.viewBinding.titleHour.visibility = View.GONE
+                        }
+
+                        if (minutes > 0) {
+                            holder.viewBinding.minutesTv.text = minutes.toString()
+                            holder.viewBinding.minutesTv.visibility = View.VISIBLE
+                            holder.viewBinding.titleMinutes.visibility = View.VISIBLE
+                        } else {
+                            holder.viewBinding.minutesTv.visibility = View.GONE
+                            holder.viewBinding.titleMinutes.visibility = View.GONE
+                        }
+
+                        if (secs > 0) {
+                            holder.viewBinding.secondsTv.text = secs.toString()
+                            holder.viewBinding.secondsTv.visibility = View.VISIBLE
+                            holder.viewBinding.titleSeconds.visibility = View.VISIBLE
+                        } else {
+                            holder.viewBinding.secondsTv.visibility = View.GONE
+                            holder.viewBinding.titleSeconds.visibility = View.GONE
+                        }
+
                     }
 
-                    if (minutes>0){
-                        holder.viewBinding.minutesTv.text = minutes.toString()
-                        holder.viewBinding.minutesTv.visibility = View.VISIBLE
-                        holder.viewBinding.titleMinutes.visibility = View.VISIBLE
+                    override fun onFinish() {
+                        holder.viewBinding.containerTimeBar.visibility = View.GONE
                     }
-                    else{
-                        holder.viewBinding.minutesTv.visibility = View.GONE
-                        holder.viewBinding.titleMinutes.visibility = View.GONE
-                    }
-
-                    if (secs>0){
-                        holder.viewBinding.secondsTv.text = secs.toString()
-                        holder.viewBinding.secondsTv.visibility = View.VISIBLE
-                        holder.viewBinding.titleSeconds.visibility = View.VISIBLE
-                    }
-                    else{
-                        holder.viewBinding.secondsTv.visibility = View.GONE
-                        holder.viewBinding.titleSeconds.visibility = View.GONE
-                    }
-
-                }
-
-                override fun onFinish() {
-                    holder.viewBinding.containerTimeBar.visibility = View.GONE
-                }
-            }.start()
+                }.start()
+            }
         } else {
             holder.viewBinding.containerTimeBar.visibility = View.GONE
         }
@@ -221,8 +232,6 @@ class WinningBidsAdapter(
         super.onViewRecycled(holder)
         onDestroyHandler()  // Stops the countdown when the view is recycled
     }
-
-
 
 
     // Update adapter method to refresh the product list
